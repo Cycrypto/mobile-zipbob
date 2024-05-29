@@ -36,7 +36,15 @@ android {
 }
 
 dependencies {
+    // library dependencies
+    implementation(libs.androidx.core.ktx)
+    implementation("com.github.florent37:materialviewpager:1.1.0")
+    implementation("com.flaviofaria:kenburnsview:1.0.7")
+    implementation("com.jpardogo.materialtabstrip:library:1.1.0")
+    implementation("com.github.bumptech.glide:glide:4.0.0")
 
+
+    //default dependencies
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
