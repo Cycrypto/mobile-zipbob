@@ -1,15 +1,15 @@
-package com.example.hansotbob
+package com.example.hansotbob.ui
 
+import android.content.Intent
 import android.os.Bundle
-import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentStatePagerAdapter
-import com.bumptech.glide.Glide
+import com.example.hansotbob.R
 import com.example.hansotbob.fragment.RecyclerViewFragment
 import com.github.florent37.materialviewpager.MaterialViewPager
 import com.github.florent37.materialviewpager.header.HeaderDesign
-
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
 class MainActivity : AppCompatActivity() {
@@ -39,6 +39,34 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
+        bottomNavigationView.setOnNavigationItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.nav_home -> {
+                    // Handle home click
+                    true
+                }
+                R.id.nav_search -> {
+                    // Handle search click
+                    true
+                }
+                R.id.nav_add -> {
+                    // Handle add click
+                    true
+                }
+                R.id.nav_notifications -> {
+                    // Handle notifications click
+                    true
+                }
+                R.id.nav_profile -> {
+                    startActivity(Intent(this, MyPageActivity::class.java))
+                    true
+                }
+                else -> false
+            }
+        }
+
+
         materialViewPager.setMaterialViewPagerListener(object : MaterialViewPager.Listener {
             override fun getHeaderDesign(page: Int): HeaderDesign {
                 return when (page) {
@@ -60,6 +88,8 @@ class MainActivity : AppCompatActivity() {
         })
         materialViewPager.pagerTitleStrip.setViewPager(materialViewPager.viewPager)
     }
+
+
 }
 
 

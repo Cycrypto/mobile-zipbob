@@ -1,4 +1,4 @@
-package com.example.hansotbob
+package com.example.hansotbob.adapter
 
 import androidx.recyclerview.widget.RecyclerView
 
@@ -6,9 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import com.example.hansotbob.R
 
 
-class TestRecyclerViewAdapter(private val items: List<Any>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class MainRecyclerViewAdapter(private val items: List<Any>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private val TYPE_HEADER = 0
     private val TYPE_CELL = 1
 

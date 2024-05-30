@@ -5,11 +5,11 @@
         android:title="Home" />
     <item
         android:id="@+id/nav_search"
-        android:icon="@drawable/search"
+        android:icon="@drawable/ic_search"
         android:title="Search" />
     <item
         android:id="@+id/nav_add"
-        android:icon="@drawable/ic_add"
+        android:icon="@drawable/ic_search"
         android:title="Add" />
     <item
         android:id="@+id/nav_notifications"
@@ -17,6 +17,6 @@
         android:title="Notifications" />
     <item
         android:id="@+id/nav_profile"
-        android:icon="@drawable/person"
+        android:icon="@drawable/ic_home"
         android:title="Profile" />
 </menu>

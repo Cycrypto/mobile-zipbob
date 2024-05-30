@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hansotbob.R
-import com.example.hansotbob.TestRecyclerViewAdapter
+import com.example.hansotbob.adapter.MainRecyclerViewAdapter
 import com.github.florent37.materialviewpager.MaterialViewPagerHelper
 import androidx.recyclerview.widget.RecyclerView.OnScrollListener
 
@@ -43,7 +43,7 @@ class RecyclerViewFragment : Fragment() {
         val layoutManager: RecyclerView.LayoutManager = LinearLayoutManager(requireActivity())
         recyclerView.layoutManager = layoutManager
         recyclerView.setHasFixedSize(true)
-        recyclerView.adapter = TestRecyclerViewAdapter(items)
+        recyclerView.adapter = MainRecyclerViewAdapter(items)
 
         // 아이템 간의 간격 추가
         recyclerView.addItemDecoration(object : RecyclerView.ItemDecoration() {
