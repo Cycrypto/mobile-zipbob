@@ -14,15 +14,15 @@
             android:layout_width="wrap_content"
             android:layout_height="@dimen/toolbar_size"
             android:layout_gravity="center_vertical|start"
-            android:background="transparent"
+            android:background="@android:color/transparent"
             android:src="@drawable/arrow_back" />
 
         <!-- 경계선 추가 -->
         <View
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="1dp"
             android:layout_gravity="bottom"
-            android:background="@android:color/darker_gray"/>
+            android:background="@android:color/darker_gray" />
 
     </androidx.appcompat.widget.Toolbar>
 
@@ -30,19 +30,19 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="11"
-        android:padding="16dp">
+        android:padding="30dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="20dp">
+            android:orientation="vertical">
 
             <!-- 제목 -->
             <TextView
                 android:id="@+id/titleTextView"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:layout_height="50dp"
                 android:text="@string/title_hint"
                 android:textSize="24sp"
                 android:background="@drawable/food_background"
@@ -52,10 +52,24 @@
 
             <!-- 이미지 슬라이더 추가 -->
             <androidx.viewpager2.widget.ViewPager2
-                android:id="@+id/imageViewPager"
+                android:id="@+id/foodImageSlider"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:layout_marginBottom="28dp"/>
+
+            <!-- 이미지뷰 레이아웃 -->
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/black">
+
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"/>
+
+            </FrameLayout>
 
             <!-- 세부 입력란 레이아웃 -->
             <LinearLayout
@@ -213,26 +227,19 @@
                             android:layout_width="0dp"
                             android:layout_weight="2"
                             android:layout_height="wrap_content"
-                            android:background="transparent"
+                            android:background="@android:color/transparent"
                             android:text="1000dp"/>
                     </LinearLayout>
             </LinearLayout>
 
-            <!-- 설명 -->
-            <LinearLayout
+            <TextView
+                android:id="@+id/descriptionTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="28dp"
                 android:background="@drawable/food_background"
-                android:orientation="horizontal">
+                android:text="맛있는 저녁 식사 메뉴입니다." />
 
-                <TextView
-                    android:id="@+id/descriptionTextView"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="맛있는 저녁 식사 메뉴입니다."
-                    android:layout_marginBottom="28dp"/>
-            </LinearLayout>
 
         </LinearLayout>
     </ScrollView>

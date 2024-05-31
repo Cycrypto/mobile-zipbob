@@ -16,6 +16,12 @@
         android:theme="@style/Theme.Hansotbob"
         tools:targetApi="31">
         <activity
+            android:name=".ui.MealkitDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.MealkitRegisterActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.ShareDetailActivity"
             android:exported="false" />
         <activity

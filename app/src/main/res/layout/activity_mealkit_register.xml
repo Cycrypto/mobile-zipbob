@@ -22,7 +22,8 @@
             android:layout_marginLeft="30dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="음식 공유 추가" />
+            android:text="밀키트 추가" />
+
 
 
         <!-- 경계선 추가 -->

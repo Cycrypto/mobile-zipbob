@@ -23,6 +23,7 @@ class MainRecyclerViewAdapter(private val items: List<Any>) : RecyclerView.Adapt
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
             TYPE_HEADER -> HeaderViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.header_layout, parent, false))
+            // 이부분이 스크롤의 카드 레이아웃 바꾸는 곳
             TYPE_CELL -> CellViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.list_item_card_small, parent, false))
             else -> throw IllegalArgumentException("Illegal View type")
         }
@@ -41,7 +42,8 @@ class MainRecyclerViewAdapter(private val items: List<Any>) : RecyclerView.Adapt
     class HeaderViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
     class CellViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val textView: TextView = itemView.findViewById(R.id.textView)
+ //       private val textView: TextView = itemView.findViewById(R.id.title)
+          private val textView: TextView = itemView.findViewById(R.id.textView)
 
         fun bindData(data: String) {
             textView.text = data

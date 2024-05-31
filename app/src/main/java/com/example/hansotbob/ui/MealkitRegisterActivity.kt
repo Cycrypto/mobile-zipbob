@@ -1,33 +1,22 @@
 package com.example.hansotbob.ui
 
-
-import android.app.Activity
 import android.app.DatePickerDialog
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import com.example.hansotbob.R
 import java.util.Calendar
 
-
-class ShareRegisterActivity : AppCompatActivity() {
-
-
+class MealkitRegisterActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContentView(R.layout.activity_share_register)
+        setContentView(R.layout.activity_mealkit_register)
         adjustImageViewsToSquare()
 
         /* 버튼 등록 */
@@ -88,4 +77,3 @@ class ShareRegisterActivity : AppCompatActivity() {
         imageView4.layoutParams = layoutParams
     }
 }
-
