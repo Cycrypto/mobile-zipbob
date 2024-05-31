@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="16dp"
+    android:background="@drawable/background"
+    android:padding="16dp">
+
+    <ImageView
+        android:id="@+id/userImage"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="13dp"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/userName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/userImage"
+        android:layout_toRightOf="@id/userImage"
+        android:text="닉네임"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/reviewRating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/userImage"
+        android:layout_alignParentRight="true"
+        android:text="평점: 4.0/5.0점"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/reviewDetail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/userImage"
+        android:layout_toRightOf="@id/userImage"
+        android:text="너무 맛있고 따뜻하고 감정받는다고 의문에서 매우 행복했습니다 감사합니다."
+        android:textSize="14sp" />
+
+
+</RelativeLayout>

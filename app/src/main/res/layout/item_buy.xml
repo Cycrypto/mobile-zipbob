@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/background"
+        android:layout_below="@+id/buyTitle"
+        android:padding="16dp">
+
+        <ImageView
+            android:id="@+id/itemImage"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="13dp"
+            tools:srcCompat="@tools:sample/avatars" />
+
+        <TextView
+            android:id="@+id/productName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/itemImage"
+            android:layout_toRightOf="@id/itemImage"
+            android:text="구매물품명"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/itemPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/itemImage"
+            android:layout_alignParentRight="true"
+            android:text="가격: 1000pt"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/buyDetail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/itemImage"
+            android:layout_toRightOf="@id/itemImage"
+            android:layout_marginRight="13dp"
+            android:text="구매상세내역아랄ㄹ랄랄랄랄으아ㅓㅏㅇ어아어어렁"
+            android:textSize="14sp" />
+
+</RelativeLayout>
