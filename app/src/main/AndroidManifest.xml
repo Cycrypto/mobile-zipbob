@@ -16,15 +16,6 @@
         android:theme="@style/Theme.Hansotbob"
         tools:targetApi="31">
         <activity
-            android:name=".CommunityRecruit"
-            android:exported="false" />
-        <activity
-            android:name=".community_recruit"
-            android:exported="false" />
-        <activity
-            android:name=".ui.community_category_recruit"
-            android:exported="false" />
-        <activity
             android:name=".ui.communityRecruit"
             android:exported="false" />
         <activity
