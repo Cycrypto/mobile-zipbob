@@ -47,11 +47,13 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.nav_search -> {
-                    // Handle search click
+                    // 테스트중
+                    startActivity(Intent(this, ShareRegisterActivity::class.java))
                     true
                 }
                 R.id.nav_add -> {
-                    // Handle add click
+                    // 테스트중
+                    startActivity(Intent(this, MealkitDetailActivity::class.java))
                     true
                 }
                 R.id.nav_notifications -> {

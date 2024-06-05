@@ -19,6 +19,21 @@
             android:name=".ui.OnboardingActivity"
             android:exported="false" />
         <activity
+            android:name=".ui.MealkitDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.MealkitRegisterActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.ShareDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.ShareRegisterActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.MyPageActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.SplashView"
             android:exported="true">
             <intent-filter>
