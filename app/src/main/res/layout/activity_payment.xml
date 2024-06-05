@@ -56,10 +56,19 @@
 
     <!-- 총합계 텍스트 -->
     <TextView
+        android:id="@+id/totalPrice1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="총합계: "
+        android:textSize="18sp"
+        android:layout_toLeftOf="@+id/totalPrice"
+        android:layout_alignTop="@+id/totalPrice" />
+
+    <TextView
         android:id="@+id/totalPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="총합계"
+        android:text="금액"
         android:textSize="18sp"
         android:layout_alignParentRight="true"
         android:layout_below="@id/itemsRecyclerView"
