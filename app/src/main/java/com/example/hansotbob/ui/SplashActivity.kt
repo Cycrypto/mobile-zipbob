@@ -33,7 +33,7 @@ class SplashView : AwesomeSplash() {
 
     override fun animationsFinished() {
         // Redirect to another activity after the splash screen
-        startActivity(Intent(this@SplashView, MainActivity::class.java))
+        startActivity(Intent(this@SplashView, OnboardingActivity::class.java))
         finish()
     }
 }
