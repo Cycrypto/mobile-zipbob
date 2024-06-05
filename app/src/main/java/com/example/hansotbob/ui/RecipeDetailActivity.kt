@@ -1,5 +1,7 @@
 package com.example.hansotbob.ui
 
+import Review
+import ReviewAdapter
 import android.content.Context
 import android.os.Bundle
 import android.text.TextUtils
@@ -33,6 +35,40 @@ class RecipeDetailActivity : AppCompatActivity() {
             imageUrls.add("android.resource://${packageName}/${R.drawable.temp_nonimage}")
         }
 
+        val adapter = ImageAdapter(this, imageUrls)
+
+        viewPager.adapter = adapter
+
+        // 리뷰부분
+
+        val reviewList = mutableListOf<Review>()
+
+        val reviewAdapter = ReviewAdapter(reviewList)
+        binding.reviewRecyclerView.layoutManager = LinearLayoutManager(this)
+        binding.reviewRecyclerView.adapter = reviewAdapter
+
+        binding.submitReviewButton.setOnClickListener {
+            val reviewText = binding.reviewEditText.text.toString()
+            if (!TextUtils.isEmpty(reviewText)) {
+                val review = Review("닉네임", reviewText)
+                reviewList.add(review)
+                reviewAdapter.notifyItemInserted(reviewList.size - 1)
+                binding.reviewEditText.text.clear()
+            } else {
+                Toast.makeText(this, "리뷰를 입력해주세요.", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        val dummyReviews = listOf(
+            Review("유저1", "이 앱 정말 좋아요!"),
+            Review("유저2", "디자인이 너무 멋져요."),
+            Review("유저3", "기능이 다양해서 유용해요.")
+        )
+
+        reviewList.addAll(dummyReviews)
+        reviewAdapter.notifyDataSetChanged()
+
+        // 등록 버튼*/
     }
 
     /* 아래는 imageview 확인용 */
@@ -45,7 +81,7 @@ class RecipeDetailActivity : AppCompatActivity() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder {
             val view =
-                LayoutInflater.from(context).inflate(R.layout.review_layout, parent, false)
+                LayoutInflater.from(context).inflate(R.layout.image_item_layout, parent, false)
             return ImageViewHolder(view)
         }
 

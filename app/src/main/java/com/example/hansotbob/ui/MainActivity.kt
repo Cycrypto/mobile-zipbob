@@ -48,6 +48,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.nav_search -> {
                     // Handle search click
+
                     true
                 }
                 R.id.nav_add -> {

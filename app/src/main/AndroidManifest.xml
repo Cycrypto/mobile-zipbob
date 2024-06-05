@@ -19,13 +19,15 @@
             android:name=".ui.RecipeRegisterActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.RecipeDetailActivity"
+            android:name=".ui.MainActivity"
+
             android:exported="false" />
         <activity
             android:name=".ui.MyPageActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.MainActivity"
+            android:name=".ui.RecipeDetailActivity"
+
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
