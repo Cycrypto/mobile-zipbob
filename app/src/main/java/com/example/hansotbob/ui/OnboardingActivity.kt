@@ -32,23 +32,23 @@ class OnboardingActivity : AppCompatActivity() {
             "집밥 공유",
             "지역 공동체 사람들과 집밥을 공유해보세요",
             Color.parseColor("#FFFFFF"),
-            R.drawable.logo,
-            R.drawable.ic_next_arrow
+            R.drawable.sharing_meal_resized,
+            R.drawable.ic_rice
         )
 
         val page2 = PaperOnboardingPage(
             "재료 공유",
             "혼자 소비하기 많은 재료들을 공동으로 구매 또는 나눠보세요.",
             Color.parseColor("#FFFFFF"),
-            R.drawable.logo,
-            R.drawable.ic_next_arrow
+            R.drawable.sharing_ingredient_resized,
+            R.drawable.ic_rice
         )
 
         val page3 = PaperOnboardingPage(
             "레시피 공유",
             "나만의 레시피를 공동체와 함께 공유해보세요.",
             Color.parseColor("#FFFFFF"),
-            R.drawable.logo,
+            R.drawable.sharing_recipe_resized,
             R.drawable.ic_next_arrow
         )
 
