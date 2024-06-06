@@ -1,20 +1,15 @@
 package com.example.hansotbob.ui
 
-import android.animation.Animator
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
-import android.view.ViewAnimationUtils
 import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentTransaction
 import com.example.hansotbob.R
-import com.example.hansotbob.fragment.OnBoardingFragment
 import com.ramotion.paperonboarding.PaperOnboardingFragment
 import com.ramotion.paperonboarding.PaperOnboardingPage
-import com.ramotion.paperonboarding.listeners.PaperOnboardingOnChangeListener
-import com.ramotion.paperonboarding.listeners.PaperOnboardingOnRightOutListener
 class OnboardingActivity : AppCompatActivity() {
 
         private lateinit var container: FrameLayout

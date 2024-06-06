@@ -72,6 +72,7 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
 
     // Compose dependencies
+    implementation("androidx.activity:activity-compose:1.3.0-alpha07")
     implementation ("androidx.compose.ui:ui:1.5.2")
     implementation ("androidx.compose.material:material:1.5.2")
     implementation ("androidx.compose.ui:ui-tooling-preview:1.5.2")

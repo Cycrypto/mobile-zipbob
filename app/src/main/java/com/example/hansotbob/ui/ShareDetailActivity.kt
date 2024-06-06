@@ -15,9 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.example.hansotbob.R
-import com.example.hansotbob.adapter.Review
 import com.example.hansotbob.adapter.ReviewAdapter
-import com.example.hansotbob.databinding.ActivityMainBinding
 import com.example.hansotbob.databinding.ActivityShareDetailBinding
 
 

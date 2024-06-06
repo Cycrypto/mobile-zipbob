@@ -8,9 +8,8 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.hansotbob.data.Review
 
-
-data class Review(val nickname: String, val content: String)
 
 class ReviewAdapter(private val reviewList: MutableList<Review>) : RecyclerView.Adapter<ReviewAdapter.ReviewViewHolder>() {
 
