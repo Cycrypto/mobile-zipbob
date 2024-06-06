@@ -78,4 +78,8 @@ dependencies {
     debugImplementation ("androidx.compose.ui:ui-tooling:1.5.2")
     debugImplementation ("androidx.compose.ui:ui-test-manifest:1.5.2")
     androidTestImplementation ("androidx.compose.ui:ui-test-junit4:1.5.2")
+
+    //Compose additional dependancies
+    implementation("androidx.navigation:navigation-fragment-ktx:2.7.7")
+    implementation("androidx.navigation:navigation-ui-ktx:2.7.7")
 }
