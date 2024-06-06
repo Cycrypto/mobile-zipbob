@@ -11,7 +11,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.hansotbob"
-        minSdk = 28
+        minSdk = 21
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -30,7 +30,11 @@ android {
 
         buildFeatures{
             viewBinding = true
+            compose = true
         }
+    }
+    composeOptions{
+        kotlinCompilerExtensionVersion="1.5.2"
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
@@ -46,7 +50,6 @@ android {
 
 dependencies {
     // library dependencies
-    implementation(libs.androidx.core.ktx)
     implementation("com.github.florent37:materialviewpager:1.1.0")
     implementation("com.flaviofaria:kenburnsview:1.0.7")
     implementation("com.jpardogo.materialtabstrip:library:1.1.0")
@@ -54,8 +57,7 @@ dependencies {
     implementation("com.github.ViksaaSkool:AwesomeSplash:v1.0.0")
     implementation("com.ramotion.paperonboarding:paper-onboarding:1.1.3")
 
-
-    //default dependencies
+    // default dependencies
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
@@ -67,4 +69,13 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    // Compose dependencies
+    implementation ("androidx.compose.ui:ui:1.5.2")
+    implementation ("androidx.compose.material:material:1.5.2")
+    implementation ("androidx.compose.ui:ui-tooling-preview:1.5.2")
+    implementation ("androidx.compose.runtime:runtime:1.5.2")
+    debugImplementation ("androidx.compose.ui:ui-tooling:1.5.2")
+    debugImplementation ("androidx.compose.ui:ui-test-manifest:1.5.2")
+    androidTestImplementation ("androidx.compose.ui:ui-test-junit4:1.5.2")
 }
