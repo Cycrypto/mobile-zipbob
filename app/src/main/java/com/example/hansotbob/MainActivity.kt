@@ -8,14 +8,15 @@ import androidx.compose.runtime.*
 import androidx.navigation.NavGraph
 import com.example.hansotbob.ui.screen.MainScreen
 import com.example.hansotbob.ui.screen.NavGraph
+import com.example.hansotbob.ui.theme.HansotbobTheme
 
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent{
-            MaterialTheme{
-                NavGraph()
+            HansotbobTheme{
+                MainScreen()
             }
         }
 

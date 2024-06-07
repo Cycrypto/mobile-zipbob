@@ -37,18 +37,21 @@ import com.example.hansotbob.fragment.CategoryFragmentContainer
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.NavBackStackEntry
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.hansotbob.ui.screen.detail.FoodShareDetailScreen
 
 
 @Composable
-fun NavGraph(startDestination: String = "category") {
-    val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = startDestination) {
-        composable("category") {
-            val items = createDummyData()
-            CategoryFragmentContainer(navController, items)
+fun NavGraph(navController: NavHostController, modifier: Modifier = Modifier) {
+    NavHost(navController = navController, startDestination = "main") {
+        composable("main") {
+            Column(modifier = modifier.fillMaxSize()) {
+                ItemBar()
+                CategoryFragmentContainer(navController, createDummyData())
+            }
         }
-        composable("detail/{title}/{recruit}/{place}/{price}") {backStackEntry ->
+        composable("detail/{title}/{recruit}/{place}/{price}") { backStackEntry ->
             val title = backStackEntry.arguments?.getString("title") ?: ""
             val recruit = backStackEntry.arguments?.getString("recruit") ?: ""
             val place = backStackEntry.arguments?.getString("place") ?: ""
@@ -60,27 +63,26 @@ fun NavGraph(startDestination: String = "category") {
 
 @Composable
 fun MainScreen() {
-    var loadView by remember { mutableStateOf(false) }
     val navController = rememberNavController()
+    val currentRoute = getCurrentRoute(navController)
 
     Scaffold(
         content = { paddingValues ->
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(paddingValues)
-            ) {
-                ItemBar()
-                CategoryFragmentContainer(navController, createDummyData())
-                if (loadView) {
-                    ComposableFunction()
-                }
-            }
+            NavGraph(navController = navController, modifier = Modifier.padding(paddingValues))
         },
         bottomBar = {
-            HansotThemeNavigationBar()
+            if (currentRoute != "detail/{title}/{recruit}/{place}/{price}") {
+                HansotThemeNavigationBar()
+            }
         }
     )
+}
+
+
+@Composable
+fun getCurrentRoute(navController: NavHostController): String? {
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    return navBackStackEntry?.destination?.route
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -160,10 +162,10 @@ fun ComposableFunction() {
 
 private fun createDummyData(): List<ListItem>{
     return listOf(
-        ListItem.MealContent(R.drawable.food_image, "집밥 가져가실분", "모집중", "시흥시 정왕동 산기대학로", "1000"),
-        ListItem.MealContent(R.drawable.food_image, "집밥 가져가실분", "모집중", "시흥시 정왕동 산기대학로", "1000"),
-        ListItem.MealContent(R.drawable.food_image, "집밥 가져가실분", "모집중", "시흥시 정왕동 산기대학로", "1000"),
-        ListItem.MealContent(R.drawable.food_image, "집밥 가져가실분", "모집중", "시흥시 정왕동 산기대학로", "1000"),
-        ListItem.MealContent(R.drawable.food_image, "집밥 가져가실분", "모집중", "시흥시 정왕동 산기대학로", "1000")
+        ListItem.MealContent(R.drawable.food_image, "집밥1", "모집중", "시흥시 정왕동 산기대학로", "3000"),
+        ListItem.MealContent(R.drawable.food_image, "집밥 가져가실분2", "모집중", "시흥시 정왕동 산기대학로", "1200"),
+        ListItem.MealContent(R.drawable.food_image, "집밥 가져가실분3", "모집중", "시흥시 정왕동 산기대학로", "100"),
+        ListItem.MealContent(R.drawable.food_image, "집밥 가져가실분4", "모집중", "시흥시 정왕동 산기대학로", "1000"),
+        ListItem.MealContent(R.drawable.food_image, "집밥 가져가실분5", "모집중", "시흥시 정왕동 산기대학로", "1000")
     )
 }
