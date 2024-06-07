@@ -41,6 +41,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.hansotbob.ui.screen.detail.FoodShareDetailScreen
 
+import com.example.hansotbob.component.common.*
 
 @Composable
 fun NavGraph(navController: NavHostController, modifier: Modifier = Modifier) {
@@ -83,75 +84,6 @@ fun MainScreen() {
 fun getCurrentRoute(navController: NavHostController): String? {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     return navBackStackEntry?.destination?.route
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun ItemBar() {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(MaterialTheme.colorScheme.background)
-            .padding(16.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-        Icon(
-            painter = painterResource(id = R.drawable.ic_add),
-            contentDescription = null,
-            tint = MaterialTheme.colorScheme.primary
-        )
-        Spacer(modifier = Modifier.width(8.dp))
-        Column {
-            Text(
-                text = "한솥밥",
-                style = MaterialTheme.typography.headlineLarge.copy(color = MaterialTheme.colorScheme.primary)
-            )
-            Text(
-                text = "집밥공유 플랫폼",
-                style = MaterialTheme.typography.bodySmall.copy(color = MaterialTheme.colorScheme.secondary)
-            )
-        }
-        Spacer(modifier = Modifier.weight(1f))
-        IconButton(onClick = { /* TODO: Handle notifications */ }) {
-            Icon(
-                painter = painterResource(id = R.drawable.ic_add),
-                contentDescription = null,
-                tint = MaterialTheme.colorScheme.primary
-            )
-        }
-    }
-    Spacer(modifier = Modifier.height(16.dp))
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-        TextField(
-            value = "",
-            onValueChange = {},
-            placeholder = { Text("Search for plants...") },
-            leadingIcon = {
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_search),
-                    contentDescription = null
-                )
-            },
-            modifier = Modifier.weight(1f),
-            colors = TextFieldDefaults.textFieldColors(
-                containerColor = Color.White
-            )
-        )
-
-        IconButton(onClick = { /* TODO: Handle more options */ }) {
-            Icon(
-                painter = painterResource(id = R.drawable.ic_add),
-                contentDescription = null
-            )
-        }
-    }
 }
 
 
