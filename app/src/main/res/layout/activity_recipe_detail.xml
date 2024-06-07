@@ -35,33 +35,18 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="11"
-        android:padding="30dp">
+        android:layout_weight="11">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!-- 제목 -->
-            <TextView
-                android:id="@+id/foodNameTextView"
-                android:layout_width="match_parent"
-                android:layout_gravity="center"
-                android:layout_height="50dp"
-                android:text="제육볶음"
-                android:textSize="24sp"
-                android:background="@drawable/food_background"
-                android:gravity="center_vertical"
-                android:layout_marginBottom="28dp"
-                />
-
             <!-- 이미지 슬라이더 추가 -->
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/foodImageSlider"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:layout_marginBottom="28dp"/>
+                android:layout_height="200dp"/>
 
             <!-- 이미지뷰 레이아웃 -->
             <FrameLayout
@@ -76,76 +61,94 @@
                     android:scaleType="centerCrop"/>
 
             </FrameLayout>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="필요재료" />
-            <!-- Description EditText -->
-            <TextView
-                android:id="@+id/ingredientsTextView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="28dp"
-                android:background="@drawable/food_background"
-                android:hint="필요한 재료가 들어가는곳"
-                android:inputType="textMultiLine" />
-
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="레시피" />
-            <!-- Description EditText -->
-            <EditText
-                android:id="@+id/recipeTextView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="28dp"
-                android:background="@drawable/food_background"
-                android:hint="레시피를 작성하세요"
-                android:inputType="textMultiLine" />
-
-
-            <!-- 상단 리뷰 입력란과 등록 버튼 -->
             <LinearLayout
-                android:id="@+id/reviewInputLayout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginBottom="28dp">
-
-                <EditText
-                    android:id="@+id/reviewEditText"
-                    android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:paddingRight="30dp"
+                android:paddingLeft="30dp"
+                android:paddingBottom="30dp"
+                android:orientation="vertical">
+                <!-- 제목 -->
+                <TextView
+                    android:id="@+id/foodNameTextView"
+                    android:layout_width="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_height="50dp"
+                    android:text="제육볶음"
+                    android:textSize="24sp"
+                    android:background="@drawable/food_background"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="16dp"
+                    />
+                <TextView
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:hint="댓글쓰기"
-                    android:padding="8dp"
-                    android:background="@android:color/darker_gray" />
-
-                <Button
-                    android:id="@+id/submitReviewButton"
-                    android:layout_width="wrap_content"
+                    android:text="필요재료" />
+                <!-- Description EditText -->
+                <TextView
+                    android:id="@+id/ingredientsTextView"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="댓글 등록"
-                    android:layout_marginStart="8dp"
-                    android:background="@android:color/darker_gray"
-                    android:textColor="@android:color/white" />
-            </LinearLayout>
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="28dp"
+                    android:background="@drawable/food_background"
+                    android:hint="필요한 재료가 들어가는곳"
+                    android:inputType="textMultiLine" />
 
 
-            <!-- 댓글 목록 -->
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/reviewRecyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="레시피" />
+                <!-- Description EditText -->
+                <EditText
+                    android:id="@+id/recipeTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="28dp"
+                    android:background="@drawable/food_background"
+                    android:hint="레시피를 작성하세요"
+                    android:inputType="textMultiLine" />
+
+
+                <!-- 상단 리뷰 입력란과 등록 버튼 -->
+                <LinearLayout
+                    android:id="@+id/reviewInputLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="28dp">
+
+                    <EditText
+                        android:id="@+id/reviewEditText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="댓글쓰기"
+                        android:padding="8dp"
+                        android:background="@android:color/darker_gray" />
+
+                    <Button
+                        android:id="@+id/submitReviewButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="댓글 등록"
+                        android:layout_marginStart="8dp"
+                        android:background="@android:color/darker_gray"
+                        android:textColor="@android:color/white" />
+                </LinearLayout>
+
+
+                <!-- 댓글 목록 -->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/reviewRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                 android:layout_marginTop="16dp" />
-
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 
