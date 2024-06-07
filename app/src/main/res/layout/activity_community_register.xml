@@ -227,7 +227,8 @@
                     android:layout_weight="1"
                     android:scaleType="centerCrop"
                     android:layout_marginEnd="10dp"
-                    android:src="@drawable/temp_nonimage" />
+                    android:src="@drawable/temp_nonimage"
+                    android:onClick="onImageClick"/>
 
 
                 <!--layout_marginEnd="@dimen/update_image_margin"-->
@@ -239,7 +240,8 @@
                     android:layout_weight="1"
                     android:scaleType="centerCrop"
                     android:layout_marginEnd="10dp"
-                    android:src="@drawable/temp_nonimage" />
+                    android:src="@drawable/temp_nonimage"
+                    android:onClick="onImageClick"/>
 
                 <!--layout_marginEnd="@dimen/update_image_margin"-->
                 <!---->
@@ -250,7 +252,8 @@
                     android:layout_weight="1"
                     android:scaleType="centerCrop"
                     android:layout_marginEnd="10dp"
-                    android:src="@drawable/temp_nonimage" />
+                    android:src="@drawable/temp_nonimage"
+                    android:onClick="onImageClick"/>
 
                 <!---->
                 <ImageView
@@ -259,7 +262,8 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/temp_nonimage" />
+                    android:src="@drawable/temp_nonimage"
+                    android:onClick="onImageClick"/>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
