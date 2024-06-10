@@ -38,10 +38,7 @@ fun BasicSearchBar() {
                     contentDescription = null
                 )
             },
-            modifier = Modifier.weight(1f),
-            colors = TextFieldDefaults.textFieldColors(
-                containerColor = Color.White
-            )
+            modifier = Modifier.weight(1f)
         )
 
         IconButton(onClick = { /* TODO: Handle more options */ }) {

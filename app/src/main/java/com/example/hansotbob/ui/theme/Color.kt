@@ -2,9 +2,9 @@ package com.example.hansotbob.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val PrimaryColor = Color(0xFFFE9F35)
-val WarmHomeColor = Color(0xFFFFD700)
-val ShareColor = Color(0xFF87CEEB)
-val ShareColor2 = Color(0xFFFF6347)
-val AccentColor1 = Color(0xFFFFEB3B)
-val AccentColor2 = Color(0xFF8BC34A)
+val PrimaryColor = Color(0xFFFFA726) // 약간 더 부드러운 주황색
+val WarmHomeColor = Color(0xFFFFC107) // 따뜻한 금색
+val ShareColor = Color(0xFF64B5F6) // 밝은 하늘색
+val ShareColor2 = Color(0xFFEF5350) // 부드러운 빨간색
+val AccentColor1 = Color(0xFFFFEE58) // 따뜻한 노란색
+val AccentColor2 = Color(0xFF81C784) // 자연스러운 녹색

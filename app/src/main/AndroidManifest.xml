@@ -16,41 +16,41 @@
         android:theme="@style/Theme.Hansotbob"
         tools:targetApi="31" >
         <activity
-            android:name=".ui.OnboardingActivity"
+            android:name=".ui.activity.OnboardingActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.MealkitDetailActivity"
+            android:name=".ui.activity.MealkitDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.MealkitRegisterActivity"
+            android:name=".ui.activity.MealkitRegisterActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.ShareDetailActivity"
+            android:name=".ui.activity.ShareDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.ShareRegisterActivity"
+            android:name=".ui.activity.ShareRegisterActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.CommunityDetailActivity"
+            android:name=".ui.activity.CommunityDetailActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
             android:exported="false" />
 
         <activity
-            android:name=".ui.MyPageActivity"
+            android:name=".ui.activity.MyPageActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.RecipeRegisterActivity"
+            android:name=".ui.activity.RecipeRegisterActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.RecipeDetailActivity"
+            android:name=".ui.activity.RecipeDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.CommunityRegisterActivity"
+            android:name=".ui.activity.CommunityRegisterActivity"
             android:exported="true" />
         <activity
-            android:name=".ui.SplashView"
+            android:name=".ui.activity.SplashView"
             android:exported="true">
 
             <intent-filter>

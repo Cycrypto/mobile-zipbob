@@ -68,6 +68,7 @@ dependencies {
     implementation(libs.androidx.cardview)
     implementation(libs.androidx.material3.android)
     implementation(libs.androidx.navigation.compose)
+//    implementation(libs.androidx.ui.test.junit4.android)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -76,15 +77,26 @@ dependencies {
     implementation("androidx.activity:activity-compose:1.3.0-alpha07")
     implementation ("androidx.compose.ui:ui:1.5.2")
     implementation ("androidx.compose.material:material:1.5.2")
+    implementation("androidx.compose.material3:material3:1.3.0-beta02")
+    implementation("androidx.compose.material:material-icons-extended-android:1.6.7")
     implementation ("androidx.compose.ui:ui-tooling-preview:1.5.2")
     implementation ("androidx.compose.runtime:runtime:1.5.2")
     debugImplementation ("androidx.compose.ui:ui-tooling:1.5.2")
     debugImplementation ("androidx.compose.ui:ui-test-manifest:1.5.2")
-    debugImplementation ("androidx.compose.ui:ui-test-manifest:1.5.2")
-    androidTestImplementation ("com.google.accompanist:accompanist-pager:0.28.0")
 
-    //Compose additional dependancies
+    // Compose testing dependencies
+    androidTestImplementation("androidx.compose.ui:ui-test-junit4:1.5.2")
+    debugImplementation("androidx.compose.ui:ui-tooling:1.5.2")
+    debugImplementation("androidx.compose.ui:ui-test-manifest:1.5.2")
+
+    // Accompanist for Pager
+    androidTestImplementation("com.google.accompanist:accompanist-pager:0.28.0")
+
+    // Compose additional dependencies
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.7")
     implementation("androidx.navigation:navigation-ui-ktx:2.7.7")
 
+    debugImplementation("androidx.compose.ui:ui-tooling:1.6.7")
+    implementation("androidx.compose.ui:ui-tooling-preview:1.6.7")
 }
+

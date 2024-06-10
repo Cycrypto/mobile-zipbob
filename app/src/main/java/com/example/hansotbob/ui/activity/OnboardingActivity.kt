@@ -1,4 +1,4 @@
-package com.example.hansotbob.ui
+package com.example.hansotbob.ui.activity
 
 import android.content.Intent
 import android.graphics.Color

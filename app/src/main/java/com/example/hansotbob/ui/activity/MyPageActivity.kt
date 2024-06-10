@@ -1,4 +1,4 @@
-package com.example.hansotbob.ui
+package com.example.hansotbob.ui.activity
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

@@ -13,7 +13,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.hansotbob.R
-import com.example.hansotbob.component.CardView.MealCategoryCard
+import com.example.hansotbob.component.CardView.MealCategoryCardWithBadge
 import com.example.hansotbob.data.ListItem
 
 @Composable
@@ -27,12 +27,13 @@ fun CategoryFragmentContainer(navController: NavController, items: List<ListItem
         items(items) { item ->
             when (item) {
                 is ListItem.MealContent -> {
-                    MealCategoryCard(
+                    MealCategoryCardWithBadge(
                         title = item.title,
-                        recruit = item.recruit,
-                        place = item.place,
-                        price = item.price,
+                        date = item.recruit,
+                        category = item.place,
+                        points = item.price,
                         imagePainter = painterResource(id = item.imagePainterId),
+                        isNew = true,
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(8.dp)

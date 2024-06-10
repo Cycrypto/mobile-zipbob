@@ -27,6 +27,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import com.example.hansotbob.ComposableFunction
@@ -42,6 +43,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.hansotbob.ui.screen.detail.FoodShareDetailScreen
 
 import com.example.hansotbob.component.common.*
+import com.example.hansotbob.ui.theme.HansotbobTheme
 
 @Composable
 fun NavGraph(navController: NavHostController, modifier: Modifier = Modifier) {
@@ -86,18 +88,20 @@ fun getCurrentRoute(navController: NavHostController): String? {
     return navBackStackEntry?.destination?.route
 }
 
-
-@Composable
-fun ComposableFunction() {
-    Text("appbar content")
-}
-
 private fun createDummyData(): List<ListItem>{
     return listOf(
-        ListItem.MealContent(R.drawable.food_image, "집밥1", "모집중", "시흥시 정왕동 산기대학로", "3000"),
-        ListItem.MealContent(R.drawable.food_image, "집밥 가져가실분2", "모집중", "시흥시 정왕동 산기대학로", "1200"),
-        ListItem.MealContent(R.drawable.food_image, "집밥 가져가실분3", "모집중", "시흥시 정왕동 산기대학로", "100"),
-        ListItem.MealContent(R.drawable.food_image, "집밥 가져가실분4", "모집중", "시흥시 정왕동 산기대학로", "1000"),
-        ListItem.MealContent(R.drawable.food_image, "집밥 가져가실분5", "모집중", "시흥시 정왕동 산기대학로", "1000")
+        ListItem.MealContent(R.drawable.food_image, "집밥1", "모집중", "시흥시 정왕동 산기대학로", "3000", true),
+        ListItem.MealContent(R.drawable.food_image, "집밥 가져가실분2", "모집중", "시흥시 정왕동 산기대학로", "1200", true),
+        ListItem.MealContent(R.drawable.food_image, "집밥 가져가실분3", "모집중", "시흥시 정왕동 산기대학로", "100", false),
+        ListItem.MealContent(R.drawable.food_image, "집밥 가져가실분4", "모집중", "시흥시 정왕동 산기대학로", "1000", false),
+        ListItem.MealContent(R.drawable.food_image, "집밥 가져가실분5", "모집중", "시흥시 정왕동 산기대학로", "1000", false)
     )
+}
+
+@Preview
+@Composable
+private fun previewMainScreen(){
+    HansotbobTheme {
+        MainScreen()
+    }
 }

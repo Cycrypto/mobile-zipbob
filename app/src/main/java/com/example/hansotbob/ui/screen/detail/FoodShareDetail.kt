@@ -50,7 +50,7 @@ fun FoodShareDetailScreen(title: String, recruit: String, place: String, price: 
         ) {
             HorizontalPager(
                 state = pagerState,
-                beyondBoundsPageCount = images.size,
+                beyondViewportPageCount = images.size,
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(400.dp)

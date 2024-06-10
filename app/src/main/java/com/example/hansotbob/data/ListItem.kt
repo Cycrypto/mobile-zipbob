@@ -6,7 +6,8 @@ sealed class ListItem {
         val title:String,
         val recruit:String,
         val place:String,
-        val price:String
+        val price:String,
+        val isNew:Boolean
     ) : ListItem()
 
     data class Restaurant(

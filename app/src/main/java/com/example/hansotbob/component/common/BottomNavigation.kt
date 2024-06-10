@@ -8,12 +8,25 @@ import androidx.compose.runtime.*
 
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.outlined.Cookie
+import androidx.compose.material.icons.outlined.Edit
+import androidx.compose.material.icons.outlined.EditNote
+import androidx.compose.material.icons.outlined.FoodBank
+import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material.icons.outlined.MoreHoriz
+import androidx.compose.material.icons.outlined.NoteAdd
+import androidx.compose.material.icons.outlined.Restaurant
+import androidx.compose.material.icons.outlined.SetMeal
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.hansotbob.R
+import com.example.hansotbob.ui.theme.HansotbobTheme
 
 @Composable
 fun BasicBottomNavigationBar() {
@@ -122,10 +135,9 @@ fun HansotThemeNavigationBar() {
                             .padding(10.dp)
                     ) {
                         Icon(
-                            painter = painterResource(id = R.drawable.ic_home),
+                            imageVector = Icons.Outlined.Home,
                             contentDescription = "Home",
-                            modifier = Modifier
-                                .fillMaxSize(),
+                            modifier = Modifier.size(30.dp),
                             tint = Color(0xFFFFA500)
                         )
                     }
@@ -133,24 +145,24 @@ fun HansotThemeNavigationBar() {
             }
             IconButton(onClick = { /*TODO: Calendar navigation action*/ }) {
                 Icon(
-                    painter = painterResource(id = R.drawable.ic_add),
-                    contentDescription = "Calendar",
+                    imageVector = Icons.Outlined.Restaurant,
+                    contentDescription = "Sharing Food",
                     modifier = Modifier.size(30.dp),
                     tint = Color(0xFFFFA500)
                 )
             }
             IconButton(onClick = { /*TODO: Notifications navigation action*/ }) {
                 Icon(
-                    painter = painterResource(id = R.drawable.ic_add),
-                    contentDescription = "Notifications",
-                    modifier = Modifier.size(30.dp),
+                    imageVector = Icons.Outlined.FoodBank,
+                    contentDescription = "Sharing Mealkits",
+                    modifier = Modifier.size(40.dp),
                     tint = Color(0xFFFFA500)
                 )
             }
             IconButton(onClick = { /*TODO: Settings navigation action*/ }) {
                 Icon(
-                    painter = painterResource(id = R.drawable.ic_add),
-                    contentDescription = "Settings",
+                    imageVector = Icons.Outlined.MoreHoriz,
+                    contentDescription = "Sharing Mealkits",
                     modifier = Modifier.size(30.dp),
                     tint = Color(0xFFFFA500)
                 )
@@ -161,7 +173,7 @@ fun HansotThemeNavigationBar() {
                     containerColor = MaterialTheme.colorScheme.primary,
                 ) {
                     Icon(
-                        painter = painterResource(id = R.drawable.ic_add),
+                        imageVector = Icons.Outlined.EditNote,
                         contentDescription = "Add",
                         tint = Color.White
                     )
@@ -189,5 +201,10 @@ fun HansotThemeNavigationBar() {
     }
 }
 
-
-
+@Preview
+@Composable
+private fun previewBottomNavigationBar(){
+    HansotbobTheme {
+        HansotThemeNavigationBar()
+    }
+}

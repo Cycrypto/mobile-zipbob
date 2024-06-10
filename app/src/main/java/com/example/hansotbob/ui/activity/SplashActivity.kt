@@ -1,7 +1,6 @@
-package com.example.hansotbob.ui
+package com.example.hansotbob.ui.activity
 
 import android.content.Intent
-import android.graphics.Typeface
 import com.daimajia.androidanimations.library.Techniques
 import com.example.hansotbob.R
 import com.viksaa.sssplash.lib.activity.AwesomeSplash
