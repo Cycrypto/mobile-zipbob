@@ -48,7 +48,7 @@ fun HansotThemeNavigationBar(navController: NavHostController) {
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            IconButton(onClick = { navController.navigate("main") }) {
+            IconButton(onClick = { navController.navigate("overview") }) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Box(
                         modifier = Modifier
@@ -65,7 +65,7 @@ fun HansotThemeNavigationBar(navController: NavHostController) {
                     }
                 }
             }
-            IconButton(onClick = { navController.navigate("example") }) {
+            IconButton(onClick = { navController.navigate("food_share") }) {
                 Icon(
                     imageVector = Icons.Outlined.Restaurant,
                     contentDescription = "Sharing Food",

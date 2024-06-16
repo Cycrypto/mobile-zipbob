@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -26,9 +27,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.hansotbob.R
 
-
 @Composable
-fun <T>CardSliderVertical(title :String, items: List<T>, itemContent: @Composable (T) -> Unit) {
+fun <T> CardSliderHorizontal(title: String, items: List<T>, itemContent: @Composable (T) -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -40,33 +40,9 @@ fun <T>CardSliderVertical(title :String, items: List<T>, itemContent: @Composabl
             color = MaterialTheme.colorScheme.secondary
         )
         Spacer(modifier = Modifier.height(16.dp))
-        LazyColumn(
-            contentPadding = PaddingValues(vertical = 8.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            items(items) { item ->
-                itemContent(item)
-            }
-        }
-    }
-}
-
-@Composable
-fun <T>CardSliderHorizontal(title :String, items: List<T>, itemContent: @Composable (T) -> Unit) {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp)
-    ) {
-        Text(
-            text = title,
-            style = MaterialTheme.typography.headlineLarge,
-            color = MaterialTheme.colorScheme.secondary
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-        LazyColumn(
+        LazyRow(
             contentPadding = PaddingValues(horizontal = 8.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+            horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             items(items) { item ->
                 itemContent(item)
@@ -75,8 +51,9 @@ fun <T>CardSliderHorizontal(title :String, items: List<T>, itemContent: @Composa
     }
 }
 
+
 @Composable
-fun DeviceCard(device: com.example.hansotbob.ui.screen.Device) {
+fun OverviewCard(contents : Overview) {
     Card(
         shape = RoundedCornerShape(16.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
@@ -90,7 +67,7 @@ fun DeviceCard(device: com.example.hansotbob.ui.screen.Device) {
                 .background(MaterialTheme.colorScheme.background)
         ) {
             Image(
-                painter = painterResource(id = device.imageRes),
+                painter = painterResource(id = contents.imageRes),
                 contentDescription = null,
                 contentScale = ContentScale.Crop,  // Adjust image to fill the width
                 modifier = Modifier
@@ -107,27 +84,17 @@ fun DeviceCard(device: com.example.hansotbob.ui.screen.Device) {
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    Text(device.name)
+                    Text(contents.name)
                     Icon(
                         Icons.Default.Favorite,
                         contentDescription = "Favorites",
                         tint = MaterialTheme.colorScheme.primary
                     )
                 }
-                Text(device.category, style = MaterialTheme.typography.bodySmall)
+                Text(contents.category, style = MaterialTheme.typography.bodySmall)
             }
         }
     }
 }
 
-data class Device(val name: String, val category: String, val imageRes: Int)
-
-private fun createDummyData(): List<Device> {
-    return listOf(
-        Device("밥 가져가실분", "한식", R.drawable.community_image),
-        Device("밥 가져가실분", "한식", R.drawable.community_image),
-        Device("밥 가져가실분", "한식", R.drawable.community_image),
-        Device("밥 가져가실분", "한식", R.drawable.community_image),
-        Device("밥 가져가실분", "한식", R.drawable.community_image)
-    )
-}
+data class Overview(val name: String, val category: String, val imageRes: Int)

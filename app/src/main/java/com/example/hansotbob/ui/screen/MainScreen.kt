@@ -1,5 +1,6 @@
 package com.example.hansotbob.ui.screen
 
+import Overview
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -47,8 +48,14 @@ import com.example.hansotbob.ui.theme.HansotbobTheme
 
 @Composable
 fun NavGraph(navController: NavHostController, modifier: Modifier = Modifier) {
-    NavHost(navController = navController, startDestination = "main") {
-        composable("main") {
+    NavHost(navController = navController, startDestination = "overview") {
+        composable("overview"){
+            Column(modifier = modifier.fillMaxSize()) {
+                OverviewScreen(navController = navController, createDummyData2())
+            }
+        }
+
+        composable("food_share") {
             Column(modifier = modifier.fillMaxSize()) {
                 ItemBar()
                 CategoryFragmentContainer(navController, createDummyData())
@@ -60,9 +67,6 @@ fun NavGraph(navController: NavHostController, modifier: Modifier = Modifier) {
             val place = backStackEntry.arguments?.getString("place") ?: ""
             val price = backStackEntry.arguments?.getString("price") ?: ""
             FoodShareDetailScreen(title, recruit, place, price)
-        }
-        composable("overview"){
-
         }
     }
 }
@@ -98,6 +102,16 @@ private fun createDummyData(): List<ListItem>{
         ListItem.MealContent(R.drawable.food_image, "집밥 가져가실분3", "모집중", "시흥시 정왕동 산기대학로", "100", false),
         ListItem.MealContent(R.drawable.food_image, "집밥 가져가실분4", "모집중", "시흥시 정왕동 산기대학로", "1000", false),
         ListItem.MealContent(R.drawable.food_image, "집밥 가져가실분5", "모집중", "시흥시 정왕동 산기대학로", "1000", false)
+    )
+}
+
+private fun createDummyData2(): List<Overview> {
+    return listOf(
+        Overview("밥 가져가실분", "한식", R.drawable.community_image),
+        Overview("밥 가져가실분", "한식", R.drawable.community_image),
+        Overview("밥 가져가실분", "한식", R.drawable.community_image),
+        Overview("밥 가져가실분", "한식", R.drawable.community_image),
+        Overview("밥 가져가실분", "한식", R.drawable.community_image)
     )
 }
 

@@ -1,7 +1,8 @@
 package com.example.hansotbob.ui.screen
 
 import CardSliderHorizontal
-import DeviceCard
+import Overview
+import OverviewCard
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -37,8 +38,7 @@ import com.example.hansotbob.R
 import com.example.hansotbob.ui.theme.HansotbobTheme
 
 @Composable
-fun OverviewScreen(navController: NavHostController) {
-    val data = createDummyData2()
+fun OverviewScreen(navController: NavHostController, item: List<Overview>) {
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
@@ -46,14 +46,26 @@ fun OverviewScreen(navController: NavHostController) {
     ) {
         item { TopProfileSection() }
 //            item { CategorySection() }
-        items(data) { contents ->
+
+        item {
             CardSliderHorizontal(
                 title = "인기 게시물",
-                items = data,
-                itemContent = { contents ->
-                    DeviceCard(device = contents)
-                }
-            )
+                items = item
+            ) { contents -> OverviewCard(contents = contents) }
+        }
+
+        item {
+            CardSliderHorizontal(
+                title = "내가 찜한 목록",
+                items = item
+            ) { contents -> OverviewCard(contents = contents) }
+        }
+
+        item {
+            CardSliderHorizontal(
+                title = "인기 게시물",
+                items = item
+            ) { contents -> OverviewCard(contents = contents) }
         }
     }
 }
@@ -98,22 +110,3 @@ fun TopProfileSection() {
 
 
 data class Device(val name: String, val category: String, val imageRes: Int)
-
-private fun createDummyData2(): List<Device> {
-    return listOf(
-        Device("밥 가져가실분", "한식", R.drawable.community_image),
-        Device("밥 가져가실분", "한식", R.drawable.community_image),
-        Device("밥 가져가실분", "한식", R.drawable.community_image),
-        Device("밥 가져가실분", "한식", R.drawable.community_image),
-        Device("밥 가져가실분", "한식", R.drawable.community_image)
-    )
-}
-
-@Preview
-@Composable
-private fun PreviewOverViewScreen(){
-    val navController = rememberNavController()
-    HansotbobTheme {
-        OverviewScreen(navController = navController)
-    }
-}
