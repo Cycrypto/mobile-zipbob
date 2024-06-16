@@ -11,7 +11,13 @@
       <entry key="OnboardingActivity">
         <State />
       </entry>
+      <entry key="PreviewOverViewScreen">
+        <State />
+      </entry>
       <entry key="app">
+        <State />
+      </entry>
+      <entry key="previewBottomNavigationBar">
         <State />
       </entry>
     </value>

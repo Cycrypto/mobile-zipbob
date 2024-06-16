@@ -61,6 +61,9 @@ fun NavGraph(navController: NavHostController, modifier: Modifier = Modifier) {
             val price = backStackEntry.arguments?.getString("price") ?: ""
             FoodShareDetailScreen(title, recruit, place, price)
         }
+        composable("overview"){
+
+        }
     }
 }
 
@@ -75,7 +78,7 @@ fun MainScreen() {
         },
         bottomBar = {
             if (currentRoute != "detail/{title}/{recruit}/{place}/{price}") {
-                HansotThemeNavigationBar()
+                HansotThemeNavigationBar(navController)
             }
         }
     )
@@ -100,7 +103,7 @@ private fun createDummyData(): List<ListItem>{
 
 @Preview
 @Composable
-private fun previewMainScreen(){
+private fun PreviewMainScreen(){
     HansotbobTheme {
         MainScreen()
     }

@@ -47,10 +47,6 @@ import com.example.hansotbob.ui.theme.LocalExtraColors
 import com.example.hansotbob.ui.theme.PrimaryColor
 
 
-val OvalShape = GenericShape { size, _ ->
-    addOval(Rect(0f,0f,size.width, size.height))
-}
-
 @Composable
 fun MealCategoryCard(
     title: String,
@@ -242,6 +238,7 @@ fun BadgeBox(
         badge()
     }
 }
+
 @Preview(showBackground = false)
 @Composable
 fun PreviewMealCategoryCard() {

@@ -21,8 +21,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.hansotbob.R
+import com.example.hansotbob.ui.theme.HansotbobTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -53,4 +55,12 @@ fun ItemBar() {
     }
     Spacer(modifier = Modifier.height(16.dp))
     BasicSearchBar()
+}
+
+@Preview
+@Composable
+private fun PreviewItemBar(){
+    HansotbobTheme {
+        ItemBar()
+    }
 }

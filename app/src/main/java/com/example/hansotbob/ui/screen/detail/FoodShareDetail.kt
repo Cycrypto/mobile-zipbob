@@ -30,8 +30,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.hansotbob.R
+import com.example.hansotbob.ui.theme.HansotbobTheme
 
 @Composable
 fun FoodShareDetailScreen(title: String, recruit: String, place: String, price: String) {
@@ -130,5 +132,13 @@ fun IconWithText(iconId: Int, text: String) {
         )
         Spacer(modifier = Modifier.width(4.dp))
         Text(text = text, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurface)
+    }
+}
+
+@Preview
+@Composable
+private fun PreviewDetailScreen(){
+    HansotbobTheme {
+        FoodShareDetailScreen("집밥1", "모집중", "시흥시 정왕동 산기대학로", "3000")
     }
 }
