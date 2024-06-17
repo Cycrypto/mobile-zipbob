@@ -16,5 +16,12 @@ sealed class ListItem {
         val imageRes:Int
     ) : ListItem()
 
+    data class MealkitsContent(
+        val imagePainterId:Int,
+        val title:String,
+        val recruit:String,
+        val place:String,
+        val price:String
+    ) : ListItem()
 
 }

@@ -14,6 +14,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.hansotbob.R
+import com.example.hansotbob.component.CardView.MealCategoryCard
 import com.example.hansotbob.component.CardView.MealCategoryCardWithBadge
 import com.example.hansotbob.component.CardView.OverviewCard
 import com.example.hansotbob.data.ListItem
@@ -41,7 +42,7 @@ fun CategoryFragmentContainer(navController: NavController, items: List<ListItem
                             .padding(8.dp)
                             .clickable {
                                 navController.navigate(
-                                    "detail/${item.title}/${item.recruit}/${item.place}/${item.price}"
+                                    "foodshare/detail/${item.title}/${item.recruit}/${item.place}/${item.price}"
                                 )
                             }
                     )
@@ -62,6 +63,25 @@ fun CategoryFragmentContainer(navController: NavController, items: List<ListItem
                     )
 
                 }
+                is ListItem.MealkitsContent -> {
+                    MealCategoryCardWithBadge(
+                        title = item.title,
+                        date = item.recruit,
+                        category = item.place,
+                        points = item.price,
+                        imagePainter = painterResource(id = item.imagePainterId),
+                        isNew = true,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(8.dp)
+                            .clickable {
+                                navController.navigate(
+                                    "mealkit/detail/${item.title}/${item.recruit}/${item.place}/${item.price}"
+                                )
+                            }
+                    )
+                }
+
             }
         }
     }

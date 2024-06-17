@@ -43,6 +43,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.hansotbob.ui.screen.detail.FoodShareDetailScreen
 
 import com.example.hansotbob.component.common.*
+import com.example.hansotbob.ui.screen.detail.MealkitsDetailScreen
 import com.example.hansotbob.ui.screen.detail.OverviewDetailScreen
 import com.example.hansotbob.ui.theme.HansotbobTheme
 
@@ -61,12 +62,28 @@ fun NavGraph(navController: NavHostController, modifier: Modifier = Modifier) {
                 CategoryFragmentContainer(navController, createDummyData())
             }
         }
-        composable("detail/{title}/{recruit}/{place}/{price}") { backStackEntry ->
+
+        composable("mealkit_share") {
+            Column(modifier = modifier.fillMaxSize()) {
+                ItemBar()
+                MealkitScreen(navController = navController)
+            }
+        }
+
+        composable("foodshare/detail/{title}/{recruit}/{place}/{price}") { backStackEntry ->
             val title = backStackEntry.arguments?.getString("title") ?: ""
             val recruit = backStackEntry.arguments?.getString("recruit") ?: ""
             val place = backStackEntry.arguments?.getString("place") ?: ""
             val price = backStackEntry.arguments?.getString("price") ?: ""
             FoodShareDetailScreen(title, recruit, place, price)
+        }
+
+        composable("mealkit/detail/{title}/{recruit}/{place}/{price}") { backStackEntry ->
+            val title = backStackEntry.arguments?.getString("title") ?: ""
+            val recruit = backStackEntry.arguments?.getString("recruit") ?: ""
+            val place = backStackEntry.arguments?.getString("place") ?: ""
+            val price = backStackEntry.arguments?.getString("price") ?: ""
+            MealkitsDetailScreen(title = title, recruit = recruit, place = place, price = price)
         }
 
         composable("detail/{name}/{category}/{imageRes}") { backStackEntry ->

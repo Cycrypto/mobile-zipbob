@@ -90,6 +90,3 @@ fun TopProfileSection() {
         )
     }
 }
-
-
-data class Device(val name: String, val category: String, val imageRes: Int)
