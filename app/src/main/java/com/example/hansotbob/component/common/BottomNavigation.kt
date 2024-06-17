@@ -107,7 +107,10 @@ fun HansotThemeNavigationBar(navController: NavHostController) {
                 ) {
                     DropdownMenuItem(
                         text = { Text("집밥 나눔글 쓰기") },
-                        onClick = { expanded = false /* TODO: Action A */ }
+                        onClick = {
+                            expanded = false
+                            navController.navigate("foodshare_form")
+                        }
                     )
                     DropdownMenuItem(
                         text = { Text("밀키트 나눔글 쓰기") },
