@@ -1,17 +1,17 @@
 import org.jetbrains.kotlin.storage.CacheResetOnProcessCanceled.enabled
 
 plugins {
-    alias(libs.plugins.androidApplication)
-    alias(libs.plugins.jetbrainsKotlinAndroid)
+    id("com.android.application")
+    id("org.jetbrains.kotlin.android")
+    id("com.google.gms.google-services") // Firebase 관련 플러그인 추가
 }
-
 android {
     namespace = "com.example.hansotbob"
     compileSdk = 34
 
     defaultConfig {
         applicationId = "com.example.hansotbob"
-        minSdk = 21
+        minSdk = 23
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -68,6 +68,7 @@ dependencies {
     implementation(libs.androidx.cardview)
     implementation(libs.androidx.material3.android)
     implementation(libs.androidx.navigation.compose)
+    implementation(libs.firebase.auth.ktx)
 //    implementation(libs.androidx.ui.test.junit4.android)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
@@ -98,5 +99,11 @@ dependencies {
 
     debugImplementation("androidx.compose.ui:ui-tooling:1.6.7")
     implementation("androidx.compose.ui:ui-tooling-preview:1.6.7")
+
+    //Firebase
+    implementation(platform("com.google.firebase:firebase-bom:33.1.0"))
+    implementation("com.google.firebase:firebase-analytics")
+    implementation("com.google.android.gms:play-services-auth:21.0.0")
 }
 
+apply(plugin = "com.google.gms.google-services")

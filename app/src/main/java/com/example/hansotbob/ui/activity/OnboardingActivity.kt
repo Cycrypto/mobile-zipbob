@@ -60,7 +60,7 @@ class OnboardingActivity : AppCompatActivity() {
 
             onBoardingFragment.setOnRightOutListener {
                 // When the user swipes out from the last page, start MainActivity
-                val intent = Intent(this, MainActivity::class.java)
+                val intent = Intent(this, LoginActivity::class.java)
                 startActivity(intent)
                 finish() // Finish the onboarding activity so it can't be returned to
             }

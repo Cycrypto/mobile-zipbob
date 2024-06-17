@@ -19,4 +19,6 @@
     <string name="description_label">설명</string>
     <string name="description_hint">설명을 입력하세요</string>
     <string name="upload_photo">사진 업로드</string>
+
+    <string name="default_web_client_id">767284703963-6s1qboma1qofvtinm4c0dh8al7klqocg.apps.googleusercontent.com</string>
 </resources>
