@@ -1,10 +1,8 @@
 package com.example.hansotbob.ui.screen
 
-import CardSliderHorizontal
-import Overview
-import OverviewCard
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -35,40 +33,25 @@ import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.hansotbob.R
+import com.example.hansotbob.component.CardView.OverviewCard
+import com.example.hansotbob.component.Slider.CardSliderHorizontal
+import com.example.hansotbob.data.ListItem
+import com.example.hansotbob.fragment.CategoryFragmentContainer
 import com.example.hansotbob.ui.theme.HansotbobTheme
 
 @Composable
-fun OverviewScreen(navController: NavHostController, item: List<Overview>) {
-    LazyColumn(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background)
-    ) {
-        item { TopProfileSection() }
-//            item { CategorySection() }
-
-        item {
-            CardSliderHorizontal(
-                title = "인기 게시물",
-                items = item
-            ) { contents -> OverviewCard(contents = contents) }
-        }
-
-        item {
-            CardSliderHorizontal(
-                title = "내가 찜한 목록",
-                items = item
-            ) { contents -> OverviewCard(contents = contents) }
-        }
-
-        item {
-            CardSliderHorizontal(
-                title = "인기 게시물",
-                items = item
-            ) { contents -> OverviewCard(contents = contents) }
+fun OverviewScreen(navController: NavHostController, items: List<ListItem.Overview>) {
+    Column {
+        TopProfileSection()
+        CardSliderHorizontal(
+            title = "인기 게시물",
+            item = items
+        ) {overviewItem ->
+            CategoryFragmentContainer(navController = navController, items = listOf(overviewItem))
         }
     }
 }
+
 
 @Composable
 fun TopProfileSection() {

@@ -44,7 +44,7 @@
             android:id="@+id/seller"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="<판매자>"
+            android:text="판매자"
             android:layout_below="@+id/totalPrice"
             android:layout_centerHorizontal="true"
             android:textSize="18sp" />

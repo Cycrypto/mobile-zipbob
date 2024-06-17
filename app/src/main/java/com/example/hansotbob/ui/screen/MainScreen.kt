@@ -1,6 +1,5 @@
 package com.example.hansotbob.ui.screen
 
-import Overview
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -44,6 +43,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.hansotbob.ui.screen.detail.FoodShareDetailScreen
 
 import com.example.hansotbob.component.common.*
+import com.example.hansotbob.ui.screen.detail.OverviewDetailScreen
 import com.example.hansotbob.ui.theme.HansotbobTheme
 
 @Composable
@@ -67,6 +67,14 @@ fun NavGraph(navController: NavHostController, modifier: Modifier = Modifier) {
             val place = backStackEntry.arguments?.getString("place") ?: ""
             val price = backStackEntry.arguments?.getString("price") ?: ""
             FoodShareDetailScreen(title, recruit, place, price)
+        }
+
+        composable("detail/{name}/{category}/{imageRes}") { backStackEntry ->
+            val name = backStackEntry.arguments?.getString("name") ?: ""
+            val category = backStackEntry.arguments?.getString("category") ?: ""
+            val imageRes = backStackEntry.arguments?.getString("imageRes") ?: ""
+            // Placeholder for the detailed screen based on name, category, and image resource
+            OverviewDetailScreen(name, category, imageRes)
         }
     }
 }
@@ -105,13 +113,14 @@ private fun createDummyData(): List<ListItem>{
     )
 }
 
-private fun createDummyData2(): List<Overview> {
+private fun createDummyData2(): List<ListItem.Overview> {
     return listOf(
-        Overview("밥 가져가실분", "한식", R.drawable.community_image),
-        Overview("밥 가져가실분", "한식", R.drawable.community_image),
-        Overview("밥 가져가실분", "한식", R.drawable.community_image),
-        Overview("밥 가져가실분", "한식", R.drawable.community_image),
-        Overview("밥 가져가실분", "한식", R.drawable.community_image)
+        ListItem.Overview("밥 가져가실분", "한식", R.drawable.community_image),
+        ListItem.Overview("밥 가져가실분", "한식", R.drawable.community_image),
+        ListItem.Overview("밥 가져가실분", "한식", R.drawable.community_image),
+        ListItem.Overview("밥 가져가실분", "한식", R.drawable.community_image),
+        ListItem.Overview("밥 가져가실분", "한식", R.drawable.community_image),
+        ListItem.Overview("밥 가져가실분", "한식", R.drawable.community_image)
     )
 }
 

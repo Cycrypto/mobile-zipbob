@@ -10,9 +10,11 @@ sealed class ListItem {
         val isNew:Boolean
     ) : ListItem()
 
-    data class Restaurant(
-        val imageResource: Int,
-        val name: String,
-        val details: String
+    data class Overview(
+        val name:String,
+        val category: String,
+        val imageRes:Int
     ) : ListItem()
+
+
 }

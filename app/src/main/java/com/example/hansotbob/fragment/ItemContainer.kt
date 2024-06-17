@@ -2,6 +2,7 @@ package com.example.hansotbob.fragment
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -14,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.hansotbob.R
 import com.example.hansotbob.component.CardView.MealCategoryCardWithBadge
+import com.example.hansotbob.component.CardView.OverviewCard
 import com.example.hansotbob.data.ListItem
 
 @Composable
@@ -44,8 +46,21 @@ fun CategoryFragmentContainer(navController: NavController, items: List<ListItem
                             }
                     )
                 }
-                is ListItem.Restaurant -> {
-                    print("hello")
+                is ListItem.Overview ->{
+                    OverviewCard(
+                        imageRes = item.imageRes,
+                        name = item.name,
+                        category = item.category,
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(8.dp)
+                            .clickable{
+                                navController.navigate(
+                                    "detail/${item.name}/${item.category}/${item.imageRes}"
+                                )
+                            }
+                    )
+
                 }
             }
         }

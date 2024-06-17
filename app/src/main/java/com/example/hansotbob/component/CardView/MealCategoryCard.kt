@@ -3,6 +3,7 @@ package com.example.hansotbob.component.CardView
 import android.graphics.RectF
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
@@ -20,6 +21,7 @@ import androidx.compose.foundation.shape.GenericShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.Badge
 
 
@@ -42,6 +44,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.hansotbob.R
+import com.example.hansotbob.data.ListItem
 import com.example.hansotbob.ui.theme.HansotbobTheme
 import com.example.hansotbob.ui.theme.LocalExtraColors
 import com.example.hansotbob.ui.theme.PrimaryColor
@@ -111,6 +114,50 @@ fun MealCategoryCard(
                         )
                     }
                 }
+            }
+        }
+    }
+}
+
+@Composable
+fun OverviewCard(imageRes:Int, name:String, category:String, modifier:Modifier) {
+    Card(
+        shape = RoundedCornerShape(16.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+        modifier = modifier
+
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()  // Ensure the column fills the width of the card
+                .background(MaterialTheme.colorScheme.background)
+        ) {
+            Image(
+                painter = painterResource(id = imageRes),
+                contentDescription = null,
+                contentScale = ContentScale.Crop,  // Adjust image to fill the width
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(100.dp)
+            )
+            Spacer(modifier = Modifier.height(4.dp))
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()  // Ensure this column also fills the width
+                    .padding(16.dp)
+            ) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(name)
+                    Icon(
+                        Icons.Default.Favorite,
+                        contentDescription = "Favorites",
+                        tint = MaterialTheme.colorScheme.primary
+                    )
+                }
+                Text(category, style = MaterialTheme.typography.bodySmall)
             }
         }
     }
