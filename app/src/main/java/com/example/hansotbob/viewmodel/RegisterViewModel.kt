@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.example.hansotbob.auth.AuthManager
+import com.example.hansotbob.exception.AuthException
 
 class RegisterViewModel(private val authManager: AuthManager) : ViewModel() {
     var email by mutableStateOf("")
@@ -15,11 +16,11 @@ class RegisterViewModel(private val authManager: AuthManager) : ViewModel() {
 
     fun register(onSuccess: () -> Unit) {
         if (email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
-            errorMessage = "모든 필드를 입력하세요."
+            errorMessage = AuthException.EmptyFieldsException().message.toString()
             return
         }
         if (password != confirmPassword) {
-            errorMessage = "비밀번호가 일치하지 않습니다."
+            errorMessage = AuthException.PasswordMismatchException().message.toString()
             return
         }
         isLoading = true
@@ -28,9 +29,9 @@ class RegisterViewModel(private val authManager: AuthManager) : ViewModel() {
                 isLoading = false
                 onSuccess()
             },
-            onFailure = { message ->
+            onFailure = { exception ->
                 isLoading = false
-                errorMessage = message
+                errorMessage = exception.message.toString()
             }
         )
     }
