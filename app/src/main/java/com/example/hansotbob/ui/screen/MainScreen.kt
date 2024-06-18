@@ -47,6 +47,7 @@ import com.example.hansotbob.ui.screen.detail.FoodShareDetailScreen
 import com.example.hansotbob.component.common.*
 import com.example.hansotbob.ui.screen.detail.MealkitsDetailScreen
 import com.example.hansotbob.ui.screen.detail.OverviewDetailScreen
+import com.example.hansotbob.ui.screen.form.MealkitFormScreen
 import com.example.hansotbob.ui.screen.form.SharingFoodFormScreen
 import com.example.hansotbob.ui.theme.HansotbobTheme
 
@@ -76,6 +77,11 @@ fun NavGraph(navController: NavHostController, modifier: Modifier = Modifier) {
         composable("foodshare_form"){
             SharingFoodFormScreen(navController)
         }
+
+        composable("mealkit_form") {
+            MealkitFormScreen(navController)
+        }
+
 
         composable("foodshare/detail/{title}/{recruit}/{place}/{price}") { backStackEntry ->
             val title = backStackEntry.arguments?.getString("title") ?: ""
@@ -189,6 +195,7 @@ private fun bottombarLocaiton(): List<String> {
     return listOf(
         "detail/{title}/{recruit}/{place}/{price}",
         "foodshare_form",
+        "mealkit_form",
         "foodshare/detail/{title}/{recruit}/{place}/{price}",
         "mealkit/detail/{title}/{place}/{price}/{foodType}/{category}/{quantity}/{productionDate}/{exchangeMethod}/{description}/{state}"
     )

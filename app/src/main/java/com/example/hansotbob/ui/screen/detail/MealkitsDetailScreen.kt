@@ -69,7 +69,7 @@ fun MealkitsDetailScreen(
     val pagerState = rememberPagerState(pageCount = { images.size })
 
     Scaffold(
-        topBar = { AppBar(onBackClick = onBackClick) },
+        topBar = { AppBar(title = "밀키트", onBackClick = onBackClick) },
     ) { innerPadding ->
         Column(
             modifier = Modifier
