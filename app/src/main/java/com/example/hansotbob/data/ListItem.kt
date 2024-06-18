@@ -24,4 +24,23 @@ sealed class ListItem {
         val price:String
     ) : ListItem()
 
+    data class ItemDetail(
+        val imagePainterId: Int,
+        val productName: String,
+        val itemPrice: String,
+        val detail: String
+    ) : ListItem()
+
+    data class ReviewDetail(
+        val imagePainterId: Int,
+        val userName: String,
+        val reviewRating: String,
+        val detail: String
+    ) : ListItem()
+
+    data class PaymentDetail(
+        val productName: String,
+        val itemCounts: String,
+        val itemPrice: String
+    ) : ListItem()
 }
