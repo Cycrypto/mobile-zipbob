@@ -16,13 +16,15 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.hansotbob.R
+import com.example.hansotbob.auth.GoogleSignInInterface
+import com.example.hansotbob.auth.AuthManager
+import com.example.hansotbob.viewmodel.LoginViewModel
 
 @Composable
-fun LoginScreen(navController: NavController, signIn: (String, String, (String?) -> Unit) -> Unit, signInWithGoogle: () -> Unit) {
-    var email by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
-    var isLoading by remember { mutableStateOf(false) }
+fun LoginScreen(navController: NavController, authManager: AuthManager, googleSignInManager: GoogleSignInInterface) {
+    val viewModel = remember { LoginViewModel(authManager) }
     var errorMessage by remember { mutableStateOf("") }
+    var isLoading by remember { mutableStateOf(false) }
 
     Box(
         modifier = Modifier
@@ -59,8 +61,8 @@ fun LoginScreen(navController: NavController, signIn: (String, String, (String?)
 
             // Email TextField
             OutlinedTextField(
-                value = email,
-                onValueChange = { email = it },
+                value = viewModel.email,
+                onValueChange = { viewModel.email = it },
                 label = { Text("Email") },
                 leadingIcon = {
                     Icon(Icons.Default.Email, contentDescription = "Email Icon")
@@ -75,8 +77,8 @@ fun LoginScreen(navController: NavController, signIn: (String, String, (String?)
 
             // Password TextField
             OutlinedTextField(
-                value = password,
-                onValueChange = { password = it },
+                value = viewModel.password,
+                onValueChange = { viewModel.password = it },
                 label = { Text("Password") },
                 leadingIcon = {
                     Icon(Icons.Default.Lock, contentDescription = "Password Icon")
@@ -106,18 +108,11 @@ fun LoginScreen(navController: NavController, signIn: (String, String, (String?)
             } else {
                 Button(
                     onClick = {
-                        when {
-                            email.isEmpty() -> {
-                                errorMessage = "이메일을 입력하세요."
-                            }
-                            password.isEmpty() -> {
-                                errorMessage = "비밀번호를 입력하세요."
-                            }
-                            else -> {
-                                isLoading = true
-                                signIn(email, password) { error ->
-                                    isLoading = false
-                                    errorMessage = error ?: ""
+                        isLoading = true
+                        viewModel.signIn {
+                            navController.navigate("main") {
+                                popUpTo(navController.graph.startDestinationId) {
+                                    inclusive = true
                                 }
                             }
                         }
@@ -141,7 +136,7 @@ fun LoginScreen(navController: NavController, signIn: (String, String, (String?)
             Button(
                 onClick = {
                     isLoading = true
-                    signInWithGoogle()
+                    googleSignInManager.signIn()
                 },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color.White,

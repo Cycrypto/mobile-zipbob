@@ -7,14 +7,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.hansotbob.auth.AuthManager
+import com.example.hansotbob.viewmodel.RegisterViewModel
 
 @Composable
-fun RegisterScreen(navController: NavController, register: (String, String, (String?) -> Unit) -> Unit) {
-    var email by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
-    var confirmPassword by remember { mutableStateOf("") }
-    var isLoading by remember { mutableStateOf(false) }
-    var errorMessage by remember { mutableStateOf("") }
+fun RegisterScreen(navController: NavController, authManager: AuthManager) {
+    val viewModel = remember { RegisterViewModel(authManager) }
 
     Column(
         modifier = Modifier
@@ -27,8 +25,8 @@ fun RegisterScreen(navController: NavController, register: (String, String, (Str
         Spacer(modifier = Modifier.height(16.dp))
 
         OutlinedTextField(
-            value = email,
-            onValueChange = { email = it },
+            value = viewModel.email,
+            onValueChange = { viewModel.email = it },
             label = { Text("Email") },
             modifier = Modifier.fillMaxWidth()
         )
@@ -36,8 +34,8 @@ fun RegisterScreen(navController: NavController, register: (String, String, (Str
         Spacer(modifier = Modifier.height(16.dp))
 
         OutlinedTextField(
-            value = password,
-            onValueChange = { password = it },
+            value = viewModel.password,
+            onValueChange = { viewModel.password = it },
             label = { Text("Password") },
             visualTransformation = PasswordVisualTransformation(),
             modifier = Modifier.fillMaxWidth()
@@ -46,8 +44,8 @@ fun RegisterScreen(navController: NavController, register: (String, String, (Str
         Spacer(modifier = Modifier.height(16.dp))
 
         OutlinedTextField(
-            value = confirmPassword,
-            onValueChange = { confirmPassword = it },
+            value = viewModel.confirmPassword,
+            onValueChange = { viewModel.confirmPassword = it },
             label = { Text("Confirm Password") },
             visualTransformation = PasswordVisualTransformation(),
             modifier = Modifier.fillMaxWidth()
@@ -55,26 +53,17 @@ fun RegisterScreen(navController: NavController, register: (String, String, (Str
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        if (isLoading) {
+        if (viewModel.isLoading) {
             CircularProgressIndicator()
         } else {
             Button(
                 onClick = {
-                    if (password == confirmPassword) {
-                        isLoading = true
-                        register(email, password) { error ->
-                            isLoading = false
-                            errorMessage = error ?: ""
-                            if (error == null) {
-                                navController.navigate("login") {
-                                    popUpTo(navController.graph.startDestinationId) {
-                                        inclusive = true
-                                    }
-                                }
+                    viewModel.register {
+                        navController.navigate("login") {
+                            popUpTo(navController.graph.startDestinationId) {
+                                inclusive = true
                             }
                         }
-                    } else {
-                        errorMessage = "Passwords do not match"
                     }
                 },
                 modifier = Modifier.fillMaxWidth()
@@ -83,9 +72,9 @@ fun RegisterScreen(navController: NavController, register: (String, String, (Str
             }
         }
 
-        if (errorMessage.isNotEmpty()) {
+        if (viewModel.errorMessage.isNotEmpty()) {
             Spacer(modifier = Modifier.height(16.dp))
-            Text(errorMessage, color = MaterialTheme.colorScheme.error)
+            Text(viewModel.errorMessage, color = MaterialTheme.colorScheme.error)
         }
     }
 }
