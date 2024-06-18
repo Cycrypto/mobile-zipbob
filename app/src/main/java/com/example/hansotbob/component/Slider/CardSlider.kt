@@ -41,3 +41,4 @@ fun <T> CardSliderHorizontal(title: String, item: List<T>, itemContent: @Composa
         }
     }
 }
+
