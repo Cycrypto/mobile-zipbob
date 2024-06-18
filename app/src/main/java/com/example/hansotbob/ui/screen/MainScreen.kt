@@ -88,7 +88,15 @@ fun NavGraph(navController: NavHostController, modifier: Modifier = Modifier) {
             val recruit = backStackEntry.arguments?.getString("recruit") ?: ""
             val place = backStackEntry.arguments?.getString("place") ?: ""
             val price = backStackEntry.arguments?.getString("price") ?: ""
-            MealkitsDetailScreen(title = title, recruit = recruit, place = place, price = price)
+            MealkitsDetailScreen(
+                title = title,
+                recruit = recruit,
+                place = place,
+                price = price,
+                onBackClick = { navController.popBackStack() },
+                onContactSellerClick = { /* Handle contact seller click */ },
+                onBuyClick = { /* Handle buy click */ }
+            )
         }
 
         composable("detail/{name}/{category}/{imageRes}") { backStackEntry ->
@@ -127,11 +135,11 @@ fun getCurrentRoute(navController: NavHostController): String? {
 
 private fun createDummyData(): List<ListItem>{
     return listOf(
-        ListItem.MealContent(R.drawable.food_image, "집밥1", "모집중", "시흥시 정왕동 산기대학로", "3000", true),
-        ListItem.MealContent(R.drawable.food_image, "집밥 가져가실분2", "모집중", "시흥시 정왕동 산기대학로", "1200", true),
-        ListItem.MealContent(R.drawable.food_image, "집밥 가져가실분3", "모집중", "시흥시 정왕동 산기대학로", "100", false),
-        ListItem.MealContent(R.drawable.food_image, "집밥 가져가실분4", "모집중", "시흥시 정왕동 산기대학로", "1000", false),
-        ListItem.MealContent(R.drawable.food_image, "집밥 가져가실분5", "모집중", "시흥시 정왕동 산기대학로", "1000", false)
+        ListItem.MealContent(R.drawable.food_image, "집밥1", "모집중", "시흥시 정왕동 산기대학로", "3000", true, 1),
+        ListItem.MealContent(R.drawable.food_image, "집밥 가져가실분2", "모집중", "시흥시 정왕동 산기대학로", "1200", true, 0),
+        ListItem.MealContent(R.drawable.food_image, "집밥 가져가실분3", "모집중", "시흥시 정왕동 산기대학로", "100", false, 1),
+        ListItem.MealContent(R.drawable.food_image, "집밥 가져가실분4", "모집중", "시흥시 정왕동 산기대학로", "1000", false, 2),
+        ListItem.MealContent(R.drawable.food_image, "집밥 가져가실분5", "모집중", "시흥시 정왕동 산기대학로", "1000", false, 1)
     )
 }
 

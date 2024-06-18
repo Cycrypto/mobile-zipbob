@@ -18,7 +18,6 @@ import com.example.hansotbob.component.CardView.MealCategoryCard
 import com.example.hansotbob.component.CardView.MealCategoryCardWithBadge
 import com.example.hansotbob.component.CardView.OverviewCard
 import com.example.hansotbob.data.ListItem
-
 @Composable
 fun CategoryFragmentContainer(navController: NavController, items: List<ListItem>) {
     LazyColumn(
@@ -35,6 +34,8 @@ fun CategoryFragmentContainer(navController: NavController, items: List<ListItem
                         date = item.recruit,
                         category = item.place,
                         points = item.price,
+                        place = item.place,
+                        state = item.state,
                         imagePainter = painterResource(id = item.imagePainterId),
                         isNew = true,
                         modifier = Modifier
@@ -47,7 +48,7 @@ fun CategoryFragmentContainer(navController: NavController, items: List<ListItem
                             }
                     )
                 }
-                is ListItem.Overview ->{
+                is ListItem.Overview -> {
                     OverviewCard(
                         imageRes = item.imageRes,
                         name = item.name,
@@ -55,13 +56,12 @@ fun CategoryFragmentContainer(navController: NavController, items: List<ListItem
                         modifier = Modifier
                             .fillMaxSize()
                             .padding(8.dp)
-                            .clickable{
+                            .clickable {
                                 navController.navigate(
                                     "detail/${item.name}/${item.category}/${item.imageRes}"
                                 )
                             }
                     )
-
                 }
                 is ListItem.MealkitsContent -> {
                     MealCategoryCardWithBadge(
@@ -69,6 +69,8 @@ fun CategoryFragmentContainer(navController: NavController, items: List<ListItem
                         date = item.recruit,
                         category = item.place,
                         points = item.price,
+                        place = item.place,
+                        state = item.state, // Assuming `state` is a property of `MealkitsContent`
                         imagePainter = painterResource(id = item.imagePainterId),
                         isNew = true,
                         modifier = Modifier
@@ -82,6 +84,7 @@ fun CategoryFragmentContainer(navController: NavController, items: List<ListItem
                     )
                 }
 
+                is ListItem.MealkitsOverview -> TODO()
             }
         }
     }
