@@ -66,11 +66,11 @@ fun CategoryFragmentContainer(navController: NavController, items: List<ListItem
                 is ListItem.MealkitsContent -> {
                     MealCategoryCardWithBadge(
                         title = item.title,
-                        date = item.recruit,
-                        category = item.place,
+                        date = item.productionDate,
+                        category = item.category,
                         points = item.price,
                         place = item.place,
-                        state = item.state, // Assuming `state` is a property of `MealkitsContent`
+                        state = item.state,
                         imagePainter = painterResource(id = item.imagePainterId),
                         isNew = true,
                         modifier = Modifier
@@ -78,11 +78,12 @@ fun CategoryFragmentContainer(navController: NavController, items: List<ListItem
                             .padding(8.dp)
                             .clickable {
                                 navController.navigate(
-                                    "mealkit/detail/${item.title}/${item.recruit}/${item.place}/${item.price}"
+                                    "mealkit/detail/${item.title}/${item.place}/${item.price}/${item.foodType}/${item.category}/${item.quantity}/${item.productionDate}/${item.exchangeMethod}/${item.description}/${item.state}"
                                 )
                             }
                     )
                 }
+
 
                 is ListItem.MealkitsOverview -> TODO()
             }

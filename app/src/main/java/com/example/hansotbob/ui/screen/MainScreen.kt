@@ -39,7 +39,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.navArgument
 import com.example.hansotbob.ui.screen.detail.FoodShareDetailScreen
 
 import com.example.hansotbob.component.common.*
@@ -83,21 +85,50 @@ fun NavGraph(navController: NavHostController, modifier: Modifier = Modifier) {
             FoodShareDetailScreen(title, recruit, place, price)
         }
 
-        composable("mealkit/detail/{title}/{recruit}/{place}/{price}") { backStackEntry ->
+        composable(
+            "mealkit/detail/{title}/{place}/{price}/{foodType}/{category}/{quantity}/{productionDate}/{exchangeMethod}/{description}/{state}",
+            arguments = listOf(
+                navArgument("title") { type = NavType.StringType },
+                navArgument("place") { type = NavType.StringType },
+                navArgument("price") { type = NavType.StringType },
+                navArgument("foodType") { type = NavType.StringType },
+                navArgument("category") { type = NavType.StringType },
+                navArgument("quantity") { type = NavType.StringType },
+                navArgument("productionDate") { type = NavType.StringType },
+                navArgument("exchangeMethod") { type = NavType.StringType },
+                navArgument("description") { type = NavType.StringType },
+                navArgument("state") { type = NavType.IntType }  // Ensure state is an integer type
+            )
+        ) { backStackEntry ->
             val title = backStackEntry.arguments?.getString("title") ?: ""
-            val recruit = backStackEntry.arguments?.getString("recruit") ?: ""
             val place = backStackEntry.arguments?.getString("place") ?: ""
             val price = backStackEntry.arguments?.getString("price") ?: ""
+            val foodType = backStackEntry.arguments?.getString("foodType") ?: ""
+            val category = backStackEntry.arguments?.getString("category") ?: ""
+            val quantity = backStackEntry.arguments?.getString("quantity") ?: ""
+            val productionDate = backStackEntry.arguments?.getString("productionDate") ?: ""
+            val exchangeMethod = backStackEntry.arguments?.getString("exchangeMethod") ?: ""
+            val description = backStackEntry.arguments?.getString("description") ?: ""
+            val state = backStackEntry.arguments?.getInt("state") ?: 0
+
             MealkitsDetailScreen(
                 title = title,
-                recruit = recruit,
                 place = place,
                 price = price,
+                foodType = foodType,
+                category = category,
+                quantity = quantity,
+                productionDate = productionDate,
+                exchangeMethod = exchangeMethod,
+                description = description,
+                state = state,
                 onBackClick = { navController.popBackStack() },
                 onContactSellerClick = { /* Handle contact seller click */ },
                 onBuyClick = { /* Handle buy click */ }
             )
         }
+
+
 
         composable("detail/{name}/{category}/{imageRes}") { backStackEntry ->
             val name = backStackEntry.arguments?.getString("name") ?: ""
@@ -157,7 +188,9 @@ private fun createDummyData2(): List<ListItem.Overview> {
 private fun bottombarLocaiton(): List<String> {
     return listOf(
         "detail/{title}/{recruit}/{place}/{price}",
-        "foodshare_form"
+        "foodshare_form",
+        "foodshare/detail/{title}/{recruit}/{place}/{price}",
+        "mealkit/detail/{title}/{place}/{price}/{foodType}/{category}/{quantity}/{productionDate}/{exchangeMethod}/{description}/{state}"
     )
 }
 @Preview

@@ -29,31 +29,29 @@ sealed class ListItem {
     ) : ListItem()
 
 
-    /* Mealkit detail content */
-    data class MealkitsContent(
-        val imagePainterId:Int,
-        val title:String,
-        val recruit:String,
-        val place:String,
-        val price:String,
-        val state:Int
-    ) : ListItem()
-
-    /* Mealkit detail content */
+//    /* Mealkit detail content */
 //    data class MealkitsContent(
-//        val currentStatus: String,
-//        val imagePainterId: Int,
-//        val title: String,
-//        val foodType: String,
-//        val category: String,
-//        val quantity: String,
-//        val productionDate: String,
-//        val exchangePlace: String,
-//        val exchangeMethod: String,
-//        val price: String,
-//        val separateCalculation: String,
-//        val averageRating: Float
+//        val imagePainterId:Int,
+//        val title:String,
+//        val recruit:String,
+//        val place:String,
+//        val price:String,
+//        val state:Int
 //    ) : ListItem()
+
+    data class MealkitsContent(
+        val imagePainterId: Int,
+        val title: String,
+        val place: String,
+        val price: String,
+        val foodType: String,
+        val category: String,
+        val quantity: String,
+        val productionDate: String,
+        val exchangeMethod: String,
+        val description: String,
+        val state: Int
+    ) : ListItem()
 
 
 }
