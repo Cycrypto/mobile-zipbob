@@ -55,8 +55,8 @@ class LoginActivity : AppCompatActivity() {
                         startActivity(Intent(this, MainActivity::class.java))
                         finish()
                     },
-                    onFailure = { message ->
-                        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+                    onFailure = { exception ->
+                        Toast.makeText(this, exception.message, Toast.LENGTH_SHORT).show()
                     }
                 )
             },
