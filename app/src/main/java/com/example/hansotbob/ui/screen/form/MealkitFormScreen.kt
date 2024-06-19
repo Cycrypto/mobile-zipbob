@@ -51,29 +51,24 @@ import com.example.hansotbob.ui.theme.HansotbobTheme
 import java.util.Calendar
 import androidx.compose.runtime.remember as remember1
 
-private var Nothing?.value: TextFieldValue
-    get() {
-        TODO("Not yet implemented")
-    }
-    set(value) {}
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MealkitFormScreen(navController: NavController) {
-    var expanded by remember1 { mutableStateOf(false) }
+    var categoryExpanded by remember1 { mutableStateOf(false) }
+    var quantityExpanded by remember1 { mutableStateOf(false) }
     var selectedCategory by remember1 { mutableStateOf("") }
+    var selectedQuantity by remember1 { mutableStateOf("") }
     val textFieldValue = remember1 { mutableStateOf(TextFieldValue(selectedCategory.ifEmpty { "카테고리 선택" })) }
     var title by remember1 { mutableStateOf(TextFieldValue("")) }
     var foodType by remember1 { mutableStateOf(TextFieldValue("")) }
-    var selectedQuantity by remember1 { mutableStateOf("") }
     var productionDate by remember1 { mutableStateOf("") }
     var place by remember1 { mutableStateOf(TextFieldValue("")) }
     var selectedMethod by remember1 { mutableStateOf("") }
     var price by remember1 { mutableStateOf(TextFieldValue("")) }
     var description by remember1 { mutableStateOf(TextFieldValue("")) }
 
-    val categoryOptions = listOf("한식", "분식")//, "중식", "일식", "양식")
-    val quantityOptions = listOf("1인분", "2인분")//, "3인분", "4인분", "5인분", "6인분 이상")
+    val categoryOptions = listOf("한식", "분식", "중식", "일식", "양식")
+    val quantityOptions = listOf("1인분", "2인분", "3인분", "4인분", "5인분", "6인분 이상")
     val methodOptions = listOf("직거래", "택배", "문고리")
 
     Scaffold(
@@ -110,7 +105,8 @@ fun MealkitFormScreen(navController: NavController) {
                     modifier = Modifier
                         .fillMaxWidth()
                         .background(MaterialTheme.colorScheme.background)
-                        .padding(16.dp)
+                        .padding(start = 16.dp, end = 16.dp, top = 16.dp)
+
                 ) {
                     Text("등록 폼")
                     Spacer(modifier = Modifier.height(8.dp))
@@ -120,7 +116,7 @@ fun MealkitFormScreen(navController: NavController) {
                         modifier = Modifier
                             .fillMaxWidth()
                             .border(1.dp, Color.Gray, RoundedCornerShape(4.dp))
-                            .clickable { expanded = true }
+                            .clickable { categoryExpanded = true }
                             .padding(16.dp)
                     ) {
                         Text(
@@ -130,31 +126,33 @@ fun MealkitFormScreen(navController: NavController) {
                         )
                     }
                     DropdownMenu(
-                        expanded = expanded,
-                        onDismissRequest = { expanded = false },
+                        expanded = categoryExpanded,
+                        onDismissRequest = { categoryExpanded = false },
                         modifier = Modifier.fillMaxWidth()
                     ) {
                         categoryOptions.forEach { category ->
                             DropdownMenuItem(
                                 onClick = {
                                     selectedCategory = category
-                                    val textFieldValue = null
                                     textFieldValue.value = TextFieldValue(category)
-                                    expanded = false
+                                    categoryExpanded = false
                                 },
                                 text = { Text(category) }
                             )
                         }
                     }
                 }
-            }//여기서 한번 자르기
+            }
+
+            item { Spacer(modifier = Modifier.height(8.dp)) }
+
             // 양
             item {
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
                         .background(MaterialTheme.colorScheme.background)
-                        .padding(16.dp)
+                        .padding(start = 16.dp, end = 16.dp)
                 ) {
                     Text("양")
                     Spacer(modifier = Modifier.height(4.dp))
@@ -162,34 +160,35 @@ fun MealkitFormScreen(navController: NavController) {
                         modifier = Modifier
                             .fillMaxWidth()
                             .border(1.dp, Color.Gray, RoundedCornerShape(4.dp))
-                            .clickable { expanded = true }
+                            .clickable { quantityExpanded = true }
                             .padding(16.dp)
                     ) {
                         Text(
-                            text = selectedCategory.ifEmpty { "양 선택" },
+                            text = selectedQuantity.ifEmpty { "양 선택" },
                             style = MaterialTheme.typography.bodyLarge,
                             color = MaterialTheme.colorScheme.onSurface
                         )
                     }
                     DropdownMenu(
-                        expanded = expanded,
-                        onDismissRequest = { expanded = false },
+                        expanded = quantityExpanded,
+                        onDismissRequest = { quantityExpanded = false },
                         modifier = Modifier.fillMaxWidth()
                     ) {
-                        quantityOptions.forEach { category ->
+                        quantityOptions.forEach { quantity ->
                             DropdownMenuItem(
                                 onClick = {
-                                    selectedCategory = category
-                                    val textFieldValue = null
-                                    textFieldValue.value = TextFieldValue(category)
-                                    expanded = false
+                                    selectedQuantity = quantity
+                                    quantityExpanded = false
                                 },
-                                text = { Text(category) }
+                                text = { Text(quantity) }
                             )
                         }
                     }
                 }
-            }//여기서 한번 자르기
+            }
+
+            item { Spacer(modifier = Modifier.height(8.dp)) }
+
             //기타 등등
             item {
                 Column(
@@ -198,7 +197,6 @@ fun MealkitFormScreen(navController: NavController) {
                         .background(MaterialTheme.colorScheme.background)
                         .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
                 ){
-                    Spacer(modifier = Modifier.height(8.dp))
                     Text("제조 일자")
                     Spacer(modifier = Modifier.height(4.dp))
                     DatePicker(productionDate) { date -> productionDate = date }
@@ -232,9 +230,8 @@ fun MealkitFormScreen(navController: NavController) {
                 }
             }
 
-
-
             item { Spacer(modifier = Modifier.height(16.dp)) }
+
             //한줄 설명
             item {
                 OutlinedTextField(
@@ -246,6 +243,7 @@ fun MealkitFormScreen(navController: NavController) {
             }
 
             item { Spacer(modifier = Modifier.height(16.dp)) }
+
             //버튼 1
             item {
                 Button(
@@ -260,6 +258,7 @@ fun MealkitFormScreen(navController: NavController) {
             }
 
             item { Spacer(modifier = Modifier.height(16.dp)) }
+
             //버튼 2
             item {
                 Button(
