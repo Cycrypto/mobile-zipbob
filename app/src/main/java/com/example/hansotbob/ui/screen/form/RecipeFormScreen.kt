@@ -42,30 +42,6 @@ fun RecipeFormScreen(navController: NavController) {
                     }
                 }
             )
-        },
-        bottomBar = {
-            Column(modifier = Modifier.padding(16.dp)) {
-                Button(
-                    onClick = { /* Handle image upload */ },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(48.dp)
-                        .background(MaterialTheme.colorScheme.background)
-                ) {
-                    Text("사진 업로드")
-                }
-
-                Spacer(modifier = Modifier.height(16.dp))
-
-                Button(
-                    onClick = { /* Handle registration */ },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(48.dp)
-                ) {
-                    Text("등록")
-                }
-            }
         }
     ) { innerPadding ->
         LazyColumn(
@@ -123,6 +99,29 @@ fun RecipeFormScreen(navController: NavController) {
             }
 
             item { Spacer(modifier = Modifier.height(16.dp)) }
+
+            item {
+                Button(
+                    onClick = { /* Handle image upload */ },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(48.dp)
+                        .background(MaterialTheme.colorScheme.background)
+                ) {
+                    Text("사진 업로드")
+                }
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                Button(
+                    onClick = { /* Handle registration */ },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(48.dp)
+                ) {
+                    Text("등록")
+                }
+            }
         }
     }
 }
