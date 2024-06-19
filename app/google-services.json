@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "767284703963",
+    "firebase_url": "https://hansotbob-default-rtdb.asia-southeast1.firebasedatabase.app",
     "project_id": "hansotbob",
     "storage_bucket": "hansotbob.appspot.com"
   },
@@ -13,6 +14,14 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "767284703963-9hrj114c0crvgvbhmp0j0oe4u0mtm0b2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.hansotbob",
+            "certificate_hash": "e782a42937b5aa14ebee2dc7b8fea0cad8932d6e"
+          }
+        },
         {
           "client_id": "767284703963-6s1qboma1qofvtinm4c0dh8al7klqocg.apps.googleusercontent.com",
           "client_type": 3

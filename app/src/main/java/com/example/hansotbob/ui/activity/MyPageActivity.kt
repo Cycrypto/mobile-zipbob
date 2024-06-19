@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hansotbob.R
 import com.example.hansotbob.adapter.TransactionAdapter
-import com.example.hansotbob.data.Transaction
+import com.example.hansotbob.dto.Transaction
 
 class MyPageActivity : AppCompatActivity() {
 

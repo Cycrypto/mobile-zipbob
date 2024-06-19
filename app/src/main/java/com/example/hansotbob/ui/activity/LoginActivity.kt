@@ -17,6 +17,7 @@ import com.example.hansotbob.auth.GoogleSignInManager
 import com.example.hansotbob.auth.FirebaseAuthManager
 import com.example.hansotbob.auth.AuthManager
 import com.example.hansotbob.auth.GoogleSignInInterface
+import com.example.hansotbob.exception.AuthException
 import com.example.hansotbob.ui.screen.form.LoginScreen
 import com.example.hansotbob.ui.screen.form.RegisterScreen
 import com.example.hansotbob.ui.theme.HansotbobTheme
@@ -55,7 +56,7 @@ class LoginActivity : AppCompatActivity() {
                         startActivity(Intent(this, MainActivity::class.java))
                         finish()
                     },
-                    onFailure = { exception ->
+                    onFailure = { exception:AuthException ->
                         Toast.makeText(this, exception.message, Toast.LENGTH_SHORT).show()
                     }
                 )

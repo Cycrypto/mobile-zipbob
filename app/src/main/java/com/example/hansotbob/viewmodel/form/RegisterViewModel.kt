@@ -1,4 +1,4 @@
-package com.example.hansotbob.viewmodel
+package com.example.hansotbob.viewmodel.form
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -7,15 +7,20 @@ import androidx.lifecycle.ViewModel
 import com.example.hansotbob.auth.AuthManager
 import com.example.hansotbob.exception.AuthException
 
-class LoginViewModel(private val authManager: AuthManager) : ViewModel() {
+class RegisterViewModel(private val authManager: AuthManager) : ViewModel() {
     var email by mutableStateOf("")
     var password by mutableStateOf("")
+    var confirmPassword by mutableStateOf("")
     var errorMessage by mutableStateOf("")
     var isLoading by mutableStateOf(false)
 
-    fun signIn(onSuccess: () -> Unit) {
-        if (email.isEmpty() || password.isEmpty()) {
-            errorMessage = "이메일과 비밀번호를 입력하세요."
+    fun register(onSuccess: () -> Unit) {
+        if (email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
+            errorMessage = AuthException.EmptyFieldsException().message.toString()
+            return
+        }
+        if (password != confirmPassword) {
+            errorMessage = AuthException.PasswordMismatchException().message.toString()
             return
         }
         isLoading = true

@@ -6,7 +6,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hansotbob.R
-import com.example.hansotbob.data.Category
+import com.example.hansotbob.dto.Category
 
 class CategoryAdapter(private val categoryList: List<Category>) :
     RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>() {

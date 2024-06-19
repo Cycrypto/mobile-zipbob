@@ -13,14 +13,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.example.hansotbob.R
-import com.example.hansotbob.component.CardView.MealCategoryCard
 import com.example.hansotbob.component.CardView.MealCategoryCardWithBadge
 import com.example.hansotbob.component.CardView.OverviewCard
-import com.example.hansotbob.data.ListItem
+import com.example.hansotbob.dto.ListItemDTO
 
 @Composable
-fun CategoryFragmentContainer(navController: NavController, items: List<ListItem>) {
+fun CategoryFragmentContainer(navController: NavController, items: List<ListItemDTO>) {
     LazyColumn(
         modifier = Modifier
             .fillMaxWidth()
@@ -29,7 +27,7 @@ fun CategoryFragmentContainer(navController: NavController, items: List<ListItem
     ) {
         items(items) { item ->
             when (item) {
-                is ListItem.MealContent -> {
+                is ListItemDTO.MealContent -> {
                     MealCategoryCardWithBadge(
                         title = item.title,
                         date = item.recruit,
@@ -47,7 +45,7 @@ fun CategoryFragmentContainer(navController: NavController, items: List<ListItem
                             }
                     )
                 }
-                is ListItem.Overview ->{
+                is ListItemDTO.Overview ->{
                     OverviewCard(
                         imageRes = item.imageRes,
                         name = item.name,
@@ -63,7 +61,7 @@ fun CategoryFragmentContainer(navController: NavController, items: List<ListItem
                     )
 
                 }
-                is ListItem.MealkitsContent -> {
+                is ListItemDTO.MealkitsContent -> {
                     MealCategoryCardWithBadge(
                         title = item.title,
                         date = item.recruit,

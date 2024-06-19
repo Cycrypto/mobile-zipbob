@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hansotbob.R
 import com.example.hansotbob.adapter.CategoryAdapter
-import com.example.hansotbob.data.Category
+import com.example.hansotbob.dto.Category
 
 class CategoryFragment : Fragment() {
 

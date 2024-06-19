@@ -8,7 +8,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.hansotbob.auth.AuthManager
-import com.example.hansotbob.viewmodel.RegisterViewModel
+import com.example.hansotbob.viewmodel.form.RegisterViewModel
 
 @Composable
 fun RegisterScreen(navController: NavController, authManager: AuthManager) {

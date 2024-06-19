@@ -69,6 +69,7 @@ dependencies {
     implementation(libs.androidx.material3.android)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.firebase.auth.ktx)
+    implementation(libs.firebase.database.ktx)
 //    implementation(libs.androidx.ui.test.junit4.android)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
@@ -91,7 +92,8 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-test-manifest:1.5.2")
 
     // Accompanist for Pager
-    androidTestImplementation("com.google.accompanist:accompanist-pager:0.28.0")
+    androidTestImplementation(libs.accompanist.pager)
+    androidTestImplementation(libs.accompanist.pager.indicators)
 
     // Compose additional dependencies
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.7")

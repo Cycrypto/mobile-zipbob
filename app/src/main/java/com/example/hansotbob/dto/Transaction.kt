@@ -1,3 +1,3 @@
-package com.example.hansotbob.data
+package com.example.hansotbob.dto
 
 data class Transaction(val title: String)

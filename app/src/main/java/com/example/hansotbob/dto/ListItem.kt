@@ -1,6 +1,6 @@
-package com.example.hansotbob.data
+package com.example.hansotbob.dto
 
-sealed class ListItem {
+sealed class ListItemDTO {
     data class MealContent(
         val imagePainterId:Int,
         val title:String,
@@ -8,13 +8,13 @@ sealed class ListItem {
         val place:String,
         val price:String,
         val isNew:Boolean
-    ) : ListItem()
+    ) : ListItemDTO()
 
     data class Overview(
         val name:String,
         val category: String,
         val imageRes:Int
-    ) : ListItem()
+    ) : ListItemDTO()
 
     data class MealkitsContent(
         val imagePainterId:Int,
@@ -22,6 +22,6 @@ sealed class ListItem {
         val recruit:String,
         val place:String,
         val price:String
-    ) : ListItem()
+    ) : ListItemDTO()
 
 }

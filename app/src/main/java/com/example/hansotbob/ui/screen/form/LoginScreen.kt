@@ -18,7 +18,7 @@ import androidx.navigation.NavController
 import com.example.hansotbob.R
 import com.example.hansotbob.auth.GoogleSignInInterface
 import com.example.hansotbob.auth.AuthManager
-import com.example.hansotbob.viewmodel.LoginViewModel
+import com.example.hansotbob.viewmodel.form.LoginViewModel
 
 @Composable
 fun LoginScreen(navController: NavController, authManager: AuthManager, googleSignInManager: GoogleSignInInterface) {

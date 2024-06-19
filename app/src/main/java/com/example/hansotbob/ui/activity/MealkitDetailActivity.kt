@@ -15,7 +15,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.example.hansotbob.R
 import com.example.hansotbob.adapter.ReviewAdapter
-import com.example.hansotbob.data.Review
+import com.example.hansotbob.dto.Review
 import com.example.hansotbob.databinding.ActivityMealkitDetailBinding
 
 class MealkitDetailActivity : AppCompatActivity() {

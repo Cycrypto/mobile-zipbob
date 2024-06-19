@@ -1,4 +1,4 @@
-package com.example.hansotbob.data
+package com.example.hansotbob.dto
 
 data class Category(
     val imageResId: Int,

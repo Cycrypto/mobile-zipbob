@@ -6,13 +6,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavController
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.example.hansotbob.fragment.CategoryFragmentContainer
+import com.example.hansotbob.viewmodel.screen.HomeFoodScreenViewModel
 import com.example.hansotbob.viewmodel.screen.MealkitScreenViewModel
 
 @Composable
-fun MealkitScreen(navController: NavController, viewModel: MealkitScreenViewModel = viewModel()) {
+fun HomeFoodScreen(navController: NavController, viewModel: HomeFoodScreenViewModel = viewModel()) {
     val items by viewModel.items.collectAsState()
     viewModel.loadItems()
 
