@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.example.hansotbob.R
 import com.example.hansotbob.ui.theme.PrimaryColor
-import com.example.hansotbob.data.ListItem.ItemDetail
+import com.example.hansotbob.data.ItemDetail
 
 @Composable
 fun MyPageSaleDetailScreen() {

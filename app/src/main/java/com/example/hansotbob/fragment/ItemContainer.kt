@@ -13,14 +13,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.example.hansotbob.R
-import com.example.hansotbob.component.CardView.MealCategoryCard
 import com.example.hansotbob.component.CardView.MealCategoryCardWithBadge
 import com.example.hansotbob.component.CardView.OverviewCard
 import com.example.hansotbob.data.ListItem
+import com.example.hansotbob.data.ItemDetail
 import com.example.hansotbob.ui.screen.detail.ItemDetail
 import com.example.hansotbob.ui.screen.detail.ReviewDetail
-import com.example.hansotbob.ui.screen.detail.PaymentDetail
+import com.example.hansotbob.ui.screen.PaymentDetail
 
 @Composable
 fun CategoryFragmentContainer(navController: NavController, items: List<ListItem>) {
@@ -84,7 +83,7 @@ fun CategoryFragmentContainer(navController: NavController, items: List<ListItem
                             }
                     )
                 }
-                is ListItem.ItemDetail -> {
+                /*is ItemDetail -> {
                     ItemDetail(
                         itemDetail = item,
                         modifier = Modifier
@@ -93,12 +92,12 @@ fun CategoryFragmentContainer(navController: NavController, items: List<ListItem
                             .clickable {
                                 // 클릭 시 이동할 경로를 설정
                                 navController.navigate(
-                                    "item/detail/${item.productName}/${item.itemPrice}/${item.detail}"
+                                    "item/detail/${item.imagePainterId}/${item.productName}/${item.itemPrice}/${item.detail}"
                                 )
                             }
                     )
                 }
-                is ListItem.ReviewDetail -> {
+                is ReviewDetail -> {
                     ReviewDetail(
                         reviewDetail = item,
                         modifier = Modifier
@@ -125,7 +124,7 @@ fun CategoryFragmentContainer(navController: NavController, items: List<ListItem
                                 )
                             }
                     )
-                }
+                }*/
             }
         }
     }

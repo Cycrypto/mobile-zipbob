@@ -1,4 +1,4 @@
-package com.example.hansotbob.ui.screen.detail
+package com.example.hansotbob.ui.screen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -53,7 +53,7 @@ fun PaymentDetailScreen2() {
 
             // Title
             Text(
-                text = "판매 내역",
+                text = "구매 내역",
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center,
@@ -93,7 +93,7 @@ fun PaymentDetailScreen2() {
                 )
 
                 Text(
-                    text = "이 구매자에게 전달됩니다.",
+                    text = "이 판매자에게 전달됩니다.",
                     fontSize = 18.sp,
                     modifier = Modifier
                         .padding(start = 8.dp)

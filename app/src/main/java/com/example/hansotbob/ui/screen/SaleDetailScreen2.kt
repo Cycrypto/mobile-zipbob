@@ -1,4 +1,4 @@
-package com.example.hansotbob.ui.screen.detail
+package com.example.hansotbob.ui.screen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -9,17 +9,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.MaterialTheme.colors
-import androidx.compose.material.SnackbarDefaults.backgroundColor
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults.buttonColors
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
-import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -34,7 +29,7 @@ import com.example.hansotbob.R
 import com.example.hansotbob.ui.theme.PrimaryColor
 
 @Composable
-fun ProfileEditScreen() {
+fun SaleDetailScreen2() {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -57,7 +52,7 @@ fun ProfileEditScreen() {
 
             // Title
             Text(
-                text = "프로필 수정",
+                text = "판매 내역",
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier
@@ -67,23 +62,14 @@ fun ProfileEditScreen() {
             )
         }
 
-        Spacer(modifier = Modifier.height(16.dp))
-
-        // User Image
-        Image(
-            painter = painterResource(id = R.drawable.ic_mypage),
-            contentDescription = "User Image",
-            modifier = Modifier
-                .size(100.dp)
-                .padding(16.dp)
-                .align(Alignment.CenterHorizontally)
-        )
+        //Spacer(modifier = Modifier.height(16.dp))
+        
 
         Spacer(modifier = Modifier.height(24.dp))
 
         // Nickname Label
         Text(
-            text = "닉네임",
+            text = "판매자 인증번호",
             fontSize = 16.sp,
             modifier = Modifier
                 .padding(start = 16.dp)
@@ -93,12 +79,12 @@ fun ProfileEditScreen() {
 
         // Nickname EditText
         TextField(
-            value = "현재 닉네임",
+            value = "인증번호 입력",
             onValueChange = {},
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp),
-            placeholder = { Text("현재 닉네임") },
+            placeholder = { Text("인증번호 입력") },
             shape = RoundedCornerShape(8.dp)
         )
 
@@ -113,7 +99,7 @@ fun ProfileEditScreen() {
             colors = buttonColors(PrimaryColor)
         ) {
             Text(
-                text = "프로필 수정",
+                text = "판매 확정",
                 color = Color.Black,
                 fontSize = 16.sp
             )
@@ -123,6 +109,6 @@ fun ProfileEditScreen() {
 
 @Preview(showBackground = true)
 @Composable
-fun ProfileEditScreenPreview() {
-    ProfileEditScreen()
+fun SaleDetailScreen2Preview() {
+    SaleDetailScreen2()
 }

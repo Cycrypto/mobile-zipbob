@@ -1,4 +1,4 @@
-package com.example.hansotbob.ui.screen.detail
+package com.example.hansotbob.ui.screen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -24,10 +24,10 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.hansotbob.R
 import com.example.hansotbob.ui.theme.PrimaryColor
-import com.example.hansotbob.data.ListItem.PaymentDetail
+import com.example.hansotbob.data.PaymentDetail
 
 @Composable
-fun PaymentDetailScreen(navController: NavHostController) {
+fun SaleDetailScreen(navController: NavHostController) {
     val paymentDetails = listOf(
         PaymentDetail(
             productName = "물품명 1",
@@ -76,7 +76,7 @@ fun PaymentDetailScreen(navController: NavHostController) {
 
             // Title
             Text(
-                text = "구매 내역",
+                text = "판매 내역",
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center,
@@ -88,7 +88,7 @@ fun PaymentDetailScreen(navController: NavHostController) {
 
         // Payment Title
         Text(
-            text = "결제항목",
+            text = "판매항목 리스트",
             fontSize = 18.sp,
             fontWeight = FontWeight.Bold,
             modifier = Modifier
@@ -145,7 +145,7 @@ fun PaymentDetailScreen(navController: NavHostController) {
 
         // Buy Button
         Button(
-            onClick = { navController.navigate("paymentDetail2") },
+            onClick = { navController.navigate("saleDetail2") },
             colors = ButtonDefaults.buttonColors(PrimaryColor),
             modifier = Modifier
                 .fillMaxWidth()
@@ -155,7 +155,7 @@ fun PaymentDetailScreen(navController: NavHostController) {
                 }
         ) {
             Text(
-                text = "구매하기",
+                text = "인증번호 생성",
                 color = Color.Black,
                 fontSize = 16.sp
             )
@@ -165,6 +165,6 @@ fun PaymentDetailScreen(navController: NavHostController) {
 
 @Preview(showBackground = true)
 @Composable
-fun PaymentDetailScreenPreview() {
-    PaymentDetailScreen(rememberNavController())
+fun SaleDetailScreenPreview() {
+    SaleDetailScreen(rememberNavController())
 }
