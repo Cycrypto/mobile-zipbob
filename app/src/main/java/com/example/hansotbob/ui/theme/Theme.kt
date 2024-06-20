@@ -14,6 +14,7 @@ private val LightColorScheme = lightColorScheme(
     background = Color.White,
     surface = Color.White,
     error = Color.Red,
+    inversePrimary = ShareColor,
     onPrimary = Color.White,
     onSecondary = Color.Black,
     onBackground = Color.Black,

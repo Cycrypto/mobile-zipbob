@@ -79,7 +79,8 @@ fun MealkitsDetailScreen(
                             contentDescription = "Back"
                         )
                     }
-                }
+                },
+                modifier = Modifier.background(MaterialTheme.colorScheme.primary)
             )
         }
     ) { innerPadding ->
@@ -109,7 +110,7 @@ fun MealkitsDetailScreen(
                         Text(
                             text = if (item.state == 0) "[거래중]" else "[거래 완료]",
                             color = if (item.state == 0) MaterialTheme.colorScheme.primary
-                                else MaterialTheme.colorScheme.surface,
+                                else MaterialTheme.colorScheme.inversePrimary,
                             fontWeight = FontWeight.Bold,
                             fontSize = 24.sp
                         )
@@ -126,6 +127,7 @@ fun MealkitsDetailScreen(
                     DetailRow(label = "양", value = item.quantity)
                     DetailRow(label = "제조일자", value = item.productionDate)
                     DetailRow(label = "거래 방법", value = item.method)
+                    DetailRow(label = "작성자", value = item.author)
                     Text(
                         text = item.description,
                         fontSize = 14.sp,

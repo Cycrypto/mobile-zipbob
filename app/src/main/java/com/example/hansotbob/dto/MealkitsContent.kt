@@ -13,5 +13,6 @@ data class MealkitsContent(
     val productionDate: String = "",
     val quantity: String = "",
     val state: Int = 0,
-    val title: String = ""
+    val title: String = "",
+    val author: String = ""
 )
