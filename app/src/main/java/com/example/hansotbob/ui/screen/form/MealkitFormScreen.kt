@@ -1,70 +1,56 @@
 package com.example.hansotbob.ui.screen.form
 
 import android.app.DatePickerDialog
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CalendarToday
 import androidx.compose.material.icons.filled.MoreHoriz
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Button
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
-import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.hansotbob.R
 import java.util.Calendar
 import androidx.compose.runtime.remember as remember1
 import com.example.hansotbob.viewmodel.form.MealkitFormViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.hansotbob.component.common.AppBar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MealkitFormScreen(navController: NavController, viewModel: MealkitFormViewModel = viewModel()) {
     var categoryExpanded by remember1 { mutableStateOf(false) }
     var quantityExpanded by remember1 { mutableStateOf(false) }
-    var selectedCategory by remember1 { mutableStateOf("") }
-    var selectedQuantity by remember1 { mutableStateOf("") }
-    val textFieldValue = remember1 { mutableStateOf(TextFieldValue(selectedCategory.ifEmpty { "카테고리 선택" })) }
-    var title by remember1 { mutableStateOf(TextFieldValue("")) }
-    var foodType by remember1 { mutableStateOf(TextFieldValue("")) }
-    var productionDate by remember1 { mutableStateOf("") }
-    var place by remember1 { mutableStateOf(TextFieldValue("")) }
-    var selectedMethod by remember1 { mutableStateOf("") }
-    var price by remember1 { mutableStateOf(TextFieldValue("")) }
-    var description by remember1 { mutableStateOf(TextFieldValue("")) }
+    var methodExpanded by remember1 { mutableStateOf(false) }
+
+    val category by viewModel.category.collectAsState()
+    val quantity by viewModel.quantity.collectAsState()
+    val productionDate by viewModel.productionDate.collectAsState()
+    val title by viewModel.title.collectAsState()
+    val place by viewModel.place.collectAsState()
+    val selectedMethod by viewModel.method.collectAsState()
+    val price by viewModel.price.collectAsState()
+    val description by viewModel.description.collectAsState()
 
     val categoryOptions = listOf("한식", "분식", "중식", "일식", "양식")
     val quantityOptions = listOf("1인분", "2인분", "3인분", "4인분", "5인분", "6인분 이상")
@@ -87,17 +73,18 @@ fun MealkitFormScreen(navController: NavController, viewModel: MealkitFormViewMo
                 .padding(innerPadding)
                 .padding(16.dp)
         ) {
-            //제목입력
+            // 제목 입력
             item {
                 OutlinedTextField(
                     value = title,
-                    onValueChange = { title = it },
+                    onValueChange = { viewModel.setTitle(it) },
                     label = { Text("제목 입력") },
                     modifier = Modifier.fillMaxWidth()
                 )
             }
 
             item { Spacer(modifier = Modifier.height(16.dp)) }
+
             // 등록폼 카테고리
             item {
                 Column(
@@ -105,10 +92,7 @@ fun MealkitFormScreen(navController: NavController, viewModel: MealkitFormViewMo
                         .fillMaxWidth()
                         .background(MaterialTheme.colorScheme.background)
                         .padding(start = 16.dp, end = 16.dp, top = 16.dp)
-
                 ) {
-                    Text("등록 폼")
-                    Spacer(modifier = Modifier.height(8.dp))
                     Text("카테고리")
                     Spacer(modifier = Modifier.height(4.dp))
                     Box(
@@ -119,7 +103,7 @@ fun MealkitFormScreen(navController: NavController, viewModel: MealkitFormViewMo
                             .padding(16.dp)
                     ) {
                         Text(
-                            text = selectedCategory.ifEmpty { "카테고리 선택" },
+                            text = category.ifEmpty { "카테고리 선택" },
                             style = MaterialTheme.typography.bodyLarge,
                             color = MaterialTheme.colorScheme.onSurface
                         )
@@ -129,15 +113,13 @@ fun MealkitFormScreen(navController: NavController, viewModel: MealkitFormViewMo
                         onDismissRequest = { categoryExpanded = false },
                         modifier = Modifier.fillMaxWidth()
                     ) {
-                        categoryOptions.forEach { category ->
+                        categoryOptions.forEach { option ->
                             DropdownMenuItem(
                                 onClick = {
-                                    selectedCategory = category
-                                    viewModel.setCategory(category)
-                                    textFieldValue.value = TextFieldValue(category)
+                                    viewModel.setCategory(option)
                                     categoryExpanded = false
                                 },
-                                text = { Text(category) }
+                                text = { Text(option) }
                             )
                         }
                     }
@@ -164,7 +146,7 @@ fun MealkitFormScreen(navController: NavController, viewModel: MealkitFormViewMo
                             .padding(16.dp)
                     ) {
                         Text(
-                            text = selectedQuantity.ifEmpty { "양 선택" },
+                            text = quantity.ifEmpty { "양 선택" },
                             style = MaterialTheme.typography.bodyLarge,
                             color = MaterialTheme.colorScheme.onSurface
                         )
@@ -174,14 +156,13 @@ fun MealkitFormScreen(navController: NavController, viewModel: MealkitFormViewMo
                         onDismissRequest = { quantityExpanded = false },
                         modifier = Modifier.fillMaxWidth()
                     ) {
-                        quantityOptions.forEach { quantity ->
+                        quantityOptions.forEach { option ->
                             DropdownMenuItem(
                                 onClick = {
-                                    selectedQuantity = quantity
-                                    viewModel.setQuantity(quantity)
+                                    viewModel.setQuantity(option)
                                     quantityExpanded = false
                                 },
-                                text = { Text(quantity) }
+                                text = { Text(option) }
                             )
                         }
                     }
@@ -190,51 +171,73 @@ fun MealkitFormScreen(navController: NavController, viewModel: MealkitFormViewMo
 
             item { Spacer(modifier = Modifier.height(8.dp)) }
 
-            //기타 등등
+            // 제조 일자
             item {
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
                         .background(MaterialTheme.colorScheme.background)
                         .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
-                ){
+                ) {
                     Text("제조 일자")
                     Spacer(modifier = Modifier.height(4.dp))
                     DatePicker(productionDate) { date ->
-                        productionDate = date
                         viewModel.setProductionDate(date)
                     }
                     Spacer(modifier = Modifier.height(8.dp))
+
+                    // 거래 장소
                     Text("거래 장소")
                     Spacer(modifier = Modifier.height(4.dp))
                     OutlinedTextField(
                         value = place,
                         onValueChange = {
-                            place = it
-                            viewModel.setPlace(it.text)
+                            viewModel.setPlace(it)
                         },
                         modifier = Modifier.fillMaxWidth()
                     )
                     Spacer(modifier = Modifier.height(8.dp))
+
+                    // 거래 방법
                     Text("거래 방법")
                     Spacer(modifier = Modifier.height(4.dp))
-                    SelectionField(
-                        selectedOption = selectedMethod,
-                        options = methodOptions,
-                        label = "거래 방법 선택",
-                        onItemSelected = {
-                            selectedMethod = it
-                            viewModel.setMethod(it)
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .border(1.dp, Color.Gray, RoundedCornerShape(4.dp))
+                            .clickable { methodExpanded = true }
+                            .padding(16.dp)
+                    ) {
+                        Text(
+                            text = selectedMethod.ifEmpty { "거래 방법 선택" },
+                            style = MaterialTheme.typography.bodyLarge,
+                            color = MaterialTheme.colorScheme.onSurface
+                        )
+                    }
+                    DropdownMenu(
+                        expanded = methodExpanded,
+                        onDismissRequest = { methodExpanded = false },
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        methodOptions.forEach { option ->
+                            DropdownMenuItem(
+                                onClick = {
+                                    viewModel.setMethod(option)
+                                    methodExpanded = false
+                                },
+                                text = { Text(option) }
+                            )
                         }
-                    )
+                    }
                     Spacer(modifier = Modifier.height(8.dp))
+
+                    // 가격
                     Text("가격")
                     Spacer(modifier = Modifier.height(4.dp))
                     OutlinedTextField(
                         value = price,
                         onValueChange = {
-                            price = it
-                            viewModel.setPrice(it.text)
+                            viewModel.setPrice(it)
                         },
                         label = { Text("가격 입력") },
                         modifier = Modifier.fillMaxWidth(),
@@ -245,13 +248,12 @@ fun MealkitFormScreen(navController: NavController, viewModel: MealkitFormViewMo
 
             item { Spacer(modifier = Modifier.height(16.dp)) }
 
-            //한줄 설명
+            // 한줄 설명
             item {
                 OutlinedTextField(
                     value = description,
                     onValueChange = {
-                        description = it
-                        viewModel.setDescription(it.text)
+                        viewModel.setDescription(it)
                     },
                     label = { Text("한줄 설명") },
                     modifier = Modifier.fillMaxWidth()
@@ -260,7 +262,7 @@ fun MealkitFormScreen(navController: NavController, viewModel: MealkitFormViewMo
 
             item { Spacer(modifier = Modifier.height(16.dp)) }
 
-            //버튼 1
+            // 버튼 1
             item {
                 Button(
                     onClick = { /* Handle image upload */ },
@@ -275,10 +277,13 @@ fun MealkitFormScreen(navController: NavController, viewModel: MealkitFormViewMo
 
             item { Spacer(modifier = Modifier.height(16.dp)) }
 
-            //버튼 2
+            // 버튼 2
             item {
                 Button(
-                    onClick = { viewModel.uploadMealkit() },
+                    onClick = {
+                        viewModel.uploadMealkit()
+                        navController.popBackStack()
+                    },
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(48.dp)
@@ -289,7 +294,6 @@ fun MealkitFormScreen(navController: NavController, viewModel: MealkitFormViewMo
         }
     }
 }
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppBar(
@@ -314,59 +318,6 @@ fun AppBar(
 }
 
 @Composable
-fun SelectionField(
-    selectedOption: String,
-    options: List<String>,
-    label: String,
-    onItemSelected: (String) -> Unit
-) {
-    var showDialog by remember1 { mutableStateOf(false) }
-
-    Box(modifier = Modifier.fillMaxWidth()) {
-        OutlinedTextField(
-            value = selectedOption,
-            onValueChange = {},
-            modifier = Modifier
-                .fillMaxWidth()
-                .clickable { showDialog = true },
-            readOnly = true,
-            label = { Text(label) },
-            trailingIcon = {
-                Icon(Icons.Default.MoreHoriz, contentDescription = null)
-            }
-        )
-    }
-
-    if (showDialog) {
-        AlertDialog(
-            onDismissRequest = { showDialog = false },
-            title = { Text(text = label) },
-            text = {
-                Column {
-                    options.forEach { option ->
-                        Text(
-                            text = option,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .clickable {
-                                    onItemSelected(option)
-                                    showDialog = false
-                                }
-                                .padding(8.dp)
-                        )
-                    }
-                }
-            },
-            confirmButton = {
-                TextButton(onClick = { showDialog = false }) {
-                    Text("닫기")
-                }
-            }
-        )
-    }
-}
-
-@Composable
 fun DatePicker(selectedDate: String, onDateSelected: (String) -> Unit) {
     val context = LocalContext.current
     val calendar = Calendar.getInstance()
@@ -376,21 +327,25 @@ fun DatePicker(selectedDate: String, onDateSelected: (String) -> Unit) {
 
     var dateText by remember1 { mutableStateOf(selectedDate) }
 
-    OutlinedTextField(
-        value = dateText,
-        onValueChange = {},
-        label = { Text("날짜 선택") },
+    ClickableText(
+        text = AnnotatedString(dateText.ifEmpty { "날짜 선택" }),
+        onClick = {
+            Log.d("DatePicker", "Text clicked")
+            DatePickerDialog(context, { _, y, m, d ->
+                dateText = "$y-${m + 1}-$d"
+                onDateSelected(dateText)
+            }, year, month, day).show()
+        },
+        style = TextStyle(
+            color = Color.Black,
+            fontSize = 16.sp
+        ),
         modifier = Modifier
             .fillMaxWidth()
-            .clickable {
-                DatePickerDialog(context, { _, y, m, d ->
-                    dateText = "$y-${m + 1}-$d"
-                    onDateSelected(dateText)
-                }, year, month, day).show()
-            },
-        readOnly = true,
-        trailingIcon = {
-            Icon(Icons.Default.CalendarToday, contentDescription = null)
-        }
+
+            .border(BorderStroke(1.dp, Color.Gray), shape = RoundedCornerShape(4.dp))
+            .padding(16.dp)
     )
 }
+
+

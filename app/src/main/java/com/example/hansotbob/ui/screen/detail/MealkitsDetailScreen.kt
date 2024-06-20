@@ -79,7 +79,8 @@ fun MealkitsDetailScreen(
                             contentDescription = "Back"
                         )
                     }
-                }
+                },
+                modifier = Modifier.background(MaterialTheme.colorScheme.primary)
             )
         }
     ) { innerPadding ->
@@ -109,7 +110,7 @@ fun MealkitsDetailScreen(
                         Text(
                             text = if (item.state == 0) "[거래중]" else "[거래 완료]",
                             color = if (item.state == 0) MaterialTheme.colorScheme.primary
-                                else MaterialTheme.colorScheme.surface,
+                                else MaterialTheme.colorScheme.inversePrimary,
                             fontWeight = FontWeight.Bold,
                             fontSize = 24.sp
                         )
