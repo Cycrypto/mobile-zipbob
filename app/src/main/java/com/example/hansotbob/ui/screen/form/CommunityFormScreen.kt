@@ -1,4 +1,3 @@
-package com.example.hansotbob.ui.screen.form
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -12,6 +11,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Button
@@ -32,7 +32,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -42,10 +42,9 @@ import com.example.hansotbob.ui.theme.HansotbobTheme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CommunityFormScreen(navController: NavController) {
+    val formData = remember { mutableStateOf(CommunityFormData()) }
     var expanded by remember { mutableStateOf(false) }
-    var selectedCategory by remember { mutableStateOf("") }
     val categories = listOf("집밥공유", "식료품공유")
-    val textFieldValue = remember { mutableStateOf(TextFieldValue(selectedCategory.ifEmpty { "카테고리 선택" })) }
 
     Box(modifier = Modifier.fillMaxSize()) {
         LazyColumn(
@@ -65,27 +64,22 @@ fun CommunityFormScreen(navController: NavController) {
                     }
                 )
             }
-            //상단바
             item { Spacer(modifier = Modifier.height(16.dp)) }
-
             item {
                 OutlinedTextField(
-                    value = "",
-                    onValueChange = { /* Handle title input change */ },
+                    value = formData.value.title,
+                    onValueChange = { formData.value = formData.value.copy(title = it) },
                     label = { Text(text = "제목 입력") },
                     modifier = Modifier.fillMaxWidth()
                 )
             }
-
             item { Spacer(modifier = Modifier.height(16.dp)) }
-            // 기존의 OutlinedTextField 대신에 테두리가 있는 Box를 사용
             item {
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
                         .background(MaterialTheme.colorScheme.background)
                         .padding(start = 16.dp, end = 16.dp, top = 16.dp)
-
                 ) {
                     Text("등록 폼")
                     Spacer(modifier = Modifier.height(8.dp))
@@ -99,7 +93,7 @@ fun CommunityFormScreen(navController: NavController) {
                             .padding(16.dp)
                     ) {
                         Text(
-                            text = selectedCategory.ifEmpty { "카테고리 선택" },
+                            text = formData.value.category.ifEmpty { "카테고리 선택" },
                             style = MaterialTheme.typography.bodyLarge,
                             color = MaterialTheme.colorScheme.onSurface
                         )
@@ -112,22 +106,17 @@ fun CommunityFormScreen(navController: NavController) {
                         categories.forEach { category ->
                             DropdownMenuItem(
                                 onClick = {
-                                    selectedCategory = category
-                                    textFieldValue.value = TextFieldValue(category)
+                                    formData.value = formData.value.copy(category = category)
                                     expanded = false
                                 },
                                 text = { Text(category) }
                             )
                         }
                     }
-                    //여기에 C-V
-
-
                 }
             }
-
-
-            item { // 내가만듬
+            item { Spacer(modifier = Modifier.height(16.dp)) }
+            item {
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -138,43 +127,49 @@ fun CommunityFormScreen(navController: NavController) {
                     Text("총비용")
                     Spacer(modifier = Modifier.height(4.dp))
                     OutlinedTextField(
-                        value = "",
-                        onValueChange = { /* Handle input change */ },
+                        value = formData.value.totalCost,
+                        onValueChange = {
+                            if (it.all { char -> char.isDigit() }) {
+                                formData.value = formData.value.copy(totalCost = it)
+                            }
+                        },
+                        keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
                         modifier = Modifier.fillMaxWidth()
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     Text("모집인원")
                     Spacer(modifier = Modifier.height(4.dp))
                     OutlinedTextField(
-                        value = "",
-                        onValueChange = { /* Handle input change */ },
+                        value = formData.value.participants,
+                        onValueChange = {
+                            if (it.all { char -> char.isDigit() }) {
+                                formData.value = formData.value.copy(participants = it)
+                            }
+                        },
+                        keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
                         modifier = Modifier.fillMaxWidth()
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     Text("거래장소")
                     Spacer(modifier = Modifier.height(4.dp))
                     OutlinedTextField(
-                        value = "",
-                        onValueChange = { /* Handle input change */ },
+                        value = formData.value.location,
+                        onValueChange = { formData.value = formData.value.copy(location = it) },
                         modifier = Modifier.fillMaxWidth()
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                 }
             }
-
             item { Spacer(modifier = Modifier.height(16.dp)) }
-
             item {
                 OutlinedTextField(
-                    value = "",
-                    onValueChange = { /* Handle description input change */ },
+                    value = formData.value.description,
+                    onValueChange = { formData.value = formData.value.copy(description = it) },
                     label = { Text("한줄 설명") },
                     modifier = Modifier.fillMaxWidth()
                 )
             }
-
             item { Spacer(modifier = Modifier.height(16.dp)) }
-
             item {
                 Button(
                     onClick = { /* Handle image upload */ },
@@ -186,9 +181,7 @@ fun CommunityFormScreen(navController: NavController) {
                     Text("사진 업로드")
                 }
             }
-
             item { Spacer(modifier = Modifier.height(16.dp)) }
-
             item {
                 Button(
                     onClick = { /* Handle registration */ },
@@ -205,9 +198,18 @@ fun CommunityFormScreen(navController: NavController) {
 
 @Preview
 @Composable
-private fun test() {
+private fun CommunityFormScreen() {
     HansotbobTheme {
         val navController = rememberNavController()
         CommunityFormScreen(navController)
     }
 }
+
+data class CommunityFormData(
+    var title: String = "",
+    var category: String = "",
+    var totalCost: String = "",
+    var participants: String = "",
+    var location: String = "",
+    var description: String = ""
+)
