@@ -170,7 +170,7 @@ fun MealCategoryCardWithBadge(
     modifier: Modifier = Modifier
 ) {
     val stateText = when (state) {
-        1 -> "[예약중] "
+        1 -> "[거래중] "
         2 -> "[거래완료] "
         else -> ""
     }
