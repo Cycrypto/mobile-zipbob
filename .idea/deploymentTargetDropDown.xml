@@ -2,13 +2,10 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
+      <entry key="CommunityFormScreenPreview">
+        <State />
+      </entry>
       <entry key="CommuniyFormScreen">
-        <State />
-      </entry>
-      <entry key="PreviewCommunityFormScreen">
-        <State />
-      </entry>
-      <entry key="PreviewMainScreen">
         <State />
       </entry>
       <entry key="PreviewSharingFoodFormScreen">

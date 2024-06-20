@@ -13,8 +13,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.example.hansotbob.R
-import com.example.hansotbob.component.CardView.MealCategoryCard
 import com.example.hansotbob.component.CardView.MealCategoryCardWithBadge
 import com.example.hansotbob.component.CardView.OverviewCard
 import com.example.hansotbob.data.ListItem
@@ -44,7 +42,8 @@ fun CategoryFragmentContainer(navController: NavController, items: List<ListItem
                                 navController.navigate(
                                     "foodshare/detail/${item.title}/${item.recruit}/${item.place}/${item.price}"
                                 )
-                            }
+                            },
+                        rating = 4
                     )
                 }
                 is ListItem.Overview ->{
@@ -78,7 +77,8 @@ fun CategoryFragmentContainer(navController: NavController, items: List<ListItem
                                 navController.navigate(
                                     "mealkit/detail/${item.title}/${item.recruit}/${item.place}/${item.price}"
                                 )
-                            }
+                            },
+                        rating = 4
                     )
                 }
 
