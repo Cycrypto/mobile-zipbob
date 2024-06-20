@@ -1,28 +1,29 @@
 package com.example.hansotbob.service
 
-import android.util.Log
-import com.example.hansotbob.dto.ListItemDTO
+import com.example.hansotbob.dto.MealContent
+import com.example.hansotbob.R
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.coroutines.tasks.await
+
 class FirebaseService {
     private val database: DatabaseReference = FirebaseDatabase.getInstance().reference
 
-    suspend fun uploadListItem(item: ListItemDTO) {
-        Log.d("FirebaseService", "Upload Init")
-        val key = database.child("items").push().key
-        if (key != null) {
-            database.child("items").child(key).setValue(item).await()
-        }
-        Log.d("FirebaseService", "UploadSuccess")
+    suspend fun uploadMealContent(item: MealContent) {
+        val key = database.child("meal_contents").push().key ?: return
+        val newItem = item.copy(itemId = key)
+        database.child("meal_contents").child(key).setValue(newItem).await()
     }
 
-    suspend fun getListItems(): List<ListItemDTO> {
-        val snapshot = database.child("items").get().await()
-        val items = mutableListOf<ListItemDTO>()
+    suspend fun getMealContents(): List<MealContent> {
+        val snapshot = database.child("meal_contents").get().await()
+        val items = mutableListOf<MealContent>()
         for (child in snapshot.children) {
-            val item = child.getValue(ListItemDTO::class.java)
+            var item = child.getValue(MealContent::class.java)
             if (item != null) {
+                if (item.imagePainterId == 0) {
+                    item = item.copy(imagePainterId = R.drawable.food_image)
+                }
                 items.add(item)
             }
         }

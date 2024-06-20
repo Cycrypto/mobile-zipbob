@@ -3,14 +3,15 @@ package com.example.hansotbob.viewmodel.screen
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.hansotbob.R
-import com.example.hansotbob.dto.ListItemDTO
+import com.example.hansotbob.dto.Overview
+
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class OverviewScreenViewModel : ViewModel() {
-    private val _items = MutableStateFlow<List<ListItemDTO.Overview>>(emptyList())
-    val items: StateFlow<List<ListItemDTO.Overview>> = _items
+    private val _items = MutableStateFlow<List<Overview>>(emptyList())
+    val items: StateFlow<List<Overview>> = _items
 
     fun loadItems() {
         viewModelScope.launch {
@@ -19,14 +20,14 @@ class OverviewScreenViewModel : ViewModel() {
         }
     }
 
-    private fun overviewDummyData(): List<ListItemDTO.Overview> {
+    private fun overviewDummyData(): List<Overview> {
         return listOf(
-            ListItemDTO.Overview("밥 가져가실분1", "한식", R.drawable.community_image),
-            ListItemDTO.Overview("밥 가져가실분2", "한식", R.drawable.community_image),
-            ListItemDTO.Overview("밥 가져가실분3", "한식", R.drawable.community_image),
-            ListItemDTO.Overview("밥 가져가실분4", "한식", R.drawable.community_image),
-            ListItemDTO.Overview("밥 가져가실분5", "한식", R.drawable.community_image),
-            ListItemDTO.Overview("밥 가져가실분6", "한식", R.drawable.community_image)
+            Overview("밥 가져가실분1", "한식", R.drawable.community_image),
+            Overview("밥 가져가실분12", "한식", R.drawable.community_image),
+            Overview("밥 가져가실분13", "한식", R.drawable.community_image),
+            Overview("밥 가져가실분14", "한식", R.drawable.community_image),
+            Overview("밥 가져가실분15", "한식", R.drawable.community_image),
+            Overview("밥 가져가실분16", "한식", R.drawable.community_image)
         )
     }
 }

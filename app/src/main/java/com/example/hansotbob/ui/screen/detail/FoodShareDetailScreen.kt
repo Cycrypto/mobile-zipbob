@@ -1,5 +1,6 @@
 package com.example.hansotbob.ui.screen.detail
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -21,18 +22,18 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.hansotbob.R
-import com.example.hansotbob.dto.ListItemDTO
 import com.example.hansotbob.ui.theme.HansotbobTheme
-import com.example.hansotbob.viewmodel.ListViewModel
+import com.example.hansotbob.viewmodel.screen.HomeFoodScreenViewModel
 
 @Composable
 fun FoodShareDetailScreen(
     navController: NavHostController,
     itemId: String,
-    viewModel: ListViewModel = viewModel()
+    viewModel: HomeFoodScreenViewModel = viewModel()
 ) {
     val items by viewModel.items.collectAsState()
-    val item = items.find { it is ListItemDTO.MealContent && it.title == itemId } as? ListItemDTO.MealContent
+    val item = items.find { it.itemId == itemId }
+    Log.d("FoodShareDetailScreen", "${item}")
 
     if (item != null) {
         val pagerState = rememberPagerState(pageCount = { 3 })
@@ -133,8 +134,9 @@ fun IconWithText(iconId: Int, text: String) {
 @Composable
 private fun PreviewDetailScreen() {
     HansotbobTheme {
+        val navController = rememberNavController()
         FoodShareDetailScreen(
-            navController = rememberNavController(),
+            navController = navController,
             itemId = "dummyId"
         )
     }

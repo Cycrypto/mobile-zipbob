@@ -26,19 +26,19 @@ import androidx.navigation.compose.rememberNavController
 import com.example.hansotbob.R
 import com.example.hansotbob.component.CardView.OverviewCard
 import com.example.hansotbob.component.Slider.CardSliderHorizontal
-import com.example.hansotbob.dto.ListItemDTO
+import com.example.hansotbob.dto.Overview
 import com.example.hansotbob.ui.theme.HansotbobTheme
 import com.example.hansotbob.viewmodel.ListViewModel
 
 @Composable
 fun OverviewScreen(navController: NavHostController, viewModel: ListViewModel = viewModel()) {
-    val items by viewModel.items.collectAsState()
+    val items by viewModel.overviews.collectAsState()
 
     Column {
         TopProfileSection()
         CardSliderHorizontal(
             title = "인기 게시물",
-            item = items.filterIsInstance<ListItemDTO.Overview>()
+            item = items.filterIsInstance<Overview>()
         ) { overviewItem ->
             OverviewCard(
                 imageRes = overviewItem.imageRes,

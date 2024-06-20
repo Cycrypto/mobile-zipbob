@@ -2,29 +2,39 @@ package com.example.hansotbob.viewmodel.screen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.hansotbob.dto.MealContent
+import com.example.hansotbob.service.FirebaseService
 import com.example.hansotbob.R
-import com.example.hansotbob.dto.ListItemDTO
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class HomeFoodScreenViewModel : ViewModel() {
-    private val _items = MutableStateFlow<List<ListItemDTO.MealContent>>(emptyList())
-    val items: StateFlow<List<ListItemDTO.MealContent>> = _items
+    private val firebaseService = FirebaseService()
+    private val _items = MutableStateFlow<List<MealContent>>(emptyList())
+    val items: StateFlow<List<MealContent>> = _items
+
+    init {
+        loadItems()
+    }
 
     fun loadItems() {
         viewModelScope.launch {
-            _items.emit(HomeFoodDummyData())
+            val loadedItems = firebaseService.getMealContents().map { item ->
+                if (item.imagePainterId == 0) {
+                    item.copy(imagePainterId = R.drawable.food_image)
+                } else {
+                    item
+                }
+            }
+            _items.emit(loadedItems)
         }
     }
 
-    private fun HomeFoodDummyData(): List<ListItemDTO.MealContent> {
-        return listOf(
-            ListItemDTO.MealContent(R.drawable.food_image,"집밥 가져가실분", "1명", "우리 집", "1234원", true),
-            ListItemDTO.MealContent(R.drawable.food_image,"집밥 가져가실분", "1명", "우리 집", "1234원", false),
-            ListItemDTO.MealContent(R.drawable.food_image,"집밥 가져가실분", "1명", "우리 집", "1234원", false),
-            ListItemDTO.MealContent(R.drawable.food_image,"집밥 가져가실분", "1명", "우리 집", "1234원", true)
-        )
+    fun addItem(item: MealContent) {
+        viewModelScope.launch {
+            firebaseService.uploadMealContent(item)
+            loadItems() // 데이터를 업로드한 후 다시 로드합니다.
+        }
     }
 }
-

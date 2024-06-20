@@ -3,7 +3,8 @@ package com.example.hansotbob.viewmodel.form
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.hansotbob.dto.ListItemDTO
+import com.example.hansotbob.R
+import com.example.hansotbob.dto.MealContent
 import com.example.hansotbob.service.FirebaseService
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -70,8 +71,8 @@ class SharingFoodFormViewModel : ViewModel() {
 
     fun uploadItem(){
         viewModelScope.launch{
-            val newItem = ListItemDTO.MealContent(
-                imagePainterId = 0,
+            val newItem = MealContent(
+                imagePainterId = R.drawable.food_image, // 실제 이미지 리소스
                 title = _title.value,
                 recruit = _foodType.value,
                 place = _place.value,
@@ -79,7 +80,7 @@ class SharingFoodFormViewModel : ViewModel() {
                 isNew = true
             )
             Log.d("SharingFoodFormViewModel", "Uploading item: $newItem")
-            firebaseService.uploadListItem(newItem)
+            firebaseService.uploadMealContent(newItem)
         }
     }
 }

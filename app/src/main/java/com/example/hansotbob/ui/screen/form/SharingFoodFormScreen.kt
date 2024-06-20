@@ -23,12 +23,10 @@ import com.example.hansotbob.viewmodel.form.SharingFoodFormViewModel
 fun SharingFoodFormScreen(navController: NavController, viewModel: SharingFoodFormViewModel = viewModel()) {
     val title by viewModel.title.collectAsState()
     val foodType by viewModel.foodType.collectAsState()
-    val category by viewModel.category.collectAsState()
     val quantity by viewModel.quantity.collectAsState()
     val manufactureDate by viewModel.manufactureDate.collectAsState()
     val place by viewModel.place.collectAsState()
     val tradeMethod by viewModel.tradeMethod.collectAsState()
-    val description by viewModel.description.collectAsState()
 
     LazyColumn(
         modifier = Modifier
@@ -54,79 +52,62 @@ fun SharingFoodFormScreen(navController: NavController, viewModel: SharingFoodFo
             OutlinedTextField(
                 value = title,
                 onValueChange = { viewModel.onTitleChange(it) },
-                label = { Text("제목 입력") },
+                label = { Text("집밥 가져가실분") },
                 modifier = Modifier.fillMaxWidth()
             )
-        }
-
-        item { Spacer(modifier = Modifier.height(16.dp)) }
-
-        item {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(MaterialTheme.colorScheme.background)
-                    .padding(16.dp)
-            ) {
-                Text("등록 폼")
-                Spacer(modifier = Modifier.height(8.dp))
-                Text("음식 종류")
-                Spacer(modifier = Modifier.height(4.dp))
-                OutlinedTextField(
-                    value = foodType,
-                    onValueChange = { viewModel.onFoodTypeChange(it) },
-                    modifier = Modifier.fillMaxWidth()
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                Text("카테고리")
-                Spacer(modifier = Modifier.height(4.dp))
-                OutlinedTextField(
-                    value = category,
-                    onValueChange = { viewModel.onCategoryChange(it) },
-                    modifier = Modifier.fillMaxWidth()
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                Text("양")
-                Spacer(modifier = Modifier.height(4.dp))
-                OutlinedTextField(
-                    value = quantity,
-                    onValueChange = { viewModel.onQuantityChange(it) },
-                    modifier = Modifier.fillMaxWidth()
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                Text("제조 일자")
-                Spacer(modifier = Modifier.height(4.dp))
-                OutlinedTextField(
-                    value = manufactureDate,
-                    onValueChange = { viewModel.onManufactureDateChange(it) },
-                    modifier = Modifier.fillMaxWidth()
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                Text("거래 장소")
-                Spacer(modifier = Modifier.height(4.dp))
-                OutlinedTextField(
-                    value = place,
-                    onValueChange = { viewModel.onPlaceChange(it) },
-                    modifier = Modifier.fillMaxWidth()
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                Text("거래 방법")
-                Spacer(modifier = Modifier.height(4.dp))
-                OutlinedTextField(
-                    value = tradeMethod,
-                    onValueChange = { viewModel.onTradeMethodChange(it) },
-                    modifier = Modifier.fillMaxWidth()
-                )
-            }
         }
 
         item { Spacer(modifier = Modifier.height(16.dp)) }
 
         item {
             OutlinedTextField(
-                value = description,
-                onValueChange = { viewModel.onDescriptionChange(it) },
-                label = { Text("한줄 설명") },
+                value = foodType,
+                onValueChange = { viewModel.onFoodTypeChange(it) },
+                label = { Text("1명") },
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
+
+        item { Spacer(modifier = Modifier.height(16.dp)) }
+
+        item {
+            OutlinedTextField(
+                value = place,
+                onValueChange = { viewModel.onPlaceChange(it) },
+                label = { Text("우리 집") },
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
+
+        item { Spacer(modifier = Modifier.height(16.dp)) }
+
+        item {
+            OutlinedTextField(
+                value = quantity,
+                onValueChange = { viewModel.onQuantityChange(it) },
+                label = { Text("1234원") },
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
+
+        item { Spacer(modifier = Modifier.height(16.dp)) }
+
+        item {
+            OutlinedTextField(
+                value = manufactureDate,
+                onValueChange = { viewModel.onManufactureDateChange(it) },
+                label = { Text("제조 일자") },
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
+
+        item { Spacer(modifier = Modifier.height(16.dp)) }
+
+        item {
+            OutlinedTextField(
+                value = tradeMethod,
+                onValueChange = { viewModel.onTradeMethodChange(it) },
+                label = { Text("거래 방법") },
                 modifier = Modifier.fillMaxWidth()
             )
         }
@@ -135,24 +116,7 @@ fun SharingFoodFormScreen(navController: NavController, viewModel: SharingFoodFo
 
         item {
             Button(
-                onClick = { /* Handle image upload */ },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(48.dp)
-                    .background(MaterialTheme.colorScheme.background)
-            ) {
-                Text("사진 업로드")
-            }
-        }
-
-        item { Spacer(modifier = Modifier.height(16.dp)) }
-
-        item {
-            Button(
-                onClick = {
-                    viewModel.uploadItem()
-                    navController.popBackStack()
-                },
+                onClick = { viewModel.uploadItem() },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(48.dp)

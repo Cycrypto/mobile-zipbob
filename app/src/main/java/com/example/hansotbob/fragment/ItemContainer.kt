@@ -1,5 +1,6 @@
 package com.example.hansotbob.fragment
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,12 +14,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.hansotbob.R
 import com.example.hansotbob.component.CardView.MealCategoryCardWithBadge
 import com.example.hansotbob.component.CardView.OverviewCard
-import com.example.hansotbob.dto.ListItemDTO
+import com.example.hansotbob.dto.MealContent
+import com.example.hansotbob.dto.Overview
+import com.example.hansotbob.dto.MealkitsContent
 
 @Composable
-fun CategoryFragmentContainer(navController: NavController, items: List<ListItemDTO>) {
+fun CategoryFragmentContainer(navController: NavController, items: List<Any>) {
     LazyColumn(
         modifier = Modifier
             .fillMaxWidth()
@@ -27,25 +31,26 @@ fun CategoryFragmentContainer(navController: NavController, items: List<ListItem
     ) {
         items(items) { item ->
             when (item) {
-                is ListItemDTO.MealContent -> {
+                is MealContent -> {
+                    Log.d("ItemContainer", "item : ${item}")
                     MealCategoryCardWithBadge(
                         title = item.title,
                         date = item.recruit,
                         category = item.place,
                         points = item.price,
                         imagePainter = painterResource(id = item.imagePainterId),
-                        isNew = true,
+                        isNew = item.isNew,
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(8.dp)
                             .clickable {
                                 navController.navigate(
-                                    "foodshare/detail/${item.title}/${item.recruit}/${item.place}/${item.price}"
+                                    "foodshare/detail/${item.itemId}"
                                 )
                             }
                     )
                 }
-                is ListItemDTO.Overview ->{
+                is Overview -> {
                     OverviewCard(
                         imageRes = item.imageRes,
                         name = item.name,
@@ -53,15 +58,14 @@ fun CategoryFragmentContainer(navController: NavController, items: List<ListItem
                         modifier = Modifier
                             .fillMaxSize()
                             .padding(8.dp)
-                            .clickable{
+                            .clickable {
                                 navController.navigate(
                                     "detail/${item.name}/${item.category}/${item.imageRes}"
                                 )
                             }
                     )
-
                 }
-                is ListItemDTO.MealkitsContent -> {
+                is MealkitsContent -> {
                     MealCategoryCardWithBadge(
                         title = item.title,
                         date = item.recruit,
@@ -79,7 +83,6 @@ fun CategoryFragmentContainer(navController: NavController, items: List<ListItem
                             }
                     )
                 }
-
             }
         }
     }

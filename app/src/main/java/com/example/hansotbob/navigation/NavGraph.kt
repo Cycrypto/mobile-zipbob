@@ -1,5 +1,6 @@
 package com.example.hansotbob.navigation
 
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
@@ -17,6 +18,7 @@ import com.example.hansotbob.ui.screen.detail.MealkitsDetailScreen
 import com.example.hansotbob.ui.screen.detail.OverviewDetailScreen
 import com.example.hansotbob.ui.screen.form.SharingFoodFormScreen
 import com.example.hansotbob.viewmodel.ListViewModel
+import com.example.hansotbob.viewmodel.screen.HomeFoodScreenViewModel
 import com.example.hansotbob.viewmodel.screen.OverviewScreenViewModel
 import com.example.hansotbob.viewmodel.screen.detail.FoodShareDetailViewModel
 
@@ -50,7 +52,8 @@ fun MainNavGraph(navController: NavHostController, modifier: Modifier = Modifier
 
         composable("foodshare/detail/{itemId}") { backStackEntry ->
             val itemId = backStackEntry.arguments?.getString("itemId") ?: return@composable
-            val viewModel: ListViewModel = viewModel()
+            Log.d("NavGraph", "foodshare/detail/${itemId}")
+            val viewModel: HomeFoodScreenViewModel = viewModel()
             FoodShareDetailScreen(navController, itemId, viewModel)
         }
 
