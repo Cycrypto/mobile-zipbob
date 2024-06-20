@@ -14,4 +14,10 @@ data class MealkitsContent(
     val quantity: String = "",
     val state: Int = 0,
     val title: String = ""
+
+    /* TODO: 추가 필요함 */
+    // val authorId: String = "",
+    // val isNew: Boolean = false,
+
+
 )
