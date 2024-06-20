@@ -6,29 +6,18 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import com.example.hansotbob.R
+import com.example.hansotbob.dto.MealContent
+import com.example.hansotbob.service.FirebaseService
 
 class FoodShareDetailViewModel : ViewModel() {
-    private val _title = MutableStateFlow("")
-    val title: StateFlow<String> = _title
+    private val firebaseService = FirebaseService()
+    private val _item = MutableStateFlow<MealContent?>(null)
+    val item: StateFlow<MealContent?> = _item
 
-    private val _recruit = MutableStateFlow("")
-    val recruit: StateFlow<String> = _recruit
-
-    private val _place = MutableStateFlow("")
-    val place: StateFlow<String> = _place
-
-    private val _price = MutableStateFlow("")
-    val price: StateFlow<String> = _price
-
-    private val _images = MutableStateFlow(listOf(R.drawable.food_image, R.drawable.food_image, R.drawable.food_image))
-    val images: StateFlow<List<Int>> = _images
-
-    fun loadDetails(title: String, recruit: String, place: String, price: String) {
+    fun loadItem(itemId: String) {
         viewModelScope.launch {
-            _title.emit(title)
-            _recruit.emit(recruit)
-            _place.emit(place)
-            _price.emit(price)
+            val items = firebaseService.getMealContents()
+            _item.value = items.find { it.itemId == itemId }
         }
     }
 }

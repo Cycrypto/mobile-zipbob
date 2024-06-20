@@ -10,17 +10,22 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.hansotbob.component.common.ItemBar
+import com.example.hansotbob.service.FirebaseService
 import com.example.hansotbob.ui.screen.HomeFoodScreen
 import com.example.hansotbob.ui.screen.MealkitScreen
 import com.example.hansotbob.ui.screen.OverviewScreen
 import com.example.hansotbob.ui.screen.detail.FoodShareDetailScreen
 import com.example.hansotbob.ui.screen.detail.MealkitsDetailScreen
 import com.example.hansotbob.ui.screen.detail.OverviewDetailScreen
+import com.example.hansotbob.ui.screen.form.MealkitFormScreen
 import com.example.hansotbob.ui.screen.form.SharingFoodFormScreen
 import com.example.hansotbob.viewmodel.ListViewModel
+import com.example.hansotbob.viewmodel.ViewModelFactory
+import com.example.hansotbob.viewmodel.form.MealkitFormViewModel
 import com.example.hansotbob.viewmodel.screen.HomeFoodScreenViewModel
 import com.example.hansotbob.viewmodel.screen.OverviewScreenViewModel
 import com.example.hansotbob.viewmodel.screen.detail.FoodShareDetailViewModel
+import com.example.hansotbob.viewmodel.screen.detail.MealkitDetailViewModel
 
 @Composable
 fun MainNavGraph(navController: NavHostController, modifier: Modifier = Modifier) {
@@ -49,20 +54,24 @@ fun MainNavGraph(navController: NavHostController, modifier: Modifier = Modifier
         composable("foodshare_form"){
             SharingFoodFormScreen(navController)
         }
+        composable("mealkit_form"){
+            MealkitFormScreen(navController)
+        }
 
         composable("foodshare/detail/{itemId}") { backStackEntry ->
             val itemId = backStackEntry.arguments?.getString("itemId") ?: return@composable
             Log.d("NavGraph", "foodshare/detail/${itemId}")
-            val viewModel: HomeFoodScreenViewModel = viewModel()
+            val viewModel: FoodShareDetailViewModel = viewModel()
             FoodShareDetailScreen(navController, itemId, viewModel)
         }
 
-        composable("mealkit/detail/{title}/{recruit}/{place}/{price}") { backStackEntry ->
-            val title = backStackEntry.arguments?.getString("title") ?: ""
-            val recruit = backStackEntry.arguments?.getString("recruit") ?: ""
-            val place = backStackEntry.arguments?.getString("place") ?: ""
-            val price = backStackEntry.arguments?.getString("price") ?: ""
-            MealkitsDetailScreen(title = title, recruit = recruit, place = place, price = price)
+        composable("mealkit/detail/{itemId}") { backStackEntry ->
+            val itemId = backStackEntry.arguments?.getString("itemId") ?: return@composable
+            Log.d("NavGraph", "mealkit/detail/${itemId}")
+            val viewModel: MealkitDetailViewModel = viewModel(
+                factory= ViewModelFactory(FirebaseService()))
+
+            MealkitsDetailScreen(navController, itemId, viewModel)
         }
 
         composable("detail/{name}/{category}/{imageRes}") { backStackEntry ->

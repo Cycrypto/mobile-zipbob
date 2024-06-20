@@ -38,6 +38,8 @@ fun CategoryFragmentContainer(navController: NavController, items: List<Any>) {
                         date = item.recruit,
                         category = item.place,
                         points = item.price,
+                        place = item.place,
+                        state = item.state,
                         imagePainter = painterResource(id = item.imagePainterId),
                         isNew = item.isNew,
                         modifier = Modifier
@@ -68,17 +70,19 @@ fun CategoryFragmentContainer(navController: NavController, items: List<Any>) {
                 is MealkitsContent -> {
                     MealCategoryCardWithBadge(
                         title = item.title,
-                        date = item.recruit,
-                        category = item.place,
+                        date = item.productionDate,
+                        category = item.category,
                         points = item.price,
-                        imagePainter = painterResource(id = item.imagePainterId),
+                        place = item.place,
+                        state = item.state, // Assuming `state` is a field in `MealkitsContent`
+                        imagePainter = painterResource(id = item.imagePainterId), // Assuming `imagePainterId` is a field in `MealkitsContent`
                         isNew = true,
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(8.dp)
                             .clickable {
                                 navController.navigate(
-                                    "mealkit/detail/${item.title}/${item.recruit}/${item.place}/${item.price}"
+                                    "mealkit/detail/${item.itemId}"
                                 )
                             }
                     )

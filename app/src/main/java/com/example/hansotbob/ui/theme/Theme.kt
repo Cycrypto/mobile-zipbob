@@ -49,7 +49,7 @@ fun HansotbobTheme(content: @Composable () -> Unit) {
             colorScheme = LightColorScheme,
             typography = Typography,
             shapes = Shapes,
-            content = content
+            content = content,
         )
     }
 }

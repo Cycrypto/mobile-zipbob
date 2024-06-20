@@ -162,11 +162,18 @@ fun MealCategoryCardWithBadge(
     title: String,
     date: String,
     category: String,
+    place: String,
     points: String,
+    state: Int,
     imagePainter: Painter,
     isNew: Boolean = false,
     modifier: Modifier = Modifier
 ) {
+    val stateText = when (state) {
+        1 -> "[예약중] "
+        2 -> "[거래완료] "
+        else -> ""
+    }
     Card(
         modifier = modifier,
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
@@ -186,8 +193,7 @@ fun MealCategoryCardWithBadge(
                             Badge(
                                 modifier = Modifier
                                     .offset(-2.dp, (-4).dp)
-                                    .size(20.dp)
-                                ,
+                                    .size(20.dp),
                                 content = {
                                     Text(
                                         text = "N",
@@ -204,7 +210,6 @@ fun MealCategoryCardWithBadge(
                         painter = imagePainter,
                         contentDescription = null,
                         modifier = Modifier
-
                             .width(140.dp)
                             .clip(RoundedCornerShape(16.dp))
                             .background(MaterialTheme.colorScheme.onBackground),
@@ -217,7 +222,7 @@ fun MealCategoryCardWithBadge(
                         .padding(10.dp)
                 ) {
                     Text(
-                        text = title,
+                        text = stateText + title,
                         style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold),
                         fontSize = 15.sp,
                         color = MaterialTheme.colorScheme.primary
@@ -239,7 +244,7 @@ fun MealCategoryCardWithBadge(
                     }
                     Spacer(modifier = Modifier.height(4.dp))
                     Text(
-                        text = category,
+                        text = "$category | $place",
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onBackground
                     )
@@ -292,7 +297,6 @@ fun PreviewMealCategoryCard() {
     )
 }
 
-
 @Preview(showBackground = false)
 @Composable
 fun PreviewMealCategoryCard3() {
@@ -301,11 +305,11 @@ fun PreviewMealCategoryCard3() {
             title = "Hello",
             date = "2023.12.21",
             category = "양식",
+            place = "거래장소",
             points = "1000",
+            state = 1,
             imagePainter = painterResource(id = R.drawable.food_image),
             isNew = true
         )
     }
-
 }
-

@@ -12,29 +12,22 @@ import kotlinx.coroutines.launch
 
 class SharingFoodFormViewModel : ViewModel() {
     private val firebaseService = FirebaseService()
-
     private val _title = MutableStateFlow("")
-    val title: StateFlow<String> = _title
-
     private val _foodType = MutableStateFlow("")
-    val foodType: StateFlow<String> = _foodType
-
     private val _category = MutableStateFlow("")
-    val category: StateFlow<String> = _category
-
     private val _quantity = MutableStateFlow("")
-    val quantity: StateFlow<String> = _quantity
-
     private val _manufactureDate = MutableStateFlow("")
-    val manufactureDate: StateFlow<String> = _manufactureDate
-
     private val _place = MutableStateFlow("")
-    val place: StateFlow<String> = _place
-
     private val _tradeMethod = MutableStateFlow("")
-    val tradeMethod: StateFlow<String> = _tradeMethod
-
     private val _description = MutableStateFlow("")
+
+    val title: StateFlow<String> = _title
+    val foodType: StateFlow<String> = _foodType
+    val category: StateFlow<String> = _category
+    val quantity: StateFlow<String> = _quantity
+    val manufactureDate: StateFlow<String> = _manufactureDate
+    val place: StateFlow<String> = _place
+    val tradeMethod: StateFlow<String> = _tradeMethod
     val description: StateFlow<String> = _description
 
     fun onTitleChange(newTitle: String) {

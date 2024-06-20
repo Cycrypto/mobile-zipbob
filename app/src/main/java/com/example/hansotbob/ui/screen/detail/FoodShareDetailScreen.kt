@@ -8,9 +8,7 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -23,17 +21,19 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.hansotbob.R
 import com.example.hansotbob.ui.theme.HansotbobTheme
-import com.example.hansotbob.viewmodel.screen.HomeFoodScreenViewModel
+import com.example.hansotbob.viewmodel.screen.detail.FoodShareDetailViewModel
 
 @Composable
 fun FoodShareDetailScreen(
     navController: NavHostController,
     itemId: String,
-    viewModel: HomeFoodScreenViewModel = viewModel()
+    viewModel: FoodShareDetailViewModel = viewModel()
 ) {
-    val items by viewModel.items.collectAsState()
-    val item = items.find { it.itemId == itemId }
-    Log.d("FoodShareDetailScreen", "${item}")
+    val item by viewModel.item.collectAsState()
+
+    LaunchedEffect(itemId) {
+        viewModel.loadItem(itemId)
+    }
 
     if (item != null) {
         val pagerState = rememberPagerState(pageCount = { 3 })
@@ -51,7 +51,7 @@ fun FoodShareDetailScreen(
                         .height(400.dp)
                 ) { page ->
                     Image(
-                        painter = painterResource(id = item.imagePainterId),
+                        painter = painterResource(id = item!!.imagePainterId),
                         contentDescription = "Image $page",
                         modifier = Modifier.fillMaxSize(),
                         contentScale = ContentScale.Crop
@@ -78,25 +78,25 @@ fun FoodShareDetailScreen(
                         .padding(16.dp)
                 ) {
                     Text(
-                        text = item.title,
+                        text = item!!.title,
                         style = MaterialTheme.typography.titleLarge,
                         color = MaterialTheme.colorScheme.onSurface
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
-                        text = "Recruit: ${item.recruit}",
+                        text = "Recruit: ${item!!.recruit}",
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurface
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
-                        text = "Place: ${item.place}",
+                        text = "Place: ${item!!.place}",
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurface
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
-                        text = "Price: ${item.price}",
+                        text = "Price: ${item!!.price}",
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurface
                     )
@@ -114,6 +114,8 @@ fun FoodShareDetailScreen(
                 }
             }
         }
+    } else {
+        Text("Item not found")
     }
 }
 

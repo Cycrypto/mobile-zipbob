@@ -4,6 +4,7 @@ import com.example.hansotbob.R
 
 data class MealContent(
     val itemId: String = "",
+    val state: Int = 0,
     val imagePainterId: Int = R.drawable.food_image,
     val title: String = "",
     val recruit: String = "",

@@ -8,3 +8,4 @@ val ShareColor = Color(0xFF64B5F6) // 밝은 하늘색
 val ShareColor2 = Color(0xFFEF5350) // 부드러운 빨간색
 val AccentColor1 = Color(0xFFFFEE58) // 따뜻한 노란색
 val AccentColor2 = Color(0xFF81C784) // 자연스러운 녹색
+val ReviewInputColor = Color(0xFFF0F0F0) //리뷰 작성할 칸의 연한 회색

@@ -41,7 +41,10 @@ fun MainScreen(viewModel: MainScreenViewModel = viewModel()) {
 private fun bottombarLocaiton(): List<String> {
     return listOf(
         "detail/{title}/{recruit}/{place}/{price}",
-        "foodshare_form"
+        "foodshare_form",
+        "mealkit_form",
+        "foodshare/detail/{title}/{recruit}/{place}/{price}",
+        "mealkit/detail/{title}/{place}/{price}/{foodType}/{category}/{quantity}/{productionDate}/{exchangeMethod}/{description}/{state}"
     )
 }
 
