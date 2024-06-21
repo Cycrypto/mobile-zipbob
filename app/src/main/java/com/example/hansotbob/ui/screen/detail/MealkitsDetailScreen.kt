@@ -1,8 +1,10 @@
 package com.example.hansotbob.ui.screen.detail
 
 import android.util.Log
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -38,6 +40,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
@@ -51,6 +54,7 @@ import com.gowtham.ratingbar.RatingBarStyle
 import com.example.hansotbob.dto.Review
 import com.example.hansotbob.viewmodel.screen.detail.MealkitDetailViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.hansotbob.component.common.AppBar
 import com.example.hansotbob.component.common.detail.DetailRow
 import com.example.hansotbob.component.common.detail.PostAuthordata
 import com.example.hansotbob.component.common.detail.ReviewSection
@@ -88,17 +92,12 @@ fun MealkitsDetailScreen(
 
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = { Text(text = "밀키트 상세 정보") },
-                navigationIcon = {
-                    IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.arrow_back),
-                            contentDescription = "Back"
-                        )
-                    }
-                },
-                modifier = Modifier.background(MaterialTheme.colorScheme.primary)
+            AppBar(
+                title = "밀키트 상세 화면",
+                navController = navController,
+                modifier = Modifier
+                    .background(Color.White)
+                    .border(BorderStroke(0.5.dp, Color.Gray), shape = RectangleShape)
             )
         }
     ) { innerPadding ->
