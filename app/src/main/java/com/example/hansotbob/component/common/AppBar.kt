@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.navigation.NavController
 import com.example.hansotbob.R
 
 
@@ -17,21 +18,22 @@ import com.example.hansotbob.R
 @Composable
 fun AppBar(
     title: String,
-    onBackClick: () -> Unit
+    navController: NavController,
+    modifier: Modifier = Modifier
 ) {
     TopAppBar(
         title = {
             Text(text = title, color = Color.Black)
         },
         navigationIcon = {
-            IconButton(onClick = onBackClick) {
+            IconButton(onClick = { navController.popBackStack() }) {
                 Icon(
                     painter = painterResource(id = R.drawable.arrow_back),
                     contentDescription = "Back"
                 )
             }
         },
-        modifier = Modifier.background(Color.White)
+        modifier = modifier.background(Color.White)
     )
 }
 
