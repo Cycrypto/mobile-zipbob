@@ -101,11 +101,15 @@ dependencies {
 
     debugImplementation("androidx.compose.ui:ui-tooling:1.6.7")
     implementation("androidx.compose.ui:ui-tooling-preview:1.6.7")
+<<<<<<< HEAD
 
     //Firebase
     implementation(platform("com.google.firebase:firebase-bom:33.1.0"))
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.android.gms:play-services-auth:21.0.0")
+=======
+    implementation ("androidx.constraintlayout:constraintlayout-compose:1.0.1")
+>>>>>>> origin/wf-5,3
 }
 
 apply(plugin = "com.google.gms.google-services")

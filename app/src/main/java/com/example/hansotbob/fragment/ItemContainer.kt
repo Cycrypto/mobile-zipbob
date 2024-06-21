@@ -14,12 +14,22 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+<<<<<<< HEAD
 import com.example.hansotbob.R
 import com.example.hansotbob.component.CardView.MealCategoryCardWithBadge
 import com.example.hansotbob.component.CardView.OverviewCard
 import com.example.hansotbob.dto.MealContent
 import com.example.hansotbob.dto.Overview
 import com.example.hansotbob.dto.MealkitsContent
+=======
+import com.example.hansotbob.component.CardView.MealCategoryCardWithBadge
+import com.example.hansotbob.component.CardView.OverviewCard
+import com.example.hansotbob.data.ListItem
+import com.example.hansotbob.data.ItemDetail
+import com.example.hansotbob.ui.screen.detail.ItemDetail
+import com.example.hansotbob.ui.screen.detail.ReviewDetail
+import com.example.hansotbob.ui.screen.PaymentDetail
+>>>>>>> origin/wf-5,3
 
 @Composable
 fun CategoryFragmentContainer(navController: NavController, items: List<Any>) {
@@ -87,6 +97,51 @@ fun CategoryFragmentContainer(navController: NavController, items: List<Any>) {
                             }
                     )
                 }
+<<<<<<< HEAD
+=======
+                /*is ItemDetail -> {
+                    ItemDetail(
+                        itemDetail = item,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(8.dp)
+                            .clickable {
+                                // 클릭 시 이동할 경로를 설정
+                                navController.navigate(
+                                    "item/detail/${item.imagePainterId}/${item.productName}/${item.itemPrice}/${item.detail}"
+                                )
+                            }
+                    )
+                }
+                is ReviewDetail -> {
+                    ReviewDetail(
+                        reviewDetail = item,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(8.dp)
+                            .clickable {
+                                // 클릭 시 이동할 경로를 설정
+                                navController.navigate(
+                                    "review/detail/${item.userName}/${item.reviewRating}/${item.detail}"
+                                )
+                            }
+                    )
+                }
+                is ListItem.PaymentDetail -> {
+                    PaymentDetail(
+                        paymentDetail = item,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(8.dp)
+                            .clickable {
+                                // 클릭 시 이동할 경로를 설정
+                                navController.navigate(
+                                    "review/detail/${item.productName}/${item.itemCounts}/${item.itemPrice}"
+                                )
+                            }
+                    )
+                }*/
+>>>>>>> origin/wf-5,3
             }
         }
     }
