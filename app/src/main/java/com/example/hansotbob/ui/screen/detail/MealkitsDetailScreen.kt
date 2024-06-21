@@ -51,9 +51,11 @@ import com.example.hansotbob.component.common.ButtonBar
 import com.example.hansotbob.dto.Review
 import com.example.hansotbob.viewmodel.screen.detail.MealkitDetailViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.hansotbob.component.common.detail.ContentRow
+import com.example.hansotbob.component.common.detail.DetailRow
 import com.example.hansotbob.service.FirebaseService
 import com.example.hansotbob.viewmodel.ViewModelFactory
-import com.google.android.play.integrity.internal.i
+//import com.google.android.play.integrity.internal.i
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -150,18 +152,6 @@ fun MealkitsDetailScreen(
     }
 }
 
-@Composable
-fun DetailRow(label: String, value: String) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(bottom = 4.dp),
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-        Text(text = label, fontWeight = FontWeight.Bold)
-        Text(text = value)
-    }
-}
 
 @Composable
 fun MealkitContent(
@@ -235,76 +225,6 @@ fun MealkitContent(
     }
 }
 
-@Composable
-fun ContentRow(label: String, content: String) {
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Text(
-            text = label,
-            style = MaterialTheme.typography.bodyMedium.copy(
-                fontWeight = FontWeight.Bold,
-                color = Color.Gray
-            ),
-            modifier = Modifier.weight(1f)
-        )
-        Text(
-            text = content,
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurface,
-            modifier = Modifier.weight(2f)
-        )
-    }
-}
-
-
-
-@Composable
-fun PostMetadata(
-    metadata: Metadata,
-    modifier: Modifier = Modifier
-) {
-    Column {
-        Divider(
-            color = Color.Gray,
-            thickness = 1.dp,
-            modifier = Modifier.padding(horizontal = 0.dp)
-        )
-
-        Row(
-            modifier = modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp)
-                .padding(16.dp)
-                .semantics(mergeDescendants = true) {}
-        ) {
-            Icon(
-                imageVector = Icons.Filled.AccountCircle,
-                contentDescription = null,
-                modifier = Modifier.size(40.dp),
-                tint = LocalContentColor.current
-            )
-            Spacer(Modifier.width(8.dp))
-            Column {
-                Text(
-                    text = metadata.author.name,
-                    style = MaterialTheme.typography.labelLarge,
-                    modifier = Modifier.padding(top = 4.dp)
-                )
-            }
-        }
-    }
-}
-
-data class Metadata(
-    val author: Author,
-    val date: String,
-)
-
-data class Author(
-    val name: String
-)
 
 
 @Composable
