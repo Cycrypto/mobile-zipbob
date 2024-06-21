@@ -1,7 +1,10 @@
 package com.example.hansotbob.ui.screen.detail
 
+import android.util.Log
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -11,8 +14,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -22,10 +23,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.hansotbob.R
-import com.example.hansotbob.ui.theme.HansotbobTheme
 
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -33,27 +32,38 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.hansotbob.component.CardView.ReviewCard
-import com.example.hansotbob.component.common.AppBar
 import com.example.hansotbob.ui.theme.ReviewInputColor
 import com.example.hansotbob.component.common.ButtonBar
+import com.gowtham.ratingbar.RatingBar
+import com.gowtham.ratingbar.RatingBarStyle
 import com.example.hansotbob.dto.Review
 import com.example.hansotbob.viewmodel.screen.detail.MealkitDetailViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.hansotbob.component.common.detail.ContentRow
+import com.example.hansotbob.component.common.AppBar
 import com.example.hansotbob.component.common.detail.DetailRow
+import com.example.hansotbob.component.common.detail.PostAuthordata
+import com.example.hansotbob.component.common.detail.ReviewSection
+import com.example.hansotbob.component.common.detail.ReviewTextField
+import com.example.hansotbob.dto.AuthorData
+import com.example.hansotbob.dto.MealkitsContent
+import com.example.hansotbob.dto.calculateAverageRating
 import com.example.hansotbob.service.FirebaseService
+import com.example.hansotbob.ui.theme.DetailLabelColor
 import com.example.hansotbob.viewmodel.ViewModelFactory
 //import com.google.android.play.integrity.internal.i
 
@@ -66,75 +76,58 @@ fun MealkitsDetailScreen(
         factory = ViewModelFactory(FirebaseService())
     )
 ) {
+    val images = listOf(
+        R.drawable.food_image, // 실제 이미지 리소스를 추가
+        R.drawable.food_image, // 실제 이미지 리소스를 추가
+        R.drawable.food_image // 실제 이미지 리소스를 추가
+    )
+    val pagerState = rememberPagerState(pageCount = { images.size })
     val mealkit by viewModel.mealkit.collectAsState()
-
+    val dummyauthor = AuthorData(authorId = "123", name = "John Doe", profileImageId = R.drawable.food_image) // 임시 리소스
     viewModel.loadMealkit(itemId)
+
+    // TODO: review db 연결 후 viewmodel에서 List<Review> 가져오기
+    val reviewList : List<Review> = ReviewDummyList()
+    val averageRating = calculateAverageRating(reviewList)
 
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = { Text(text = "밀키트 상세 정보") },
-                navigationIcon = {
-                    IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.arrow_back),
-                            contentDescription = "Back"
-                        )
-                    }
-                },
-                modifier = Modifier.background(MaterialTheme.colorScheme.primary)
+            AppBar(
+                title = "밀키트 상세 화면",
+                navController = navController,
+                modifier = Modifier
+                    .background(Color.White)
+                    .border(BorderStroke(0.5.dp, Color.Gray), shape = RectangleShape)
             )
         }
     ) { innerPadding ->
         mealkit?.let { item ->
-            LazyColumn(
+            Column(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(innerPadding)
-                    .padding(16.dp)
+                    .verticalScroll(rememberScrollState())
             ) {
-                item {
+                HorizontalPager(
+                    state = pagerState,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(200.dp)
+                ) { page ->
                     Image(
-                        painter = painterResource(id = R.drawable.food_image),
-                        contentDescription = null,
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(200.dp)
-                            .padding(bottom = 16.dp)
-                    )
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(bottom = 8.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Text(
-                            text = if (item.state == 0) "[거래중]" else "[거래 완료]",
-                            color = if (item.state == 0) MaterialTheme.colorScheme.primary
-                                else MaterialTheme.colorScheme.inversePrimary,
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 24.sp
-                        )
-                        Text(
-                            text = item.title,
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 24.sp
-                        )
-                    }
-                    Spacer(modifier = Modifier.height(8.dp))
-                    DetailRow(label = "거래 장소", value = item.place)
-                    DetailRow(label = "가격", value = item.price)
-                    DetailRow(label = "카테고리", value = item.category)
-                    DetailRow(label = "양", value = item.quantity)
-                    DetailRow(label = "제조일자", value = item.productionDate)
-                    DetailRow(label = "거래 방법", value = item.method)
-                    Text(
-                        text = item.description,
-                        fontSize = 14.sp,
-                        modifier = Modifier.padding(top = 20.dp)
+                        painter = painterResource(id = images[page]),
+                        contentDescription = "Image $page",
+                        modifier = Modifier.fillMaxSize(),
+                        contentScale = ContentScale.Crop
                     )
                 }
+                MealkitContent(item = item, averageRating = averageRating)
+                Spacer(modifier = Modifier.height(16.dp))
+                PostAuthordata(authorData = dummyauthor)
+                ButtonBar(onContactSellerClick = {/* contact seller */}, onBuyClick = {/* buy click */})
+                Spacer(modifier = Modifier.height(16.dp))
+                ReviewSection(reviewList)
+                Spacer(modifier = Modifier.height(16.dp))
             }
         } ?: run {
             Column(
@@ -154,155 +147,91 @@ fun MealkitsDetailScreen(
 
 @Composable
 fun MealkitContent(
-    title: String,
-    place: String,
-    price: String,
-    foodType: String,
-    category: String,
-    quantity: String,
-    productionDate: String,
-    exchangeMethod: String,
-    description: String,
-    state: Int
+    item: MealkitsContent,
+    averageRating: Float
 ) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp)
-            .background(MaterialTheme.colorScheme.surface, shape = RoundedCornerShape(8.dp))
-            .padding(16.dp)
-    ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            if (state == 1) {
-                Text(
-                    text = "[거래중]",
-                    style = MaterialTheme.typography.titleLarge.copy(
-                        fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.primary
-                    ),
-                    modifier = Modifier.padding(end = 8.dp)
-                )
-            } else if (state == 2) {
-                Text(
-                    text = "[거래완료]",
-                    style = MaterialTheme.typography.titleLarge.copy(
-                        fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.primary
-                    ),
-                    modifier = Modifier.padding(end = 8.dp)
-                )
-            }
-            Text(
-                text = title,
-                style = MaterialTheme.typography.titleLarge,
-                color = MaterialTheme.colorScheme.onSurface
-            )
-        }
-        Spacer(modifier = Modifier.height(8.dp))
-        ContentRow(label = "거래 장소", content = place)
-        Spacer(modifier = Modifier.height(8.dp))
-        ContentRow(label = "가격", content = price)
-        Spacer(modifier = Modifier.height(8.dp))
-        ContentRow(label = "음식 종류", content = foodType)
-        Spacer(modifier = Modifier.height(8.dp))
-        ContentRow(label = "카테고리", content = category)
-        Spacer(modifier = Modifier.height(8.dp))
-        ContentRow(label = "양", content = quantity)
-        Spacer(modifier = Modifier.height(8.dp))
-        ContentRow(label = "제조일자", content = productionDate)
-        Spacer(modifier = Modifier.height(8.dp))
-        ContentRow(label = "거래 방법", content = exchangeMethod)
-        Spacer(modifier = Modifier.height(30.dp))
-        Text(
-            text = description,
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurface,
-            modifier = Modifier.padding(bottom = 16.dp)
-        )
-    }
-}
-
-
-
-@Composable
-fun ReviewDummyList(): List<Review> {
-    return listOf(
-        Review("사용자1", "정말 맛있어요!", rememberVectorPainter(Icons.Filled.AccountCircle)),
-        Review("사용자2", "최고의 레시피입니다.", rememberVectorPainter(Icons.Filled.AccountCircle)),
-        Review("사용자3", "다시 주문하고 싶어요!", rememberVectorPainter(Icons.Filled.AccountCircle))
-        // Add more dummy reviews as needed
-    )
-}
-
-@Composable
-fun ReviewList(reviews: List<Review>) {
-    Column {
-        reviews.forEach { review ->
-            ReviewCard(
-                nickname = review.nickname,
-                reviewContent = review.reviewContent,
-                profileImage = review.profileImage,
-                onEditClicked = { /* Handle edit click */ },
-                onDeleteClicked = { /* Handle delete click */ }
-            )
-        }
-    }
-}
-
-@Composable
-fun ReviewSection() {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(MaterialTheme.colorScheme.surface, shape = RoundedCornerShape(8.dp))
             .padding(16.dp)
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(ReviewInputColor, shape = RoundedCornerShape(50))
-                .padding(horizontal = 8.dp, vertical = 4.dp),
+                .padding(bottom = 8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            CustomOutlinedTextField(
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(end = 8.dp)
+            Text(
+                text = if (item.state == 0) "[거래중]" else "[거래 완료]",
+                color = if (item.state == 0) MaterialTheme.colorScheme.primary
+                else MaterialTheme.colorScheme.inversePrimary,
+                fontWeight = FontWeight.Bold,
+                fontSize = 24.sp,
+                modifier = Modifier.padding(end = 8.dp)
             )
-            Button(
-                onClick = { /* Handle review submit */ },
-                shape = RoundedCornerShape(50),
-                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
-            ) {
-                Text(text = "등록")
-            }
+            Text(
+                text = item.title,
+                fontWeight = FontWeight.Bold,
+                fontSize = 24.sp
+            )
         }
 
-        Spacer(modifier = Modifier.height(16.dp))
-        ReviewList(reviews = ReviewDummyList())
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 20.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = "${item.price}P",
+                fontWeight = FontWeight.Bold,
+                fontSize = 20.sp,
+            )
+            Text(
+                text = "·",
+                fontWeight = FontWeight.Bold,
+                color = DetailLabelColor,
+                fontSize = 20.sp,
+                modifier = Modifier.padding(horizontal = 6.dp)
+            )
+            Text(
+                text = "★${"%.1f".format(averageRating)}",
+                fontWeight = FontWeight.Bold,
+                fontSize = 20.sp
+            )
+        }
+
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 20.dp)
+        ) {
+            DetailRow(label = "거래 장소", value = item.place)
+            Spacer(modifier = Modifier.height(8.dp))
+            DetailRow(label = "카테고리", value = item.category)
+            Spacer(modifier = Modifier.height(8.dp))
+            DetailRow(label = "양", value = item.quantity)
+            Spacer(modifier = Modifier.height(8.dp))
+            DetailRow(label = "제조일자", value = item.productionDate)
+            Spacer(modifier = Modifier.height(8.dp))
+            DetailRow(label = "거래 방법", value = item.method)
+            Spacer(modifier = Modifier.height(8.dp))
+            DetailRow(label = "작성자", value = item.author)
+        }
+        Text(
+            text = item.description,
+            fontSize = 14.sp
+        )
     }
 }
 
 
 @Composable
-fun CustomOutlinedTextField(modifier: Modifier = Modifier) {
-    val colors = TextFieldDefaults.colors(
-        focusedContainerColor = Color.Transparent,
-        unfocusedContainerColor = Color.Transparent,
-        disabledContainerColor = Color.Transparent,
-        focusedIndicatorColor = Color.Transparent,
-        unfocusedIndicatorColor = Color.Transparent,
-        disabledIndicatorColor = Color.Transparent,
-    )
-
-    OutlinedTextField(
-        value = "",
-        onValueChange = {},
-        placeholder = { Text("댓글을 남겨보세요") },
-        modifier = modifier,
-        shape = RoundedCornerShape(50),
-        colors = colors
+fun ReviewDummyList(): List<Review> {
+    return listOf(
+        Review("사용자1", "정말 맛있어요!", rememberVectorPainter(Icons.Filled.AccountCircle), 4.0f),
+        Review("사용자2", "최고의 레시피입니다.", rememberVectorPainter(Icons.Filled.AccountCircle), 3.0f),
+        Review("사용자3", "다시 주문하고 싶어요!", rememberVectorPainter(Icons.Filled.AccountCircle), 1.0f)
+        // Add more dummy reviews as needed
     )
 }

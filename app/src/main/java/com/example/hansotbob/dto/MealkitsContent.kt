@@ -13,11 +13,7 @@ data class MealkitsContent(
     val productionDate: String = "",
     val quantity: String = "",
     val state: Int = 0,
-    val title: String = ""
-
-    /* TODO: 추가 필요함 */
-    // val authorId: String = "",
-    // val isNew: Boolean = false,
-
-
+    val title: String = "",
+    val author: String = ""
+    // TODO: 글쓴이 view 위해서 authorId 또는 email로 변경 필요
 )

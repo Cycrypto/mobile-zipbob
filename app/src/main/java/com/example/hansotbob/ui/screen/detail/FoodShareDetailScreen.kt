@@ -23,7 +23,6 @@ import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.hansotbob.R
-import com.example.hansotbob.component.common.detail.ContentRow
 import com.example.hansotbob.component.common.detail.DetailRow
 import com.example.hansotbob.component.common.detail.PostAuthordata
 import com.example.hansotbob.dto.MealkitsContent

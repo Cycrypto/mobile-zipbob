@@ -37,7 +37,7 @@ fun PostAuthordata(
         Row(
             modifier = modifier
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp)
+//                .padding(horizontal = 16.dp)
                 .padding(16.dp)
                 .semantics(mergeDescendants = true) {}
         ) {

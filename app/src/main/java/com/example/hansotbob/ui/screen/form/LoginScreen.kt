@@ -1,5 +1,6 @@
 package com.example.hansotbob.ui.screen.form
 
+import android.util.Log
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -15,9 +16,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.hansotbob.MainActivity
 import com.example.hansotbob.R
 import com.example.hansotbob.auth.GoogleSignInInterface
 import com.example.hansotbob.auth.AuthManager
+import com.example.hansotbob.ui.activity.LoginActivity
 import com.example.hansotbob.viewmodel.form.LoginViewModel
 
 @Composable
@@ -108,13 +111,8 @@ fun LoginScreen(navController: NavController, authManager: AuthManager, googleSi
             } else {
                 Button(
                     onClick = {
-                        isLoading = true
                         viewModel.signIn {
-                            navController.navigate("main") {
-                                popUpTo(navController.graph.startDestinationId) {
-                                    inclusive = true
-                                }
-                            }
+                            (navController.context as? LoginActivity)?.navigateToMainScreen()
                         }
                     },
                     colors = ButtonDefaults.buttonColors(
@@ -173,9 +171,10 @@ fun LoginScreen(navController: NavController, authManager: AuthManager, googleSi
                 color = Color.Gray
             )
 
-            if (errorMessage.isNotEmpty()) {
+            if (viewModel.errorMessage.isNotEmpty()) {
                 Spacer(modifier = Modifier.height(16.dp))
-                Text(errorMessage, color = MaterialTheme.colorScheme.error)
+                Text(viewModel.errorMessage, color = MaterialTheme.colorScheme.error)
+                Log.d("errormsg", "err : ${errorMessage}")
             }
         }
     }

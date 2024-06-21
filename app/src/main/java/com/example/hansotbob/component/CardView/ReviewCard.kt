@@ -1,5 +1,6 @@
 package com.example.hansotbob.component.CardView
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -21,11 +22,14 @@ import androidx.compose.material.icons.outlined.MoreHoriz
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.DpOffset
+import com.gowtham.ratingbar.RatingBar
+import com.gowtham.ratingbar.RatingBarStyle
 
 @Composable
 fun ReviewCard(
     nickname: String,
     reviewContent: String,
+    rating: Float,
     profileImage: Painter,
     onEditClicked: () -> Unit,
     onDeleteClicked: () -> Unit
@@ -68,6 +72,18 @@ fun ReviewCard(
                     Text(
                         text = nickname,
                         style = MaterialTheme.typography.bodyMedium.copy(fontSize = 16.sp, fontWeight = FontWeight.Bold)
+                    )
+                    RatingBar(
+                        value = rating,
+                        style = RatingBarStyle.Stroke(),
+                        size = 20.dp,
+                        spaceBetween = 2.dp,
+                        modifier = Modifier.padding(start = 10.dp),
+                        onValueChange = {
+                        },
+                        onRatingChanged = {
+                            Log.d("TAG", "onRatingChanged: $it")
+                        }
                     )
                 }
                 Box {
@@ -115,6 +131,7 @@ fun ReviewCardPreview() {
     ReviewCard(
         nickname = "닉네임",
         reviewContent = "최고의 레시피 추천합니다 ^^,,",
+        rating = 4.0f,
         profileImage = rememberVectorPainter(image = Icons.Filled.AccountCircle),
         onEditClicked = { /* Handle edit click */ },
         onDeleteClicked = { /* Handle delete click */ }
