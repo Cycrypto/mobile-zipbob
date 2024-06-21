@@ -1,4 +1,4 @@
-package com.example.hansotbob.ui.screen
+package com.example.hansotbob.ui.screen.detail
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*

@@ -1,4 +1,4 @@
-package com.example.hansotbob.ui.screen.detail
+package com.example.hansotbob.ui.screen.mypage
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -17,31 +17,34 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.hansotbob.R
 import com.example.hansotbob.ui.theme.PrimaryColor
 import com.example.hansotbob.data.ItemDetail
+import com.example.hansotbob.ui.screen.detail.ItemDetail
 
 @Composable
-fun MyPageSaleDetailScreen() {
-    //판매내역 데이터 리스트
+fun MyPageBuyDetailScreen(navController: NavController) {
+    //구매내역 데이터 리스트
     val purchaseItems = listOf(
         ItemDetail(
             imagePainterId = R.drawable.ic_mypage,
-            productName = "판매 내역 아이템 1",
+            productName = "구매 내역 아이템 1",
             itemPrice = "가격: 1000pt",
-            detail = "판매 상세 내역 예시입니다."
+            detail = "구매 상세 내역 예시입니다."
         ),
         ItemDetail(
             imagePainterId = R.drawable.ic_mypage,
-            productName = "판매 내역 아이템 2",
+            productName = "구매 내역 아이템 2",
             itemPrice = "가격: 1200pt",
-            detail = "판매 상세 내역 예시입니다."
+            detail = "구매 상세 내역 예시입니다."
         ),
         ItemDetail(
             imagePainterId = R.drawable.ic_mypage,
-            productName = "판매 내역 아이템 3",
+            productName = "구매 내역 아이템 3",
             itemPrice = "가격: 1500pt",
-            detail = "판매 상세 내역 예시입니다."
+            detail = "구매 상세 내역 예시입니다."
         )
     )
     ConstraintLayout(
@@ -74,7 +77,7 @@ fun MyPageSaleDetailScreen() {
 
             // Title
             Text(
-                text = "판매 내역",
+                text = "구매 내역",
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center,
@@ -103,6 +106,7 @@ fun MyPageSaleDetailScreen() {
 
 @Preview(showBackground = true)
 @Composable
-fun MyPageSaleDetailScreenPreview() {
-    MyPageSaleDetailScreen()
+fun MyPageBuyDetailScreenPreview() {
+    val navController = rememberNavController()
+    MyPageBuyDetailScreen(navController)
 }

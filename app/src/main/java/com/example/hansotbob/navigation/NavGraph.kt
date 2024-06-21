@@ -1,9 +1,11 @@
 package com.example.hansotbob.navigation
 
+import android.content.Intent
 import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
@@ -11,6 +13,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.hansotbob.component.common.ItemBar
 import com.example.hansotbob.service.FirebaseService
+import com.example.hansotbob.ui.activity.MyPageActivity
 import com.example.hansotbob.ui.screen.HomeFoodScreen
 import com.example.hansotbob.ui.screen.MealkitScreen
 import com.example.hansotbob.ui.screen.OverviewScreen
@@ -20,6 +23,7 @@ import com.example.hansotbob.ui.screen.detail.OverviewDetailScreen
 import com.example.hansotbob.ui.screen.form.FoodShareFormScreen
 import com.example.hansotbob.ui.screen.form.MealkitFormScreen
 import com.example.hansotbob.ui.screen.form.SharingFoodFormScreen
+import com.example.hansotbob.ui.screen.mypage.MyPageScreen
 import com.example.hansotbob.viewmodel.ListViewModel
 import com.example.hansotbob.viewmodel.ViewModelFactory
 import com.example.hansotbob.viewmodel.form.MealkitFormViewModel
@@ -35,6 +39,13 @@ fun MainNavGraph(navController: NavHostController, modifier: Modifier = Modifier
             val viewModel: ListViewModel = viewModel()
             Column(modifier = modifier.fillMaxSize()) {
                 OverviewScreen(navController = navController, viewModel)
+            }
+        }
+        composable("mypage"){
+            LaunchedEffect(Unit) {
+                val context = navController.context
+                val intent = Intent(context, MyPageActivity::class.java)
+                context.startActivity(intent)
             }
         }
 

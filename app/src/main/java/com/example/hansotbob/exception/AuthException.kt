@@ -9,4 +9,5 @@ sealed class AuthException(message: String) : Exception(message) {
     class UnknownErrorException(message: String) : AuthException(message)
     class EmptyFieldsException : AuthException("모든 필드를 입력하세요.")
     class PasswordMismatchException : AuthException("비밀번호가 일치하지 않습니다.")
+    class EmptyFormException: AuthException("이메일과 비밀번호를 입력하세요.")
 }

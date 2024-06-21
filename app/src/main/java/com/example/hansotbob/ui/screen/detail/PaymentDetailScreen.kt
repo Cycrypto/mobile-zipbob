@@ -1,4 +1,4 @@
-package com.example.hansotbob.ui.screen
+package com.example.hansotbob.ui.screen.detail
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -27,7 +27,7 @@ import com.example.hansotbob.ui.theme.PrimaryColor
 import com.example.hansotbob.data.PaymentDetail
 
 @Composable
-fun SaleDetailScreen(navController: NavHostController) {
+fun PaymentDetailScreen(navController: NavHostController) {
     val paymentDetails = listOf(
         PaymentDetail(
             productName = "물품명 1",
@@ -76,7 +76,7 @@ fun SaleDetailScreen(navController: NavHostController) {
 
             // Title
             Text(
-                text = "판매 내역",
+                text = "구매 내역",
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center,
@@ -88,7 +88,7 @@ fun SaleDetailScreen(navController: NavHostController) {
 
         // Payment Title
         Text(
-            text = "판매항목 리스트",
+            text = "결제항목",
             fontSize = 18.sp,
             fontWeight = FontWeight.Bold,
             modifier = Modifier
@@ -145,7 +145,7 @@ fun SaleDetailScreen(navController: NavHostController) {
 
         // Buy Button
         Button(
-            onClick = { navController.navigate("saleDetail2") },
+            onClick = { navController.navigate("paymentDetail2") },
             colors = ButtonDefaults.buttonColors(PrimaryColor),
             modifier = Modifier
                 .fillMaxWidth()
@@ -155,7 +155,7 @@ fun SaleDetailScreen(navController: NavHostController) {
                 }
         ) {
             Text(
-                text = "인증번호 생성",
+                text = "구매하기",
                 color = Color.Black,
                 fontSize = 16.sp
             )
@@ -165,6 +165,6 @@ fun SaleDetailScreen(navController: NavHostController) {
 
 @Preview(showBackground = true)
 @Composable
-fun SaleDetailScreenPreview() {
-    SaleDetailScreen(rememberNavController())
+fun PaymentDetailScreenPreview() {
+    PaymentDetailScreen(rememberNavController())
 }

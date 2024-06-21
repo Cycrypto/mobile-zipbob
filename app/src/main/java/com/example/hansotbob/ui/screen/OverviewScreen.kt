@@ -2,10 +2,12 @@ package com.example.hansotbob.ui.screen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Notifications
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -35,7 +37,7 @@ fun OverviewScreen(navController: NavHostController, viewModel: ListViewModel = 
     val items by viewModel.overviews.collectAsState()
 
     Column {
-        TopProfileSection()
+        TopProfileSection(navController)
         CardSliderHorizontal(
             title = "인기 게시물",
             item = items.filterIsInstance<Overview>()
@@ -52,7 +54,7 @@ fun OverviewScreen(navController: NavHostController, viewModel: ListViewModel = 
     }
 }
 @Composable
-fun TopProfileSection() {
+fun TopProfileSection(navController: NavHostController) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -81,9 +83,12 @@ fun TopProfileSection() {
         }
         Spacer(modifier = Modifier.weight(1f))
         Icon(
-            Icons.Default.Notifications,
+            Icons.Default.Person,
             contentDescription = null,
-            tint = MaterialTheme.colorScheme.background
+            tint = MaterialTheme.colorScheme.background,
+            modifier = Modifier.clickable{
+                navController.navigate("mypage")
+            }
         )
     }
 }

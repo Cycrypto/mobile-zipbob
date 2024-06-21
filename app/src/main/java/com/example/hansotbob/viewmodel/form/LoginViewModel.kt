@@ -6,6 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.example.hansotbob.auth.AuthManager
+import com.example.hansotbob.exception.AuthException
 
 class LoginViewModel(private val authManager: AuthManager) : ViewModel() {
     var email by mutableStateOf("")
@@ -15,7 +16,7 @@ class LoginViewModel(private val authManager: AuthManager) : ViewModel() {
 
     fun signIn(onSuccess: () -> Unit) {
         if (email.isEmpty() || password.isEmpty()) {
-            errorMessage = "이메일과 비밀번호를 입력하세요."
+            errorMessage = throw AuthException.EmptyFormException()
             return
         }
         isLoading = true

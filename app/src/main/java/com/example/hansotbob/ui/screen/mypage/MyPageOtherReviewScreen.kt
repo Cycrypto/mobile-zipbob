@@ -1,4 +1,4 @@
-package com.example.hansotbob.ui.screen.detail
+package com.example.hansotbob.ui.screen.mypage
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -17,12 +17,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.hansotbob.R
 import com.example.hansotbob.ui.theme.PrimaryColor
 import com.example.hansotbob.data.ReviewDetail
+import com.example.hansotbob.ui.screen.detail.ReviewDetail
 
 @Composable
-fun MyPageOtherReviewScreen() {
+fun MyPageOtherReviewScreen(navController: NavController) {
     //리뷰내역 데이터 리스트
     val reviewItems = listOf(
         ReviewDetail(
@@ -104,5 +107,5 @@ fun MyPageOtherReviewScreen() {
 @Preview(showBackground = true)
 @Composable
 fun MyPageOtherReviewScreenPreview() {
-    MyPageOtherReviewScreen()
+    MyPageOtherReviewScreen(rememberNavController())
 }
