@@ -14,22 +14,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-<<<<<<< HEAD
-import com.example.hansotbob.R
+
+
 import com.example.hansotbob.component.CardView.MealCategoryCardWithBadge
 import com.example.hansotbob.component.CardView.OverviewCard
+import com.example.hansotbob.dto.FoodShareContent
 import com.example.hansotbob.dto.MealContent
 import com.example.hansotbob.dto.Overview
 import com.example.hansotbob.dto.MealkitsContent
-=======
-import com.example.hansotbob.component.CardView.MealCategoryCardWithBadge
-import com.example.hansotbob.component.CardView.OverviewCard
-import com.example.hansotbob.data.ListItem
-import com.example.hansotbob.data.ItemDetail
-import com.example.hansotbob.ui.screen.detail.ItemDetail
-import com.example.hansotbob.ui.screen.detail.ReviewDetail
-import com.example.hansotbob.ui.screen.PaymentDetail
->>>>>>> origin/wf-5,3
 
 @Composable
 fun CategoryFragmentContainer(navController: NavController, items: List<Any>) {
@@ -41,12 +33,12 @@ fun CategoryFragmentContainer(navController: NavController, items: List<Any>) {
     ) {
         items(items) { item ->
             when (item) {
-                is MealContent -> {
+                is FoodShareContent -> {
                     Log.d("ItemContainer", "item : ${item}")
                     MealCategoryCardWithBadge(
                         title = item.title,
-                        date = item.recruit,
-                        category = item.place,
+                        date = item.productionDate,
+                        category = item.category,
                         points = item.price,
                         place = item.place,
                         state = item.state,
@@ -97,8 +89,7 @@ fun CategoryFragmentContainer(navController: NavController, items: List<Any>) {
                             }
                     )
                 }
-<<<<<<< HEAD
-=======
+
                 /*is ItemDetail -> {
                     ItemDetail(
                         itemDetail = item,
@@ -141,7 +132,6 @@ fun CategoryFragmentContainer(navController: NavController, items: List<Any>) {
                             }
                     )
                 }*/
->>>>>>> origin/wf-5,3
             }
         }
     }

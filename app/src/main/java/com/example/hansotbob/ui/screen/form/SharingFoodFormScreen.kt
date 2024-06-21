@@ -22,11 +22,11 @@ import com.example.hansotbob.viewmodel.form.SharingFoodFormViewModel
 @Composable
 fun SharingFoodFormScreen(navController: NavController, viewModel: SharingFoodFormViewModel = viewModel()) {
     val title by viewModel.title.collectAsState()
-    val foodType by viewModel.foodType.collectAsState()
+    val foodType by viewModel.category.collectAsState()
     val quantity by viewModel.quantity.collectAsState()
-    val manufactureDate by viewModel.manufactureDate.collectAsState()
+    val manufactureDate by viewModel.productionDate.collectAsState()
     val place by viewModel.place.collectAsState()
-    val tradeMethod by viewModel.tradeMethod.collectAsState()
+    val tradeMethod by viewModel.method.collectAsState()
 
     LazyColumn(
         modifier = Modifier
@@ -51,7 +51,7 @@ fun SharingFoodFormScreen(navController: NavController, viewModel: SharingFoodFo
         item {
             OutlinedTextField(
                 value = title,
-                onValueChange = { viewModel.onTitleChange(it) },
+                onValueChange = { viewModel.setTitle(it) },
                 label = { Text("집밥 가져가실분") },
                 modifier = Modifier.fillMaxWidth()
             )
@@ -62,7 +62,7 @@ fun SharingFoodFormScreen(navController: NavController, viewModel: SharingFoodFo
         item {
             OutlinedTextField(
                 value = foodType,
-                onValueChange = { viewModel.onFoodTypeChange(it) },
+                onValueChange = { viewModel.setCategory(it) },
                 label = { Text("1명") },
                 modifier = Modifier.fillMaxWidth()
             )
@@ -73,7 +73,7 @@ fun SharingFoodFormScreen(navController: NavController, viewModel: SharingFoodFo
         item {
             OutlinedTextField(
                 value = place,
-                onValueChange = { viewModel.onPlaceChange(it) },
+                onValueChange = { viewModel.setPlace(it) },
                 label = { Text("우리 집") },
                 modifier = Modifier.fillMaxWidth()
             )
@@ -84,7 +84,7 @@ fun SharingFoodFormScreen(navController: NavController, viewModel: SharingFoodFo
         item {
             OutlinedTextField(
                 value = quantity,
-                onValueChange = { viewModel.onQuantityChange(it) },
+                onValueChange = { viewModel.setPrice(it) },
                 label = { Text("1234원") },
                 modifier = Modifier.fillMaxWidth()
             )
@@ -95,7 +95,7 @@ fun SharingFoodFormScreen(navController: NavController, viewModel: SharingFoodFo
         item {
             OutlinedTextField(
                 value = manufactureDate,
-                onValueChange = { viewModel.onManufactureDateChange(it) },
+                onValueChange = { viewModel.setProductionDate(it) },
                 label = { Text("제조 일자") },
                 modifier = Modifier.fillMaxWidth()
             )
@@ -106,7 +106,7 @@ fun SharingFoodFormScreen(navController: NavController, viewModel: SharingFoodFo
         item {
             OutlinedTextField(
                 value = tradeMethod,
-                onValueChange = { viewModel.onTradeMethodChange(it) },
+                onValueChange = { viewModel.setMethod(it) },
                 label = { Text("거래 방법") },
                 modifier = Modifier.fillMaxWidth()
             )

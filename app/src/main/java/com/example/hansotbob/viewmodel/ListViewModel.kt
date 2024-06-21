@@ -2,6 +2,7 @@ package com.example.hansotbob.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.hansotbob.dto.FoodShareContent
 import com.example.hansotbob.dto.MealContent
 import com.example.hansotbob.dto.Overview
 import com.example.hansotbob.dto.MealkitsContent
@@ -12,8 +13,8 @@ import kotlinx.coroutines.launch
 
 class ListViewModel : ViewModel() {
     private val firebaseService = FirebaseService()
-    private val _mealContents = MutableStateFlow<List<MealContent>>(emptyList())
-    val mealContents: StateFlow<List<MealContent>> = _mealContents
+    private val _mealContents = MutableStateFlow<List<FoodShareContent>>(emptyList())
+    val mealContents: StateFlow<List<FoodShareContent>> = _mealContents
 
     private val _overviews = MutableStateFlow<List<Overview>>(emptyList())
     val overviews: StateFlow<List<Overview>> = _overviews
@@ -48,7 +49,7 @@ class ListViewModel : ViewModel() {
 //        }
 //    }
 
-    fun addMealContent(item: MealContent) {
+    fun addMealContent(item: FoodShareContent) {
         viewModelScope.launch {
             firebaseService.uploadMealContent(item)
             loadMealContents()

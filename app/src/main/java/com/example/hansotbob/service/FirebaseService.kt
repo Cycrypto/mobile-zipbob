@@ -3,6 +3,7 @@ package com.example.hansotbob.service
 import android.util.Log
 import com.example.hansotbob.dto.MealContent
 import com.example.hansotbob.R
+import com.example.hansotbob.dto.FoodShareContent
 import com.example.hansotbob.dto.MealkitsContent
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
@@ -16,18 +17,20 @@ class FirebaseService {
     private val currentUser = auth.currentUser!!
     private val nickname = currentUser.displayName ?: "배고픈 무지"
 
-    suspend fun uploadMealContent(item: MealContent) {
+    suspend fun uploadMealContent(item: FoodShareContent) {
         val key = database.child("homefood").push().key ?: return
-        val newItem = item.copy(itemId = key, author = nickname)
+        val newItem = item.copy(itemId = key, authorId = nickname)
         database.child("homefood").child(key).setValue(newItem).await()
         database.child("user_homefood").child(key).setValue(newItem).await()
     }
 
-    suspend fun getMealContents(): List<MealContent> {
+    suspend fun getMealContents(): List<FoodShareContent> {
+        Log.d("FirebaseService", "Fetching mealkits from database")
         val snapshot = database.child("homefood").get().await()
-        val items = mutableListOf<MealContent>()
+        Log.d("FirebaseService", "Snapshot: $snapshot")
+        val items = mutableListOf<FoodShareContent>()
         for (child in snapshot.children) {
-            var item = child.getValue(MealContent::class.java)
+            var item = child.getValue(FoodShareContent::class.java)
             if (item != null) {
                 if (item.imagePainterId == 0) {
                     item = item.copy(imagePainterId = R.drawable.food_image)
@@ -35,6 +38,7 @@ class FirebaseService {
                 items.add(item)
             }
         }
+        Log.d("FirebaseService", "Fetched items: $items")
         return items
     }
 

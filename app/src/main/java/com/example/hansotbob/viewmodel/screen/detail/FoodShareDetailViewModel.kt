@@ -12,8 +12,8 @@ import com.example.hansotbob.service.FirebaseService
 
 class FoodShareDetailViewModel : ViewModel() {
     private val firebaseService = FirebaseService()
-    private val _item = MutableStateFlow<MealContent?>(null)
-    val item: StateFlow<MealContent?> = _item
+    private val _item = MutableStateFlow<FoodShareContent?>(null)
+    val item: StateFlow<FoodShareContent?> = _item
 
     fun loadItem(itemId: String) {
         viewModelScope.launch {

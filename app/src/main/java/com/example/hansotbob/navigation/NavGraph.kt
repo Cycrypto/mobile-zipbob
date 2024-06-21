@@ -17,6 +17,7 @@ import com.example.hansotbob.ui.screen.OverviewScreen
 import com.example.hansotbob.ui.screen.detail.FoodShareDetailScreen
 import com.example.hansotbob.ui.screen.detail.MealkitsDetailScreen
 import com.example.hansotbob.ui.screen.detail.OverviewDetailScreen
+import com.example.hansotbob.ui.screen.form.FoodShareFormScreen
 import com.example.hansotbob.ui.screen.form.MealkitFormScreen
 import com.example.hansotbob.ui.screen.form.SharingFoodFormScreen
 import com.example.hansotbob.viewmodel.ListViewModel
@@ -52,7 +53,7 @@ fun MainNavGraph(navController: NavHostController, modifier: Modifier = Modifier
         }
 
         composable("foodshare_form"){
-            SharingFoodFormScreen(navController)
+            FoodShareFormScreen(navController)
         }
         composable("mealkit_form"){
             MealkitFormScreen(navController)

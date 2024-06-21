@@ -50,11 +50,12 @@ import com.example.hansotbob.R
 import com.example.hansotbob.component.common.AppBar
 import com.example.hansotbob.viewmodel.form.MealkitFormViewModel
 import com.example.hansotbob.component.common.form.DatePicker
+import com.example.hansotbob.viewmodel.form.SharingFoodFormViewModel
 import java.util.Calendar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FoodShareFormScreen(navController: NavController, viewModel: MealkitFormViewModel = viewModel()) {
+fun FoodShareFormScreen(navController: NavController, viewModel: SharingFoodFormViewModel = viewModel()) {
     var categoryExpanded by remember { mutableStateOf(false) }
     var quantityExpanded by remember { mutableStateOf(false) }
     var methodExpanded by remember { mutableStateOf(false) }
@@ -297,7 +298,7 @@ fun FoodShareFormScreen(navController: NavController, viewModel: MealkitFormView
             item {
                 Button(
                     onClick = {
-                        viewModel.uploadMealkit()
+                        viewModel.uploadItem()
                         navController.popBackStack()
                     },
                     modifier = Modifier
