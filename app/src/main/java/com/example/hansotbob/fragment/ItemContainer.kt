@@ -16,10 +16,6 @@ import androidx.navigation.NavController
 import com.example.hansotbob.component.CardView.MealCategoryCardWithBadge
 import com.example.hansotbob.component.CardView.OverviewCard
 import com.example.hansotbob.data.ListItem
-import com.example.hansotbob.data.ItemDetail
-import com.example.hansotbob.ui.screen.detail.ItemDetail
-import com.example.hansotbob.ui.screen.detail.ReviewDetail
-import com.example.hansotbob.ui.screen.PaymentDetail
 
 @Composable
 fun CategoryFragmentContainer(navController: NavController, items: List<ListItem>) {
