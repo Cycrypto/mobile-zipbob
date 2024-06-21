@@ -37,9 +37,6 @@ import com.example.hansotbob.ui.theme.HansotbobTheme
 @Composable
 fun RecipeCardWithBadge(
     title: String,
-    date: String,
-    category: String,
-    points: String,
     rating: Int,  // 추가: 별점
     imagePainter: Painter,
     isNew: Boolean = false,
@@ -53,7 +50,7 @@ fun RecipeCardWithBadge(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(150.dp)
+                .height(130.dp)
                 .background(MaterialTheme.colorScheme.background)
                 .padding(10.dp)
         ) {
@@ -146,9 +143,6 @@ fun PreviewRecipeCardWithBadge() {
     HansotbobTheme {
         RecipeCardWithBadge(
             title = "Hello",
-            date = "2023.12.21",
-            category = "양식",
-            points = "1000",
             rating = 3,
             imagePainter = painterResource(id = R.drawable.food_image),
             isNew = true

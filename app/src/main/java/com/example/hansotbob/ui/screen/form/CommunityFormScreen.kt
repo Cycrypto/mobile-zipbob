@@ -1,4 +1,12 @@
 
+import android.Manifest
+import android.content.Context
+import android.graphics.Bitmap
+import android.net.Uri
+import android.provider.MediaStore
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -32,9 +40,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.graphics.painter.BitmapPainter
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat
+import androidx.core.content.PermissionChecker
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.hansotbob.ui.theme.HansotbobTheme
@@ -45,6 +58,12 @@ fun CommunityFormScreen(navController: NavController) {
     val formData = remember { mutableStateOf(CommunityFormData()) }
     var expanded by remember { mutableStateOf(false) }
     val categories = listOf("집밥공유", "식료품공유")
+
+    val imagePickerLauncher = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+        formData.value = formData.value.copy(imageUri = uri)
+    }
+
+    val context = LocalContext.current
 
     Box(modifier = Modifier.fillMaxSize()) {
         LazyColumn(
@@ -172,13 +191,34 @@ fun CommunityFormScreen(navController: NavController) {
             item { Spacer(modifier = Modifier.height(16.dp)) }
             item {
                 Button(
-                    onClick = { /* Handle image upload */ },
+                    onClick = {
+                        val permissionCheck = ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE)
+                        if (permissionCheck != PermissionChecker.PERMISSION_GRANTED) {
+                            // Request permission here
+                        } else {
+                            imagePickerLauncher.launch("image/*")
+                        }
+                    },
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(48.dp)
                         .background(MaterialTheme.colorScheme.background)
                 ) {
                     Text("사진 업로드")
+                }
+            }
+            item {
+                formData.value.imageUri?.let { uri ->
+                    val bitmap = loadImageFromUri(uri, context)
+                    bitmap?.let {
+                        Image(
+                            painter = BitmapPainter(it.asImageBitmap()),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(200.dp)
+                        )
+                    }
                 }
             }
             item { Spacer(modifier = Modifier.height(16.dp)) }
@@ -196,9 +236,18 @@ fun CommunityFormScreen(navController: NavController) {
     }
 }
 
+fun loadImageFromUri(uri: Uri, context: Context): Bitmap? {
+    return try {
+        MediaStore.Images.Media.getBitmap(context.contentResolver, uri)
+    } catch (e: Exception) {
+        e.printStackTrace()
+        null
+    }
+}
+
 @Preview
 @Composable
-private fun CommunityFormScreen() {
+private fun CommunityFormScreenPreview() {
     HansotbobTheme {
         val navController = rememberNavController()
         CommunityFormScreen(navController)
@@ -211,5 +260,6 @@ data class CommunityFormData(
     var totalCost: String = "",
     var participants: String = "",
     var location: String = "",
-    var description: String = ""
+    var description: String = "",
+    var imageUri: Uri? = null
 )
