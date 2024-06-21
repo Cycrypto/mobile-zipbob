@@ -43,8 +43,8 @@ private fun bottombarLocaiton(): List<String> {
         "detail/{title}/{recruit}/{place}/{price}",
         "foodshare_form",
         "mealkit_form",
-        "foodshare/detail/{title}/{recruit}/{place}/{price}",
-        "mealkit/detail/{title}/{place}/{price}/{foodType}/{category}/{quantity}/{productionDate}/{exchangeMethod}/{description}/{state}"
+        "foodshare/detail/{itemId}",
+        "mealkit/detail/{itemId}"
     )
 }
 

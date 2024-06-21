@@ -6,7 +6,6 @@ data class FoodShareContent (
     val itemId: String = "",
     val authorId: String = "",
     val category: String = "",
-    val foodType: String = "",
     val description: String = "",
     val imagePainterId: Int = R.drawable.food_image,
     val method: String = "",
