@@ -56,6 +56,7 @@ dependencies {
     implementation("com.github.bumptech.glide:glide:4.0.0")
     implementation("com.github.ViksaaSkool:AwesomeSplash:v1.0.0")
     implementation("com.ramotion.paperonboarding:paper-onboarding:1.1.3")
+    implementation("com.github.a914-gowtham:compose-ratingbar:1.3.12")
 
     // default dependencies
     implementation(libs.androidx.core.ktx)

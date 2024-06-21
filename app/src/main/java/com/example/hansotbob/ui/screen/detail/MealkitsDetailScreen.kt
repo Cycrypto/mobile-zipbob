@@ -1,5 +1,6 @@
 package com.example.hansotbob.ui.screen.detail
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.material3.MaterialTheme
@@ -26,6 +27,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.hansotbob.R
 import com.example.hansotbob.ui.theme.HansotbobTheme
+import androidx.compose.runtime.*
 
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -33,6 +35,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -42,12 +48,17 @@ import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.hansotbob.component.CardView.ReviewCard
 import com.example.hansotbob.component.common.AppBar
 import com.example.hansotbob.ui.theme.ReviewInputColor
 import com.example.hansotbob.component.common.ButtonBar
+import com.example.hansotbob.data.Review
+import com.gowtham.ratingbar.RatingBar
+import com.gowtham.ratingbar.RatingBarStyle
+import com.gowtham.ratingbar.StepSize
 import com.example.hansotbob.dto.Review
 import com.example.hansotbob.viewmodel.screen.detail.MealkitDetailViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -64,6 +75,13 @@ fun MealkitsDetailScreen(
         factory = ViewModelFactory(FirebaseService())
     )
 ) {
+    val images = listOf(
+        R.drawable.food_image, // 실제 이미지 리소스를 추가
+        R.drawable.food_image, // 실제 이미지 리소스를 추가
+        R.drawable.food_image // 실제 이미지 리소스를 추가
+    )
+    val pagerState = rememberPagerState(pageCount = { images.size })
+    var rating: Float by remember { mutableStateOf(3.2f) }
     val mealkit by viewModel.mealkit.collectAsState()
 
     viewModel.loadMealkit(itemId)
@@ -135,6 +153,43 @@ fun MealkitsDetailScreen(
                     )
                 }
             }
+            Spacer(modifier = Modifier.height(16.dp))
+            MealkitContent(
+                title = title,
+                place = place,
+                price = price,
+                foodType = foodType,
+                category = category,
+                quantity = quantity,
+                productionDate = productionDate,
+                exchangeMethod = exchangeMethod,
+                description = description,
+                state = state
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            PostMetadata(
+                metadata = Metadata(
+                    author = Author("John Doe"),
+                    date = "June 18, 2024",
+                )
+            )
+            ButtonBar(onContactSellerClick = onContactSellerClick, onBuyClick = onBuyClick)
+            Spacer(modifier = Modifier.height(16.dp))
+
+            RatingBar(
+                value = rating,
+                style = RatingBarStyle.Stroke(),
+                spaceBetween = 4.dp,
+                modifier = Modifier.padding(start = 30.dp),
+                onValueChange = {
+                    rating = it
+                },
+                onRatingChanged = {
+                    Log.d("TAG", "onRatingChanged: $it")
+                }
+            )
+            ReviewSection()
+            Spacer(modifier = Modifier.height(16.dp))
         } ?: run {
             Column(
                 modifier = Modifier
@@ -310,9 +365,9 @@ data class Author(
 @Composable
 fun ReviewDummyList(): List<Review> {
     return listOf(
-        Review("사용자1", "정말 맛있어요!", rememberVectorPainter(Icons.Filled.AccountCircle)),
-        Review("사용자2", "최고의 레시피입니다.", rememberVectorPainter(Icons.Filled.AccountCircle)),
-        Review("사용자3", "다시 주문하고 싶어요!", rememberVectorPainter(Icons.Filled.AccountCircle))
+        Review("사용자1", "정말 맛있어요!", rememberVectorPainter(Icons.Filled.AccountCircle), 4.0f),
+        Review("사용자2", "최고의 레시피입니다.", rememberVectorPainter(Icons.Filled.AccountCircle), 3.0f),
+        Review("사용자3", "다시 주문하고 싶어요!", rememberVectorPainter(Icons.Filled.AccountCircle), 1.0f)
         // Add more dummy reviews as needed
     )
 }
@@ -325,15 +380,17 @@ fun ReviewList(reviews: List<Review>) {
                 nickname = review.nickname,
                 reviewContent = review.reviewContent,
                 profileImage = review.profileImage,
+                rating = review.rating,
                 onEditClicked = { /* Handle edit click */ },
                 onDeleteClicked = { /* Handle delete click */ }
             )
         }
     }
 }
-
 @Composable
 fun ReviewSection() {
+    var reviewText by remember { mutableStateOf("") }
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -348,6 +405,8 @@ fun ReviewSection() {
             verticalAlignment = Alignment.CenterVertically
         ) {
             CustomOutlinedTextField(
+                value = reviewText,
+                onValueChange = { reviewText = it },
                 modifier = Modifier
                     .weight(1f)
                     .padding(end = 8.dp)
@@ -366,9 +425,12 @@ fun ReviewSection() {
     }
 }
 
-
 @Composable
-fun CustomOutlinedTextField(modifier: Modifier = Modifier) {
+fun CustomOutlinedTextField(
+    value: String,
+    onValueChange: (String) -> Unit,
+    modifier: Modifier = Modifier
+) {
     val colors = TextFieldDefaults.colors(
         focusedContainerColor = Color.Transparent,
         unfocusedContainerColor = Color.Transparent,
@@ -379,11 +441,35 @@ fun CustomOutlinedTextField(modifier: Modifier = Modifier) {
     )
 
     OutlinedTextField(
-        value = "",
-        onValueChange = {},
+        value = value,
+        onValueChange = onValueChange,
         placeholder = { Text("댓글을 남겨보세요") },
         modifier = modifier,
         shape = RoundedCornerShape(50),
         colors = colors
     )
+}
+
+
+
+@Preview(showBackground = true)
+@Composable
+fun PreviewMealkitDetailScreen() {
+    HansotbobTheme {
+        MealkitsDetailScreen(
+            title = "집밥1",
+            place = "시흥시 정왕동 산기대학로",
+            price = "3000",
+            foodType = "한식",
+            category = "저녁 식사",
+            quantity = "2인분",
+            productionDate = "2022-07-15",
+            exchangeMethod = "직거래",
+            description = "맛있는 저녁 식사 메뉴입니다.",
+            state = 1,
+            onBackClick = {},
+            onContactSellerClick = {},
+            onBuyClick = {}
+        )
+    }
 }
