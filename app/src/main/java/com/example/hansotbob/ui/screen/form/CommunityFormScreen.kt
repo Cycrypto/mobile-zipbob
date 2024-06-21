@@ -1,4 +1,3 @@
-
 import android.Manifest
 import android.content.Context
 import android.graphics.Bitmap
@@ -190,6 +189,21 @@ fun CommunityFormScreen(navController: NavController) {
             }
             item { Spacer(modifier = Modifier.height(16.dp)) }
             item {
+                formData.value.imageUri?.let { uri ->
+                    val bitmap = loadImageFromUri(uri, context)
+                    bitmap?.let {
+                        Image(
+                            painter = BitmapPainter(it.asImageBitmap()),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(200.dp)
+                        )
+                    }
+                }
+            }
+            item { Spacer(modifier = Modifier.height(16.dp)) }
+            item {
                 Button(
                     onClick = {
                         val permissionCheck = ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE)
@@ -205,20 +219,6 @@ fun CommunityFormScreen(navController: NavController) {
                         .background(MaterialTheme.colorScheme.background)
                 ) {
                     Text("사진 업로드")
-                }
-            }
-            item {
-                formData.value.imageUri?.let { uri ->
-                    val bitmap = loadImageFromUri(uri, context)
-                    bitmap?.let {
-                        Image(
-                            painter = BitmapPainter(it.asImageBitmap()),
-                            contentDescription = null,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(200.dp)
-                        )
-                    }
                 }
             }
             item { Spacer(modifier = Modifier.height(16.dp)) }
