@@ -28,19 +28,19 @@ fun MyPageReviewScreen() {
         ReviewDetail(
             imagePainterId = R.drawable.ic_mypage,
             userName = "내 닉네임",
-            reviewRating = "평점: 4.0/5.0점 ",
+            reviewRating = "4.0",
             detail = "리뷰 상세 내역 예시입니다."
         ),
         ReviewDetail(
             imagePainterId = R.drawable.ic_mypage,
             userName = "내 닉네임",
-            reviewRating = "평점: 4.0/5.0점 ",
+            reviewRating = "5.0",
             detail = "리뷰 상세 내역 예시입니다."
         ),
         ReviewDetail(
             imagePainterId = R.drawable.ic_mypage,
             userName = "내 닉네임",
-            reviewRating = "평점: 4.0/5.0점 ",
+            reviewRating = "4.0",
             detail = "리뷰 상세 내역 예시입니다."
         )
     )
