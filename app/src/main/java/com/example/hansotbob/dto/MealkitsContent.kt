@@ -14,5 +14,6 @@ data class MealkitsContent(
     val quantity: String = "",
     val state: Int = 0,
     val title: String = "",
-    val authorId: String = ""
+    val author: String = ""
+    // TODO: 글쓴이 view 위해서 authorId로 변경 필요
 )

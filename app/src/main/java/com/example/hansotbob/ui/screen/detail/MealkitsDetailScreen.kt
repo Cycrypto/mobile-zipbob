@@ -217,7 +217,7 @@ fun MealkitContent(
             Spacer(modifier = Modifier.height(8.dp))
             DetailRow(label = "거래 방법", value = item.method)
             Spacer(modifier = Modifier.height(8.dp))
-            DetailRow(label = "작성자", value = item.authorId)
+            DetailRow(label = "작성자", value = item.author)
         }
         Text(
             text = item.description,
