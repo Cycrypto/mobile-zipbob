@@ -1,5 +1,6 @@
 package com.example.hansotbob.viewmodel.form
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -26,6 +27,7 @@ class LoginViewModel(private val authManager: AuthManager) : ViewModel() {
             onFailure = { exception ->
                 isLoading = false
                 errorMessage = exception.message.toString()
+                Log.d("errormsg", "exception : $errorMessage")
             }
         )
     }

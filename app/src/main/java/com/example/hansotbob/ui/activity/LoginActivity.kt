@@ -48,6 +48,11 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
+    fun navigateToMainScreen(){
+        startActivity(Intent(this, MainActivity::class.java))
+        finish()
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         googleSignInManager.handleSignInResult(data,
@@ -76,9 +81,6 @@ class LoginActivity : AppCompatActivity() {
             }
             composable("register") {
                 RegisterScreen(navController, authManager)
-            }
-            composable("main"){
-                MainScreen()
             }
         }
     }
