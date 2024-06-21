@@ -18,6 +18,7 @@ import com.example.hansotbob.auth.FirebaseAuthManager
 import com.example.hansotbob.auth.AuthManager
 import com.example.hansotbob.auth.GoogleSignInInterface
 import com.example.hansotbob.exception.AuthException
+import com.example.hansotbob.ui.screen.MainScreen
 import com.example.hansotbob.ui.screen.form.LoginScreen
 import com.example.hansotbob.ui.screen.form.RegisterScreen
 import com.example.hansotbob.ui.theme.HansotbobTheme
@@ -75,6 +76,9 @@ class LoginActivity : AppCompatActivity() {
             }
             composable("register") {
                 RegisterScreen(navController, authManager)
+            }
+            composable("main"){
+                MainScreen()
             }
         }
     }
