@@ -5,16 +5,10 @@
       <entry key="CommunityFormScreenPreview">
         <State />
       </entry>
-      <entry key="CommuniyFormScreen">
-        <State />
-      </entry>
-      <entry key="PreviewSharingFoodFormScreen">
+      <entry key="PreviewCommunityListDetail">
         <State />
       </entry>
       <entry key="app">
-        <State />
-      </entry>
-      <entry key="test">
         <State />
       </entry>
     </value>
