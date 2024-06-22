@@ -41,6 +41,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -50,264 +51,167 @@ import com.example.hansotbob.R
 import com.example.hansotbob.component.common.AppBar
 import com.example.hansotbob.viewmodel.form.MealkitFormViewModel
 import com.example.hansotbob.component.common.form.DatePicker
-import com.example.hansotbob.viewmodel.form.SharingFoodFormViewModel
+import com.example.hansotbob.component.common.form.FormButtonSelector
+import com.example.hansotbob.component.common.form.FormDropdownSelector
+import com.example.hansotbob.component.common.form.FormOutlinedTextField
+import com.example.hansotbob.component.common.form.ImagePickerScreen
 import java.util.Calendar
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun FoodShareFormScreen(navController: NavController, viewModel: SharingFoodFormViewModel = viewModel()) {
-    var categoryExpanded by remember { mutableStateOf(false) }
-    var quantityExpanded by remember { mutableStateOf(false) }
-    var methodExpanded by remember { mutableStateOf(false) }
-
-    val category by viewModel.category.collectAsState()
-    val quantity by viewModel.quantity.collectAsState()
-    val productionDate by viewModel.productionDate.collectAsState()
-    val title by viewModel.title.collectAsState()
-    val place by viewModel.place.collectAsState()
-    val selectedMethod by viewModel.method.collectAsState()
-    val price by viewModel.price.collectAsState()
-    val description by viewModel.description.collectAsState()
-
-    val categoryOptions = listOf("한식", "분식", "중식", "일식", "양식")
-    val quantityOptions = listOf("1인분", "2인분", "3인분", "4인분", "5인분", "6인분 이상")
-    val methodOptions = listOf("직거래", "택배", "문고리")
-
-    Scaffold(
-        topBar = {
-            AppBar(
-                title = "밀키트 등록 화면",
-                navController = navController,
-                modifier = Modifier
-                    .background(Color.White)
-                    .border(BorderStroke(0.5.dp, Color.Gray), shape = RectangleShape)
-            )
-        }
-    ) { innerPadding ->
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPadding)
-                .padding(16.dp)
-        ) {
-            // 제목 입력
-            item {
-                OutlinedTextField(
-                    value = title,
-                    onValueChange = { viewModel.setTitle(it) },
-                    label = { Text("제목 입력") },
-                    modifier = Modifier.fillMaxWidth()
-                )
-            }
-
-            item { Spacer(modifier = Modifier.height(16.dp)) }
-
-            // 등록폼 카테고리
-            item {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .background(MaterialTheme.colorScheme.background)
-                        .padding(start = 16.dp, end = 16.dp, top = 16.dp)
-                ) {
-                    Text("카테고리")
-                    Spacer(modifier = Modifier.height(4.dp))
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .border(1.dp, Color.Gray, RoundedCornerShape(4.dp))
-                            .clickable { categoryExpanded = true }
-                            .padding(16.dp)
-                    ) {
-                        Text(
-                            text = category.ifEmpty { "카테고리 선택" },
-                            style = MaterialTheme.typography.bodyLarge,
-                            color = MaterialTheme.colorScheme.onSurface
-                        )
-                    }
-                    DropdownMenu(
-                        expanded = categoryExpanded,
-                        onDismissRequest = { categoryExpanded = false },
-                        modifier = Modifier.fillMaxWidth()
-                    ) {
-                        categoryOptions.forEach { option ->
-                            DropdownMenuItem(
-                                onClick = {
-                                    viewModel.setCategory(option)
-                                    categoryExpanded = false
-                                },
-                                text = { Text(option) }
-                            )
-                        }
-                    }
-                }
-            }
-
-            item { Spacer(modifier = Modifier.height(8.dp)) }
-
-            // 양
-            item {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .background(MaterialTheme.colorScheme.background)
-                        .padding(start = 16.dp, end = 16.dp)
-                ) {
-                    Text("양")
-                    Spacer(modifier = Modifier.height(4.dp))
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .border(1.dp, Color.Gray, RoundedCornerShape(4.dp))
-                            .clickable { quantityExpanded = true }
-                            .padding(16.dp)
-                    ) {
-                        Text(
-                            text = quantity.ifEmpty { "양 선택" },
-                            style = MaterialTheme.typography.bodyLarge,
-                            color = MaterialTheme.colorScheme.onSurface
-                        )
-                    }
-                    DropdownMenu(
-                        expanded = quantityExpanded,
-                        onDismissRequest = { quantityExpanded = false },
-                        modifier = Modifier.fillMaxWidth()
-                    ) {
-                        quantityOptions.forEach { option ->
-                            DropdownMenuItem(
-                                onClick = {
-                                    viewModel.setQuantity(option)
-                                    quantityExpanded = false
-                                },
-                                text = { Text(option) }
-                            )
-                        }
-                    }
-                }
-            }
-
-            item { Spacer(modifier = Modifier.height(8.dp)) }
-
-            // 제조 일자
-            item {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .background(MaterialTheme.colorScheme.background)
-                        .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
-                ) {
-                    Text("제조 일자")
-                    Spacer(modifier = Modifier.height(4.dp))
-                    DatePicker(productionDate) { date ->
-                        viewModel.setProductionDate(date)
-                    }
-                    Spacer(modifier = Modifier.height(8.dp))
-
-                    // 거래 장소
-                    Text("거래 장소")
-                    Spacer(modifier = Modifier.height(4.dp))
-                    OutlinedTextField(
-                        value = place,
-                        onValueChange = {
-                            viewModel.setPlace(it)
-                        },
-                        modifier = Modifier.fillMaxWidth()
-                    )
-                    Spacer(modifier = Modifier.height(8.dp))
-
-                    // 거래 방법
-                    Text("거래 방법")
-                    Spacer(modifier = Modifier.height(4.dp))
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .border(1.dp, Color.Gray, RoundedCornerShape(4.dp))
-                            .clickable { methodExpanded = true }
-                            .padding(16.dp)
-                    ) {
-                        Text(
-                            text = selectedMethod.ifEmpty { "거래 방법 선택" },
-                            style = MaterialTheme.typography.bodyLarge,
-                            color = MaterialTheme.colorScheme.onSurface
-                        )
-                    }
-                    DropdownMenu(
-                        expanded = methodExpanded,
-                        onDismissRequest = { methodExpanded = false },
-                        modifier = Modifier.fillMaxWidth()
-                    ) {
-                        methodOptions.forEach { option ->
-                            DropdownMenuItem(
-                                onClick = {
-                                    viewModel.setMethod(option)
-                                    methodExpanded = false
-                                },
-                                text = { Text(option) }
-                            )
-                        }
-                    }
-                    Spacer(modifier = Modifier.height(8.dp))
-
-                    // 가격
-                    Text("가격")
-                    Spacer(modifier = Modifier.height(4.dp))
-                    OutlinedTextField(
-                        value = price,
-                        onValueChange = {
-                            viewModel.setPrice(it)
-                        },
-                        label = { Text("가격 입력") },
-                        modifier = Modifier.fillMaxWidth(),
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
-                    )
-                }
-            }
-
-            item { Spacer(modifier = Modifier.height(16.dp)) }
-
-            // 한줄 설명
-            item {
-                OutlinedTextField(
-                    value = description,
-                    onValueChange = {
-                        viewModel.setDescription(it)
-                    },
-                    label = { Text("한줄 설명") },
-                    modifier = Modifier.fillMaxWidth()
-                )
-            }
-
-            item { Spacer(modifier = Modifier.height(16.dp)) }
-
-            // 버튼 1
-            item {
-                Button(
-                    onClick = { /* Handle image upload */ },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(48.dp)
-                        .background(MaterialTheme.colorScheme.background)
-                ) {
-                    Text("사진 업로드")
-                }
-            }
-
-            item { Spacer(modifier = Modifier.height(16.dp)) }
-
-            // 버튼 2
-            item {
-                Button(
-                    onClick = {
-                        viewModel.uploadItem()
-                        navController.popBackStack()
-                    },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(48.dp)
-                ) {
-                    Text("등록")
-                }
-            }
-        }
-    }
-}
+//@OptIn(ExperimentalMaterial3Api::class)
+//@Composable
+//fun FoodShareFormScreen(navController: NavController, viewModel: FoodShareFormViewModel = viewModel()) {
+//    var categoryExpanded by remember { mutableStateOf(false) }
+//    var quantityExpanded by remember { mutableStateOf(false) }
+//    var methodExpanded by remember { mutableStateOf(false) }
+//
+//    val category by viewModel.category.collectAsState()
+//    val quantity by viewModel.quantity.collectAsState()
+//    val productionDate by viewModel.productionDate.collectAsState()
+//    val title by viewModel.title.collectAsState()
+//    val place by viewModel.place.collectAsState()
+//    val selectedMethod by viewModel.method.collectAsState()
+//    val price by viewModel.price.collectAsState()
+//    val description by viewModel.description.collectAsState()
+//
+//    val categoryOptions = listOf("한식", "분식", "중식", "일식", "양식")
+//    val quantityOptions = listOf("1인분", "2인분", "3인분", "4인분", "5인분", "6인분 이상")
+//    val methodOptions = listOf("직거래", "택배", "문고리")
+//
+//    Scaffold(
+//        topBar = {
+//            AppBar(
+//                title = "밀키트 등록 화면",
+//                navController = navController,
+//                modifier = Modifier
+//                    .background(Color.White)
+//                    .border(BorderStroke(0.5.dp, Color.Gray), shape = RectangleShape)
+//            )
+//        }
+//    ) { innerPadding ->
+//        LazyColumn(
+//            modifier = Modifier
+//                .fillMaxSize()
+//                .padding(innerPadding)
+//                .padding(16.dp)
+//        ) {
+//            item {
+//                // 제목 입력
+//                FormOutlinedTextField(
+//                    label = "제목",
+//                    hint = "제목을 입력하세요",
+//                    value = title,
+//                    onValueChange = { viewModel.setTitle(it) },
+//                    keyboardOptions = KeyboardOptions.Default,
+//                )
+//
+//                Spacer(modifier = Modifier.height(16.dp))
+//
+//                // 등록폼 카테고리
+//                FormDropdownSelector(
+//                    label = "카테고리",
+//                    hint = "카테고리 선택",
+//                    options = categoryOptions,
+//                    selectedOption = category,
+//                    onOptionSelected = { selectedOption ->
+//                        viewModel.setCategory(selectedOption)
+//                    }
+//                )
+//
+//                Spacer(modifier = Modifier.height(16.dp))
+//
+//                // 양 선택
+//                FormDropdownSelector(
+//                    label = "양",
+//                    hint = "양 선택",
+//                    options = quantityOptions,
+//                    selectedOption = quantity,
+//                    onOptionSelected = { selectedOption ->
+//                        viewModel.setQuantity(selectedOption)
+//                    },
+//                )
+//
+//                Spacer(modifier = Modifier.height(16.dp))
+//
+//                // 제조 일자
+//                Text("제조일자", fontWeight = FontWeight.Bold, fontSize = 14.sp)
+//                Spacer(modifier = Modifier.height(4.dp))
+//                DatePicker(productionDate) { date ->
+//                    viewModel.setProductionDate(date)
+//                }
+//
+//                Spacer(modifier = Modifier.height(16.dp))
+//
+//                // 거래 장소
+//                FormOutlinedTextField(
+//                    label = "거래 장소",
+//                    hint = "거래 장소를 입력하세요",
+//                    value = place,
+//                    onValueChange = { newValue ->
+//                        viewModel.setPlace(newValue)
+//                    },
+//                    keyboardOptions = KeyboardOptions.Default,
+//                    modifier = Modifier.fillMaxWidth()
+//                )
+//
+//                Spacer(modifier = Modifier.height(16.dp))
+//
+//                // 거래 방법
+//                FormButtonSelector(
+//                    label = "거래 방법",
+//                    options = methodOptions,
+//                    selectedOption = selectedMethod,
+//                    onOptionSelected = { selectedOption ->
+//                        viewModel.setMethod(selectedOption)
+//                    },
+//                    modifier = Modifier.fillMaxWidth()
+//                )
+//
+//                Spacer(modifier = Modifier.height(16.dp))
+//
+//                // 가격 입력
+//                FormOutlinedTextField(
+//                    label = "가격",
+//                    hint = "가격 입력",
+//                    value = price,
+//                    onValueChange = { viewModel.setPrice(it) },
+//                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+//                    modifier = Modifier.fillMaxWidth()
+//                )
+//
+//                Spacer(modifier = Modifier.height(16.dp))
+//
+//                // 한줄 설명
+//                FormOutlinedTextField(
+//                    label = "한줄 설명",
+//                    hint = "간단한 설명을 입력하세요",
+//                    value = description,
+//                    onValueChange = { viewModel.setDescription(it) },
+//                    keyboardOptions = KeyboardOptions.Default,
+//                    modifier = Modifier.fillMaxWidth()
+//                )
+//
+//                Spacer(modifier = Modifier.height(16.dp))
+//
+//                // 사진 등록ㅅ
+//                Text("사진 등록", fontWeight = FontWeight.Bold, fontSize = 14.sp)
+//                Spacer(modifier = Modifier.height(4.dp))
+//                ImagePickerScreen(modifier = Modifier.fillMaxWidth())
+//
+//                Spacer(modifier = Modifier.height(16.dp))
+//
+//                // 등록 버튼
+//                Button(
+//                    onClick = {
+//                        viewModel.uploadFoodShare()
+//                        navController.popBackStack()
+//                    },
+//                    modifier = Modifier
+//                        .fillMaxWidth()
+//                        .height(48.dp)
+//                ) {
+//                    Text("등록")
+//                }
+//            }
+//        }
+//    }
+//}

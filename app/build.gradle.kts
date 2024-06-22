@@ -4,6 +4,7 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("com.google.gms.google-services") // Firebase 관련 플러그인 추가
+    id ("kotlin-kapt") //Kotlin Annotation Processing 툴 관련 플러그인
 }
 android {
     namespace = "com.example.hansotbob"
@@ -54,8 +55,11 @@ dependencies {
     implementation("com.flaviofaria:kenburnsview:1.0.7")
     implementation("com.jpardogo.materialtabstrip:library:1.1.0")
     implementation("com.github.bumptech.glide:glide:4.0.0")
+    kapt ("com.github.bumptech.glide:compiler:4.13.0")
     implementation("com.github.ViksaaSkool:AwesomeSplash:v1.0.0")
     implementation("com.ramotion.paperonboarding:paper-onboarding:1.1.3")
+    implementation("com.github.a914-gowtham:compose-ratingbar:1.3.12")
+
 
     // default dependencies
     implementation(libs.androidx.core.ktx)
