@@ -1,5 +1,8 @@
 package com.example.hansotbob.viewmodel.form
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.hansotbob.dto.MealkitsContent
@@ -21,6 +24,7 @@ class MealkitFormViewModel(
     private val _description = MutableStateFlow("")
     private val _uploadStatus = MutableStateFlow("")
 
+    var errorMessage by mutableStateOf("")
     val title: StateFlow<String> = _title
     val category: StateFlow<String> = _category
     val quantity: StateFlow<String> = _quantity
@@ -30,6 +34,31 @@ class MealkitFormViewModel(
     val price: StateFlow<String> = _price
     val description: StateFlow<String> = _description
     val uploadStatus: StateFlow<String> = _uploadStatus
+    var isLoading by mutableStateOf(false)
+
+    fun register(): Boolean {
+        return if (_title.value.isEmpty() || _category.value.isEmpty() || _quantity.value.isEmpty()
+            || _productionDate.value.isEmpty() || _place.value.isEmpty() || _method.value.isEmpty()
+            || _price.value.isEmpty() || _description.value.isEmpty()) {
+            errorMessage = "빈칸을 전부 채우세요"
+            false
+        } else {
+            true
+        }
+    }
+
+    fun checkPriceIsValid(): Boolean {
+        return try {
+            _price.value.toDouble()
+            true
+        } catch (e: NumberFormatException) {
+            errorMessage = "가격은 숫자를 입력하세요"
+            false
+        }
+    }
+
+
+
 
     fun setTitle(title: String) {
         _title.value = title
