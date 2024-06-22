@@ -17,6 +17,7 @@ import com.example.hansotbob.ui.activity.MyPageActivity
 import com.example.hansotbob.ui.screen.HomeFoodScreen
 import com.example.hansotbob.ui.screen.MealkitScreen
 import com.example.hansotbob.ui.screen.OverviewScreen
+import com.example.hansotbob.ui.screen.ShareScreen
 import com.example.hansotbob.ui.screen.detail.FoodShareDetailScreen
 import com.example.hansotbob.ui.screen.detail.MealkitsDetailScreen
 import com.example.hansotbob.ui.screen.detail.OverviewDetailScreen
@@ -48,18 +49,10 @@ fun MainNavGraph(navController: NavHostController, modifier: Modifier = Modifier
                 context.startActivity(intent)
             }
         }
-
-        composable("food_share") {
+        
+        composable("food_share_pager"){
             Column(modifier = modifier.fillMaxSize()) {
-                ItemBar()
-                HomeFoodScreen(navController)
-            }
-        }
-
-        composable("mealkit_share") {
-            Column(modifier = modifier.fillMaxSize()) {
-                ItemBar()
-                MealkitScreen(navController)
+                ShareScreen(navController = navController)
             }
         }
 

@@ -65,7 +65,7 @@ fun HansotThemeNavigationBar(navController: NavHostController) {
                     }
                 }
             }
-            IconButton(onClick = { navController.navigate("food_share") }) {
+            IconButton(onClick = { navController.navigate("food_share_pager") }) {
                 Icon(
                     imageVector = Icons.Outlined.Restaurant,
                     contentDescription = "Sharing Food",
