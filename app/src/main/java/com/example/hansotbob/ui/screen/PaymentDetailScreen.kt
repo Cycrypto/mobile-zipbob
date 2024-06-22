@@ -31,20 +31,26 @@ fun PaymentDetailScreen(navController: NavHostController) {
     val paymentDetails = listOf(
         PaymentDetail(
             productName = "물품명 1",
-            itemCounts = "1",
-            itemPrice = "1000"
+            itemCounts = 1,
+            itemPrice = 1000,
+            seller = "춘배"
         ),
         PaymentDetail(
             productName = "물품명 2",
-            itemCounts = "2",
-            itemPrice = "2000"
+            itemCounts = 2,
+            itemPrice = 1000,
+            seller = "춘식이"
         ),
         PaymentDetail(
             productName = "물품명 3",
-            itemCounts = "3",
-            itemPrice = "3000"
+            itemCounts = 3,
+            itemPrice = 1000,
+            seller = "나비"
         )
     )
+
+    // Calculate total price
+    val totalPrice = paymentDetails.sumBy { it.itemCounts * it.itemPrice }
 
     ConstraintLayout(
         modifier = Modifier
@@ -52,7 +58,7 @@ fun PaymentDetailScreen(navController: NavHostController) {
             .background(Color.White)
             .padding(16.dp)
     ) {
-        val (topBar, paymentTitle, recyclerView, totalPrice, buyButton) = createRefs()
+        val (topBar, paymentTitle, recyclerView, totalPriceText, buyButton) = createRefs()
 
         // Top Bar
         Row(
@@ -109,7 +115,7 @@ fun PaymentDetailScreen(navController: NavHostController) {
                     top.linkTo(paymentTitle.bottom, margin = 8.dp)
                     start.linkTo(parent.start)
                     end.linkTo(parent.end)
-                    bottom.linkTo(totalPrice.top, margin = 16.dp)
+                    bottom.linkTo(totalPriceText.top, margin = 16.dp)
                 }
         ) {
             items(paymentDetails) { paymentDetail ->
@@ -122,7 +128,7 @@ fun PaymentDetailScreen(navController: NavHostController) {
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
                 .padding(horizontal = 16.dp)
-                .constrainAs(totalPrice) {
+                .constrainAs(totalPriceText) {
                     start.linkTo(parent.start)
                     end.linkTo(parent.end)
                     bottom.linkTo(buyButton.top, margin = 16.dp)
@@ -136,7 +142,7 @@ fun PaymentDetailScreen(navController: NavHostController) {
             )
 
             Text(
-                text = "금액",
+                text = "${totalPrice}pt", // Display total price
                 fontSize = 18.sp,
                 modifier = Modifier
                     .padding(start = 8.dp)
@@ -162,6 +168,7 @@ fun PaymentDetailScreen(navController: NavHostController) {
         }
     }
 }
+
 
 @Preview(showBackground = true)
 @Composable

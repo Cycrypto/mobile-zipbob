@@ -25,24 +25,34 @@ import androidx.navigation.compose.rememberNavController
 import com.example.hansotbob.R
 import com.example.hansotbob.ui.theme.PrimaryColor
 import com.example.hansotbob.data.PaymentDetail
+import com.example.hansotbob.data.User
 
 @Composable
 fun SaleDetailScreen(navController: NavHostController) {
-    val paymentDetails = listOf(
+    val user = User(
+        userName = "곽춘배",
+        nickname = "춘배",
+        userPoint = 4000,
+        imagePainterId = R.drawable.ic_mypage
+    )
+    val saleDetails = listOf(
         PaymentDetail(
             productName = "물품명 1",
-            itemCounts = "1",
-            itemPrice = "1000"
+            itemCounts = 1,
+            itemPrice = 1000,
+            seller = "춘배"
         ),
         PaymentDetail(
             productName = "물품명 2",
-            itemCounts = "2",
-            itemPrice = "2000"
+            itemCounts = 2,
+            itemPrice = 1000,
+            seller = "춘배"
         ),
         PaymentDetail(
             productName = "물품명 3",
-            itemCounts = "3",
-            itemPrice = "3000"
+            itemCounts = 3,
+            itemPrice = 2000,
+            seller = "춘배"
         )
     )
 
@@ -112,8 +122,8 @@ fun SaleDetailScreen(navController: NavHostController) {
                     bottom.linkTo(totalPrice.top, margin = 16.dp)
                 }
         ) {
-            items(paymentDetails) { paymentDetail ->
-                PaymentDetail(paymentDetail = paymentDetail)
+            items(saleDetails) { paymentDetail ->
+                SaleDetail(paymentDetail = paymentDetail)
             }
         }
 
