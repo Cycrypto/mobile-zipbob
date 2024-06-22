@@ -1,3 +1,5 @@
+package com.example.hansotbob
+
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -38,14 +40,17 @@ import com.example.hansotbob.ui.theme.HansotbobTheme
 fun CommunityCardWithBadge(
     title: String,
     imagePainter: Painter,
-    currentPeople: Int,
-    totalPeople: Int,
-    points: Int,
+    currentPeople: String = "0",
+    totalPeople: String,
+    points: String,
     location: String,
     isNew: Boolean = false,
     modifier: Modifier = Modifier
 ) {
-    val perPersonCost = if (totalPeople != 0) points / totalPeople else 0
+    val currentPeopleInt = currentPeople.toInt()
+    val totalPeopleInt = totalPeople.toIntOrNull() ?: 1 // Default to 1 to avoid division by zero
+    val pointsInt = points.toInt()
+    val perPersonCost = if (totalPeopleInt != 0) pointsInt / totalPeopleInt else 0
 
     Card(
         modifier = modifier,
@@ -121,7 +126,7 @@ fun CommunityCardWithBadge(
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         Text(
-                            text = "$currentPeople / $totalPeople",
+                            text = "$currentPeopleInt / $totalPeopleInt",
                             fontSize = 16.sp,
                             fontWeight = FontWeight.Bold,
                             color = MaterialTheme.colorScheme.onBackground
@@ -162,19 +167,13 @@ fun BadgeBox2(
 @Composable
 fun PreviewCommunityCard3() {
     HansotbobTheme {
-        val formData = CommunityFormData(
-            title = "Hello",
-            totalCost = "1000",
-            participants = "4",
-            location = "서울"
-        )
         CommunityCardWithBadge(
-            title = formData.title,
+            title = "Hello",
             imagePainter = painterResource(id = R.drawable.food_image),
-            currentPeople = 2,
-            totalPeople = formData.participants.toIntOrNull() ?: 0,
-            points = formData.totalCost.toIntOrNull() ?: 0,
-            location = formData.location,
+            currentPeople = "2",
+            totalPeople = "4",
+            points = "1000",
+            location = "서울",
             isNew = true
         )
     }

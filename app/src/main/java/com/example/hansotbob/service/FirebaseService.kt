@@ -5,6 +5,7 @@ import com.example.hansotbob.dto.MealContent
 import com.example.hansotbob.R
 import com.example.hansotbob.data.User
 import com.example.hansotbob.dto.FoodShareContent
+import com.example.hansotbob.dto.IngredientShareContent
 import com.example.hansotbob.dto.MealkitsContent
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
@@ -92,5 +93,25 @@ class FirebaseService {
             }
         }
         return items
+    }
+
+    suspend fun getIngredientItems(): List<IngredientShareContent> {
+        val snapshot = database.child("ingredient").get().await()
+        val items = mutableListOf<IngredientShareContent>()
+        for (child in snapshot.children) {
+            val item = child.getValue(IngredientShareContent::class.java)
+            if (item != null) {
+                items.add(item)
+            }
+        }
+        return items
+    }
+
+    suspend fun uploadIngredientContent(ingredient: IngredientShareContent) {
+        val key = database.child("ingredient").push().key ?: return
+        val newIngredient = ingredient.copy(itemId = key, author = nickname)
+        Log.d("Ingredient", "newig : $newIngredient")
+        database.child("ingredient").child(key).setValue(newIngredient).await()
+
     }
 }

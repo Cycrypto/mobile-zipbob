@@ -16,9 +16,9 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun ShareScreen(navController: NavController){
-    val pagerState = rememberPagerState(pageCount = { 2 })
+    val tabs = listOf("집밥 공유", "밀키트", "재료 공유")
+    val pagerState = rememberPagerState(pageCount = { tabs.size })
     val coroutineScope = rememberCoroutineScope()
-    val tabs = listOf("집밥 공유", "밀키트")
 
 
     Column(modifier = Modifier.fillMaxSize()) {
@@ -40,6 +40,7 @@ fun ShareScreen(navController: NavController){
             when (page) {
                 0 -> HomeFoodScreen(navController)
                 1 -> MealkitScreen(navController)
+                2 -> IngredientScreen(navController)
             }
         }
     }

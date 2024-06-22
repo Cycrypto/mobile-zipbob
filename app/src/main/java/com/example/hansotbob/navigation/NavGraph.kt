@@ -11,6 +11,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.hansotbob.CommunityFormScreen
 import com.example.hansotbob.component.common.ItemBar
 import com.example.hansotbob.service.FirebaseService
 import com.example.hansotbob.ui.activity.MyPageActivity
@@ -61,6 +62,9 @@ fun MainNavGraph(navController: NavHostController, modifier: Modifier = Modifier
         }
         composable("mealkit_form"){
             MealkitFormScreen(navController)
+        }
+        composable("ingredient_form"){
+            CommunityFormScreen(navController)
         }
 
         composable("foodshare/detail/{itemId}") { backStackEntry ->

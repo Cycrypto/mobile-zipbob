@@ -33,11 +33,4 @@ class HomeFoodScreenViewModel : ViewModel() {
             _items.emit(loadedItems)
         }
     }
-
-//    fun addItem(item: MealContent) {
-//        viewModelScope.launch {
-//            firebaseService.uploadMealContent(item)
-//            loadItems() // 데이터를 업로드한 후 다시 로드합니다.
-//        }
-//    }
 }

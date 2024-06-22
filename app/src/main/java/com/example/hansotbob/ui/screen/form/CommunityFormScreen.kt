@@ -1,3 +1,5 @@
+package com.example.hansotbob
+
 import android.Manifest
 import android.content.Context
 import android.graphics.Bitmap
@@ -33,9 +35,11 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -47,19 +51,28 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.core.content.PermissionChecker
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.hansotbob.ui.theme.HansotbobTheme
+import com.example.hansotbob.viewmodel.form.IngredientFormViewModel
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CommunityFormScreen(navController: NavController) {
-    val formData = remember { mutableStateOf(CommunityFormData()) }
+fun CommunityFormScreen(navController: NavController, viewModel: IngredientFormViewModel = viewModel()) {
+    val title by viewModel.title.collectAsState()
+    val category by viewModel.category.collectAsState()
+    val place by viewModel.place.collectAsState()
+    val price by viewModel.price.collectAsState()
+    val participant by viewModel.participant.collectAsState()
+    val description by viewModel.description.collectAsState()
+
     var expanded by remember { mutableStateOf(false) }
     val categories = listOf("집밥공유", "식료품공유")
 
     val imagePickerLauncher = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-        formData.value = formData.value.copy(imageUri = uri)
+        // Handle image URI here
     }
 
     val context = LocalContext.current
@@ -85,8 +98,8 @@ fun CommunityFormScreen(navController: NavController) {
             item { Spacer(modifier = Modifier.height(16.dp)) }
             item {
                 OutlinedTextField(
-                    value = formData.value.title,
-                    onValueChange = { formData.value = formData.value.copy(title = it) },
+                    value = title,
+                    onValueChange = { viewModel.setTitle(it) },
                     label = { Text(text = "제목 입력") },
                     modifier = Modifier.fillMaxWidth()
                 )
@@ -111,7 +124,7 @@ fun CommunityFormScreen(navController: NavController) {
                             .padding(16.dp)
                     ) {
                         Text(
-                            text = formData.value.category.ifEmpty { "카테고리 선택" },
+                            text = category.ifEmpty { "카테고리 선택" },
                             style = MaterialTheme.typography.bodyLarge,
                             color = MaterialTheme.colorScheme.onSurface
                         )
@@ -124,7 +137,7 @@ fun CommunityFormScreen(navController: NavController) {
                         categories.forEach { category ->
                             DropdownMenuItem(
                                 onClick = {
-                                    formData.value = formData.value.copy(category = category)
+                                    viewModel.setCategory(category)
                                     expanded = false
                                 },
                                 text = { Text(category) }
@@ -145,10 +158,10 @@ fun CommunityFormScreen(navController: NavController) {
                     Text("총비용")
                     Spacer(modifier = Modifier.height(4.dp))
                     OutlinedTextField(
-                        value = formData.value.totalCost,
+                        value = price,
                         onValueChange = {
                             if (it.all { char -> char.isDigit() }) {
-                                formData.value = formData.value.copy(totalCost = it)
+                                viewModel.setPrice(it)
                             }
                         },
                         keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
@@ -158,10 +171,10 @@ fun CommunityFormScreen(navController: NavController) {
                     Text("모집인원")
                     Spacer(modifier = Modifier.height(4.dp))
                     OutlinedTextField(
-                        value = formData.value.participants,
+                        value = participant,
                         onValueChange = {
                             if (it.all { char -> char.isDigit() }) {
-                                formData.value = formData.value.copy(participants = it)
+                                viewModel.setParticipant(it)
                             }
                         },
                         keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
@@ -171,8 +184,8 @@ fun CommunityFormScreen(navController: NavController) {
                     Text("거래장소")
                     Spacer(modifier = Modifier.height(4.dp))
                     OutlinedTextField(
-                        value = formData.value.location,
-                        onValueChange = { formData.value = formData.value.copy(location = it) },
+                        value = place,
+                        onValueChange = { viewModel.setPlace(it) },
                         modifier = Modifier.fillMaxWidth()
                     )
                     Spacer(modifier = Modifier.height(8.dp))
@@ -181,26 +194,15 @@ fun CommunityFormScreen(navController: NavController) {
             item { Spacer(modifier = Modifier.height(16.dp)) }
             item {
                 OutlinedTextField(
-                    value = formData.value.description,
-                    onValueChange = { formData.value = formData.value.copy(description = it) },
+                    value = description,
+                    onValueChange = { viewModel.setDescription(it) },
                     label = { Text("한줄 설명") },
                     modifier = Modifier.fillMaxWidth()
                 )
             }
             item { Spacer(modifier = Modifier.height(16.dp)) }
             item {
-                formData.value.imageUri?.let { uri ->
-                    val bitmap = loadImageFromUri(uri, context)
-                    bitmap?.let {
-                        Image(
-                            painter = BitmapPainter(it.asImageBitmap()),
-                            contentDescription = null,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(200.dp)
-                        )
-                    }
-                }
+                // Add image display and picker logic here if needed
             }
             item { Spacer(modifier = Modifier.height(16.dp)) }
             item {
@@ -223,8 +225,13 @@ fun CommunityFormScreen(navController: NavController) {
             }
             item { Spacer(modifier = Modifier.height(16.dp)) }
             item {
+                val scope = rememberCoroutineScope()
                 Button(
-                    onClick = { /* Handle registration */ },
+                    onClick = {
+                        scope.launch {
+                            viewModel.uploadIngredient()
+                        }
+                    },
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(48.dp)
