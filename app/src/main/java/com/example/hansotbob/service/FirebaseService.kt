@@ -3,6 +3,7 @@ package com.example.hansotbob.service
 import android.util.Log
 import com.example.hansotbob.dto.MealContent
 import com.example.hansotbob.R
+import com.example.hansotbob.data.User
 import com.example.hansotbob.dto.FoodShareContent
 import com.example.hansotbob.dto.MealkitsContent
 import com.google.firebase.auth.FirebaseAuth
@@ -17,11 +18,20 @@ class FirebaseService {
     private val currentUser = auth.currentUser!!
     private val nickname = currentUser.displayName ?: "배고픈 무지"
 
+    suspend fun uploadUser(user: User){
+        val key = user.userName
+        database.child("users").child(key).setValue(user).await()
+    }
+
+    suspend fun getUser(userName: String): User?{
+        val snapshot = database.child("users").child(userName).get().await()
+        return snapshot.getValue(User::class.java)
+    }
+
     suspend fun uploadMealContent(item: FoodShareContent) {
         val key = database.child("homefood").push().key ?: return
         val newItem = item.copy(itemId = key, authorId = nickname)
         database.child("homefood").child(key).setValue(newItem).await()
-        database.child("user_homefood").child(key).setValue(newItem).await()
     }
 
     suspend fun getMealContents(): List<FoodShareContent> {
@@ -46,7 +56,6 @@ class FirebaseService {
         val key = database.child("mealkits").push().key ?: return
         val newMealkit = mealkit.copy(itemId = key, author = nickname)
         database.child("mealkits").child(key).setValue(newMealkit).await()
-        database.child("user_mealkits").child(currentUser.uid).setValue(newMealkit).await()
 
     }
 

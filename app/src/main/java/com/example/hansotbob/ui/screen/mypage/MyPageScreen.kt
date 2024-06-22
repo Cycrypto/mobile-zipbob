@@ -2,17 +2,23 @@ package com.example.hansotbob.ui.screen.mypage
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults.buttonColors
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Payment
+import androidx.compose.material.icons.filled.Place
+import androidx.compose.material.icons.filled.RateReview
+import androidx.compose.material.icons.filled.Reviews
+import androidx.compose.material.icons.filled.Sell
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -23,8 +29,9 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.hansotbob.R
+import com.example.hansotbob.component.common.ProfileOnMyPage
+import com.example.hansotbob.ui.theme.HansotbobTheme
 import com.example.hansotbob.ui.theme.PrimaryColor
-import com.example.hansotbob.ui.theme.WarmPrimaryColor
 
 @Composable
 fun MyPageScreen(navController: NavHostController) {
@@ -34,7 +41,7 @@ fun MyPageScreen(navController: NavHostController) {
             .background(Color.White)
             .padding(16.dp)
     ) {
-        val (topBar, profileContainer, transactionHeader, transactionList, editProfileButton) = createRefs()
+        val (topBar, profileContainer, transactionList, editProfileButton) = createRefs()
 
         // Top Bar
         Row(
@@ -54,6 +61,7 @@ fun MyPageScreen(navController: NavHostController) {
                 modifier = Modifier
                     .size(24.dp)
                     .padding(end = 8.dp)
+                    .clickable { navController.popBackStack() }
             )
 
             // Title
@@ -67,62 +75,12 @@ fun MyPageScreen(navController: NavHostController) {
         }
 
         // Profile Container
-        ConstraintLayout(
+        ProfileOnMyPage(
+            navController,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp)
-                .background(Color.White)
-                .constrainAs(profileContainer) {
-                    top.linkTo(topBar.bottom)
-                }
-        ) {
-            val (profileImage, nickname, points) = createRefs()
-
-            Image(
-                painter = painterResource(id = R.drawable.ic_notification),
-                contentDescription = "Profile Image",
-                modifier = Modifier
-                    .size(80.dp)
-                    .constrainAs(profileImage) {
-                        start.linkTo(parent.start)
-                        centerVerticallyTo(parent)
-                    },
-                contentScale = ContentScale.Crop
-            )
-
-            Text(
-                text = "닉네임",
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier
-                    .padding(start = 20.dp)
-                    .constrainAs(nickname) {
-                        start.linkTo(profileImage.end)
-                        centerVerticallyTo(profileImage)
-                    }
-            )
-
-            Text(
-                text = "포인트",
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.constrainAs(points) {
-                    end.linkTo(parent.end)
-                    centerVerticallyTo(profileImage)
-                }
-            )
-        }
-
-        // Transaction Header
-        Text(
-            text = "나의 거래",
-            fontSize = 18.sp,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier
-                .padding(16.dp)
-                .constrainAs(transactionHeader) {
-                    top.linkTo(profileContainer.bottom)
-                }
+                .constrainAs(profileContainer) { top.linkTo(topBar.bottom) }
         )
 
         // Transaction List
@@ -131,55 +89,54 @@ fun MyPageScreen(navController: NavHostController) {
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp)
                 .constrainAs(transactionList) {
-                    top.linkTo(transactionHeader.bottom)
+                    top.linkTo(profileContainer.bottom)
                     bottom.linkTo(editProfileButton.top, margin = 16.dp)
                 }
         ) {
             items(items = listOf(
-                "구매내역" to "buy",
-                "판매내역" to "sales",
-                "내가 쓴 리뷰" to "myReviews",
-                "내가 받은 리뷰" to "receivedReviews"
+                "내가 구매한 목록" to "buy",
+                "내가 판매한 목록" to "sales",
+                "내가 받은 리뷰" to "myReviews",
+                "내가 쓴 리뷰" to "receivedReviews",
             )) { (label, route) ->
-                Button(
-                    onClick = { navController.navigate(route) },
-                    colors = buttonColors(WarmPrimaryColor),
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(vertical = 8.dp)
+                        .padding(vertical = 16.dp) // Increased padding for larger size
+                        .clickable { navController.navigate(route) }
                 ) {
+                    val icon = when (route) {
+                        "buy" -> Icons.Default.Payment
+                        "sales" -> Icons.Default.Sell
+                        "myReviews" -> Icons.Default.Reviews
+                        "receivedReviews" -> Icons.Default.RateReview
+                        else -> Icons.Default.Place
+                    }
+                    Icon(
+                        imageVector = icon,
+                        contentDescription = "Icon for $label",
+                        modifier = Modifier.size(32.dp), // Increased icon size
+                        tint = MaterialTheme.colorScheme.primary
+                    )
                     Text(
                         text = label,
-                        color = Color.Black,
-                        fontSize = 20.sp
+                        fontSize = 18.sp, // Increased text size
+                        modifier = Modifier.padding(start = 24.dp) // Increased padding between icon and text
                     )
                 }
             }
         }
 
-        // Edit Profile Button
-        Button(
-            onClick = { navController.navigate("profileEdit") },
-            colors = buttonColors(PrimaryColor),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp)
-                .constrainAs(editProfileButton) {
-                    bottom.linkTo(parent.bottom, margin = 16.dp)
-                }
-        ) {
-            Text(
-                text = "프로필 수정",
-                color = Color.Black,
-                fontSize = 16.sp
-            )
-        }
+
     }
 }
 
 @Preview(showBackground = true)
 @Composable
 fun MyPageScreenPreview() {
-    val navController = rememberNavController()
-    MyPageScreen(navController)
+    HansotbobTheme{
+        val navController = rememberNavController()
+        MyPageScreen(navController)
+    }
 }
