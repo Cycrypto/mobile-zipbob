@@ -194,13 +194,4 @@ fun FoodShareContentDetail(
 }
 
 
-@Composable
-fun ReviewDummyList1(): List<Review> {
-    return listOf(
-        Review("사용자4", "정말 맛있어요!", rememberVectorPainter(Icons.Filled.AccountCircle), 2.0f),
-        Review("사용자5", "최고의 레시피입니다.", rememberVectorPainter(Icons.Filled.AccountCircle), 5.0f),
-        Review("사용자6", "다시 주문하고 싶어요!", rememberVectorPainter(Icons.Filled.AccountCircle), 5.0f)
-        // Add more dummy reviews as needed
-    )
-}
 

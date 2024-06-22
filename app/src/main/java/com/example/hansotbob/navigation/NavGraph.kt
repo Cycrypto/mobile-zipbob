@@ -30,6 +30,7 @@ import com.example.hansotbob.viewmodel.screen.HomeFoodScreenViewModel
 import com.example.hansotbob.viewmodel.screen.OverviewScreenViewModel
 import com.example.hansotbob.viewmodel.screen.detail.FoodShareDetailViewModel
 import com.example.hansotbob.viewmodel.screen.detail.MealkitDetailViewModel
+import com.example.hansotbob.viewmodel.screen.detail.ReviewViewModel
 
 @Composable
 fun MainNavGraph(navController: NavHostController, modifier: Modifier = Modifier) {
@@ -81,8 +82,10 @@ fun MainNavGraph(navController: NavHostController, modifier: Modifier = Modifier
             Log.d("NavGraph", "mealkit/detail/${itemId}")
             val viewModel: MealkitDetailViewModel = viewModel(
                 factory= ViewModelFactory(FirebaseService()))
+            val reviewModel: ReviewViewModel = viewModel(
+                factory= ViewModelFactory(FirebaseService()))
 
-            MealkitsDetailScreen(navController, itemId, viewModel)
+            MealkitsDetailScreen(navController, itemId, viewModel, reviewModel)
         }
 
         composable("detail/{name}/{category}/{imageRes}") { backStackEntry ->

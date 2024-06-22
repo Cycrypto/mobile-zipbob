@@ -32,6 +32,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -64,6 +65,8 @@ import com.example.hansotbob.dto.MealkitsContent
 import com.example.hansotbob.service.FirebaseService
 import com.example.hansotbob.ui.theme.DetailLabelColor
 import com.example.hansotbob.viewmodel.ViewModelFactory
+import com.example.hansotbob.viewmodel.screen.detail.ReviewViewModel
+
 //import com.google.android.play.integrity.internal.i
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -73,7 +76,9 @@ fun MealkitsDetailScreen(
     itemId: String,
     viewModel: MealkitDetailViewModel = viewModel(
         factory = ViewModelFactory(FirebaseService())
-    )
+    ),
+    reviewModel: ReviewViewModel = viewModel(
+        factory= ViewModelFactory(FirebaseService()))
 ) {
     val images = listOf(
         R.drawable.food_image, // 실제 이미지 리소스를 추가
@@ -83,10 +88,21 @@ fun MealkitsDetailScreen(
     val pagerState = rememberPagerState(pageCount = { images.size })
     val mealkit by viewModel.mealkit.collectAsState()
     val dummyauthor = AuthorData(authorId = "123", name = "John Doe", profileImageId = R.drawable.food_image) // 임시 리소스
-    viewModel.loadMealkit(itemId)
 
-    // TODO: review db 연결 후 viewmodel에서 List<Review> 가져오기
-    val reviewList : List<Review> = ReviewDummyList()
+    LaunchedEffect(itemId) {
+        Log.d("MealkitsDetailScreen", "Calling loadMealkit for itemId: $itemId")
+        viewModel.loadMealkit(itemId)
+    }
+
+    LaunchedEffect(itemId) {
+        Log.d("ReviewModel", "Calling loadReviews for itemId: $itemId")
+        reviewModel.loadReviews(itemId)
+    }
+
+    val reviewListState by reviewModel.reviews.collectAsState()
+    val reviewList = reviewListState // Extracting the value from State
+
+//    var reviewList : List<Review> = ReviewDummyList()
     val averageRating = calculateAverageRating(reviewList)
 
     Scaffold(
@@ -125,7 +141,12 @@ fun MealkitsDetailScreen(
                 PostAuthordata(authorData = dummyauthor)
                 ButtonBar(onContactSellerClick = {/* contact seller */}, onBuyClick = {/* buy click */})
                 Spacer(modifier = Modifier.height(16.dp))
-                ReviewSection(reviewList)
+                ReviewSection(
+                    reviewList = reviewList,
+                    onReviewSubmit = { reviewContent, rating ->
+                        reviewModel.uploadReview(itemId, reviewContent, rating)
+                    }
+                )
                 Spacer(modifier = Modifier.height(16.dp))
             }
         } ?: run {
@@ -237,9 +258,9 @@ fun calculateAverageRating(reviews: List<Review>): Float {
 @Composable
 fun ReviewDummyList(): List<Review> {
     return listOf(
-        Review("사용자1", "정말 맛있어요!", rememberVectorPainter(Icons.Filled.AccountCircle), 4.0f),
-        Review("사용자2", "최고의 레시피입니다.", rememberVectorPainter(Icons.Filled.AccountCircle), 3.0f),
-        Review("사용자3", "다시 주문하고 싶어요!", rememberVectorPainter(Icons.Filled.AccountCircle), 1.0f)
+        Review("사용자1", "정말 맛있어요!", "", 4.0f),
+        Review("사용자2", "최고의 레시피입니다.", "", 3.0f),
+        Review("사용자3", "다시 주문하고 싶어요!", "", 1.0f)
         // Add more dummy reviews as needed
     )
 }

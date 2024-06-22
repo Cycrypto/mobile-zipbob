@@ -29,10 +29,11 @@ import com.gowtham.ratingbar.RatingBarStyle
 
 @Composable
 fun ReviewSection(
-    reviewList: List<Review>
+    reviewList: List<Review>,
+    onReviewSubmit: (String, Float) -> Unit
 ) {
     var reviewText by remember { mutableStateOf("") }
-    var rating: Float by remember { mutableStateOf(3.2f) }
+    var rating: Float by remember { mutableStateOf(3.0f) }
 
     Column(
         modifier = Modifier
@@ -67,7 +68,11 @@ fun ReviewSection(
                     .padding(end = 8.dp)
             )
             Button(
-                onClick = { /* Handle review submit */ },
+                onClick = {
+                    onReviewSubmit(reviewText, rating)
+                    reviewText = ""
+                    rating = 3.0f
+                },
                 shape = RoundedCornerShape(50),
                 colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
             ) {
@@ -80,6 +85,7 @@ fun ReviewSection(
     }
 }
 
+
 @Composable
 fun ReviewList(reviews: List<Review>) {
     Column {
@@ -87,7 +93,7 @@ fun ReviewList(reviews: List<Review>) {
             ReviewCard(
                 nickname = review.nickname,
                 reviewContent = review.reviewContent,
-                profileImage = review.profileImage,
+                profileImageUrl = review.profileImage,
                 rating = review.rating,
                 onEditClicked = { /* Handle edit click */ },
                 onDeleteClicked = { /* Handle delete click */ }
