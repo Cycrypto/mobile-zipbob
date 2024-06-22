@@ -23,6 +23,32 @@ import com.example.hansotbob.R
 import com.example.hansotbob.data.ReviewDetail
 
 @Composable
+fun RatingBar(maxRating: Int = 5, initialRating: Float) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        for (i in 1..maxRating) {
+            val starImage = when {
+                initialRating >= i -> R.drawable.ic_star_filled
+                initialRating >= i - 0.5 -> R.drawable.ic_star_half
+                else -> R.drawable.ic_star_outline
+            }
+            Image(
+                painter = painterResource(starImage),
+                contentDescription = "Star",
+                modifier = Modifier
+                    .size(30.dp)
+                    .padding(4.dp)
+            )
+        }
+        Spacer(modifier = Modifier.width(8.dp))
+        Text(text = "$initialRating / 5.0")
+    }
+}
+
+
+@Composable
 fun ReviewDetail(
     reviewDetail: ReviewDetail,
     border: Dp = 1.dp,
@@ -30,7 +56,7 @@ fun ReviewDetail(
     modifier: Modifier = Modifier
 ) {
     Row(
-        verticalAlignment = Alignment.CenterVertically,
+        verticalAlignment = Alignment.Top,
         modifier = modifier
             .fillMaxWidth()
             .padding(vertical = 8.dp)
@@ -54,23 +80,28 @@ fun ReviewDetail(
         Column(
             modifier = Modifier.weight(1f)
         ) {
-            // User Name
+            // product, user Name
             Text(
-                text = reviewDetail.userName,
+                text = reviewDetail.productName,
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Start,
+                modifier = Modifier.fillMaxWidth()
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = " ${reviewDetail.userName} / ${reviewDetail.getFormattedCreatedAt()} ",
+                fontSize = 12.sp,
                 textAlign = TextAlign.Start,
                 modifier = Modifier.fillMaxWidth()
             )
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            // Review Rating
-            Text(
-                text = "평점: ${reviewDetail.reviewRating}/5.0점",
-                fontSize = 14.sp,
-                textAlign = TextAlign.End,
-                modifier = Modifier.fillMaxWidth()
+            // Rating Bar
+            RatingBar(
+                maxRating = 5,
+                initialRating = reviewDetail.reviewRating
             )
 
             Spacer(modifier = Modifier.height(8.dp))
@@ -93,8 +124,9 @@ fun ReviewDetailPreview() {
         reviewDetail = ReviewDetail(
             imagePainterId = R.drawable.ic_mypage,
             userName = "감자",
-            reviewRating = "4.0",
-            detail = "너무너무 맛있는 레시피였어요 자주 만들어 먹겠습니다!"
+            reviewRating = 3.5f,
+            detail = "너무너무 맛있는 레시피였어요 자주 만들어 먹겠습니다!",
+            productName = "스파게티 나눔",
         )
     )
 }
