@@ -288,7 +288,7 @@ fun MealkitFormScreen(navController: NavController, viewModel: MealkitFormViewMo
                     onClick = {
                         when {
                             !viewModel.register() -> {
-                                errorMessage.value = "빈칸을 전부 채우세요"
+                                errorMessage.value = "모든 빈칸을 입력하세요"
                             }
                             !viewModel.checkPriceIsValid() -> {
                                 errorMessage.value = "가격은 숫자여야 합니다"

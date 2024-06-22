@@ -1,7 +1,5 @@
 package com.example.hansotbob.ui.screen.form
 
-import android.app.DatePickerDialog
-import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -15,43 +13,32 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.AnnotatedString
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.example.hansotbob.R
 import com.example.hansotbob.component.common.AppBar
-import com.example.hansotbob.viewmodel.form.MealkitFormViewModel
 import com.example.hansotbob.component.common.form.DatePicker
 import com.example.hansotbob.viewmodel.form.SharingFoodFormViewModel
-import java.util.Calendar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -72,6 +59,8 @@ fun FoodShareFormScreen(navController: NavController, viewModel: SharingFoodForm
     val categoryOptions = listOf("한식", "분식", "중식", "일식", "양식")
     val quantityOptions = listOf("1인분", "2인분", "3인분", "4인분", "5인분", "6인분 이상")
     val methodOptions = listOf("직거래", "택배", "문고리")
+    val errorMessage = remember { mutableStateOf("") }
+
 
     Scaffold(
         topBar = {
@@ -298,14 +287,39 @@ fun FoodShareFormScreen(navController: NavController, viewModel: SharingFoodForm
             item {
                 Button(
                     onClick = {
-                        viewModel.uploadItem()
-                        navController.popBackStack()
+                        when {
+                            !viewModel.register() -> {
+                                errorMessage.value = "모든 빈칸을 입력하세요"
+                            }
+                            !viewModel.checkPriceIsValid() -> {
+                                errorMessage.value = "가격은 숫자여야 합니다"
+                            }
+                            else -> {
+                                //문제없을때 정상작동 하는경우
+                                viewModel.uploadItem()
+                                navController.popBackStack()
+                            }
+                        }
                     },
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(48.dp)
                 ) {
                     Text("등록")
+                }
+
+                if (errorMessage.value.isNotEmpty()) {
+                    Spacer(modifier = Modifier.height(16.dp)) // 버튼과 오류 메시지 사이의 간격
+                    Box(
+                        modifier = Modifier.fillMaxWidth(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = errorMessage.value,
+                            color = Color.Red,
+                        )
+                    }
+                    Spacer(modifier = Modifier.height(16.dp)) // 오류 메시지와 아래 요소 사이의 간격
                 }
             }
         }

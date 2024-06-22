@@ -40,7 +40,7 @@ class MealkitFormViewModel(
         return if (_title.value.isEmpty() || _category.value.isEmpty() || _quantity.value.isEmpty()
             || _productionDate.value.isEmpty() || _place.value.isEmpty() || _method.value.isEmpty()
             || _price.value.isEmpty() || _description.value.isEmpty()) {
-            errorMessage = "빈칸을 전부 채우세요"
+            errorMessage = "모든 빈칸을 입력하세요"
             false
         } else {
             true
@@ -52,7 +52,7 @@ class MealkitFormViewModel(
             _price.value.toDouble()
             true
         } catch (e: NumberFormatException) {
-            errorMessage = "가격은 숫자를 입력하세요"
+            errorMessage = "가격은 숫자여야 합니다"
             false
         }
     }
