@@ -27,10 +27,17 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.hansotbob.R
+import com.example.hansotbob.data.User
 import com.example.hansotbob.ui.theme.PrimaryColor
 
 @Composable
 fun MyPageProfileEditScreen() {
+    val user = User(
+        userName = "곽춘배",
+        nickname = "춘배",
+        userPoint = 3000,
+        imagePainterId = R.drawable.ic_mypage
+    )
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -67,7 +74,7 @@ fun MyPageProfileEditScreen() {
 
         // User Image
         Image(
-            painter = painterResource(id = R.drawable.ic_mypage),
+            painter = painterResource(id = user.imagePainterId),
             contentDescription = "User Image",
             modifier = Modifier
                 .size(100.dp)

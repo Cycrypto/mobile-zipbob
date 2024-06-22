@@ -23,6 +23,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.hansotbob.R
+import com.example.hansotbob.data.User
 import com.example.hansotbob.ui.theme.PrimaryColor
 import com.example.hansotbob.ui.theme.WarmPrimaryColor
 
@@ -35,7 +36,12 @@ fun MyPageScreen(navController: NavHostController) {
             .padding(16.dp)
     ) {
         val (topBar, profileContainer, transactionHeader, transactionList, editProfileButton) = createRefs()
-
+        val user = User(
+            userName = "곽춘배",
+            nickname = "춘배",
+            userPoint = 3000,
+            imagePainterId = R.drawable.ic_mypage
+        )
         // Top Bar
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -79,7 +85,7 @@ fun MyPageScreen(navController: NavHostController) {
             val (profileImage, nickname, points) = createRefs()
 
             Image(
-                painter = painterResource(id = R.drawable.ic_notification),
+                painter = painterResource(id = user.imagePainterId),
                 contentDescription = "Profile Image",
                 modifier = Modifier
                     .size(80.dp)
@@ -91,7 +97,7 @@ fun MyPageScreen(navController: NavHostController) {
             )
 
             Text(
-                text = "닉네임",
+                text = user.nickname,
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier
@@ -103,7 +109,7 @@ fun MyPageScreen(navController: NavHostController) {
             )
 
             Text(
-                text = "포인트",
+                text = "${user.userPoint}pt",
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.constrainAs(points) {
