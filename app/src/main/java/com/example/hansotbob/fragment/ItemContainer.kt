@@ -43,7 +43,7 @@ fun CategoryFragmentContainer(navController: NavController, items: List<Any>) {
                         place = item.place,
                         state = item.state,
                         imagePainter = painterResource(id = item.imagePainterId),
-                        isNew = item.isNew,
+                        // isNew = item.isNew,
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(8.dp)

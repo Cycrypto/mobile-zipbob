@@ -61,7 +61,6 @@ import com.example.hansotbob.component.common.detail.ReviewSection
 import com.example.hansotbob.component.common.detail.ReviewTextField
 import com.example.hansotbob.dto.AuthorData
 import com.example.hansotbob.dto.MealkitsContent
-import com.example.hansotbob.dto.calculateAverageRating
 import com.example.hansotbob.service.FirebaseService
 import com.example.hansotbob.ui.theme.DetailLabelColor
 import com.example.hansotbob.viewmodel.ViewModelFactory
@@ -223,6 +222,15 @@ fun MealkitContent(
             fontSize = 14.sp
         )
     }
+}
+
+fun calculateAverageRating(reviews: List<Review>): Float {
+    if (reviews.isEmpty()) {
+        return 5.0f
+    }
+
+    val totalRating = reviews.map { it.rating }.sum()
+    return totalRating / reviews.size
 }
 
 
