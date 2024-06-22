@@ -1,5 +1,6 @@
 package com.example.hansotbob.viewmodel.form
 
+import android.net.Uri
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -23,7 +24,9 @@ class SharingFoodFormViewModel(
     private val _price = MutableStateFlow("")
     private val _description = MutableStateFlow("")
     private val _uploadStatus = MutableStateFlow("")
+    private val _imageUri = MutableStateFlow<Uri?>(null)
 
+    val imageUri: StateFlow<Uri?> = _imageUri
     var errorMessage by mutableStateOf("")
     val title: StateFlow<String> = _title
     val category: StateFlow<String> = _category
@@ -34,6 +37,10 @@ class SharingFoodFormViewModel(
     val price: StateFlow<String> = _price
     val description: StateFlow<String> = _description
     val uploadStatus: StateFlow<String> = _uploadStatus
+
+    fun setImageUri(uri: Uri) {
+        _imageUri.value = uri
+    }
 
     fun register(): Boolean {
         return if (_title.value.isEmpty() || _category.value.isEmpty() || _quantity.value.isEmpty()
