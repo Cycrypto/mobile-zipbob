@@ -35,7 +35,7 @@ class UserProfileViewModel(private val firebaseService: FirebaseService): ViewMo
                 userName = it.email ?: "example@example.com",
                 nickname = nickname,
                 userPoint = 0,
-                imagePainterId = it.photoUrl.hashCode() ?: 0,
+                imagePainterId = it.photoUrl.hashCode(),
                 imageUrl = it.photoUrl?.toString()
             )
         }

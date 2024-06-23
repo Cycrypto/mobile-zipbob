@@ -4,6 +4,7 @@ import android.util.Log
 import com.example.hansotbob.dto.MealContent
 import com.example.hansotbob.R
 import com.example.hansotbob.data.User
+import com.example.hansotbob.dto.AuthorData
 import com.example.hansotbob.dto.FirebaseReview
 import com.example.hansotbob.dto.FoodShareContent
 import com.example.hansotbob.dto.IngredientShareContent
@@ -21,25 +22,44 @@ class FirebaseService {
     private val currentUser = auth.currentUser!!
     private val nickname = currentUser.displayName ?: "배고픈 무지"
 
-    fun getCurrentUserId(): String {
-        return currentUser.uid
-    }
-
-    suspend fun uploadUser(user: User){
-        val key = user.userName
-        database.child("users").child(key).setValue(user).await()
-    }
-
     suspend fun getUser(userName: String): User?{
         val snapshot = database.child("users").child(userName).get().await()
         return snapshot.getValue(User::class.java)
     }
 
+    fun initializeUserData(defaultName: String = "익명의 사용자", defaultNickname: String = "배고픈 솥밥이", userPoint: Int = 0, imagePainterId: Int = 0, imageUrl: String? = null, onSuccess: () -> Unit, onFailure: (String) -> Unit) {
+        val uid = auth.currentUser?.uid
+        if (uid == null) {
+            onFailure("No logged in user")
+            return
+        }
+
+        val newUser = User(defaultName, defaultNickname, userPoint, imagePainterId, imageUrl)
+        database.child("users").child(uid).setValue(newUser)
+            .addOnSuccessListener {
+                onSuccess()
+            }
+            .addOnFailureListener { exception ->
+                onFailure(exception.message ?: "Failed to initialize user data")
+            }
+    }
 
     suspend fun uploadMealContent(item: FoodShareContent) {
         val key = database.child("homefood").push().key ?: return
-        val newItem = item.copy(itemId = key, authorId = nickname)
+        val newItem = item.copy(itemId = key, authorId = currentUser.uid)
         database.child("homefood").child(key).setValue(newItem).await()
+    }
+
+    suspend fun getAuthor(authorId: String): AuthorData? {
+        val snapshot = database.child("users").child(authorId).get().await()
+        val user = snapshot.getValue(User::class.java)
+        return user?.let {
+            AuthorData(
+                authorId = authorId,
+                nickname = it.nickname,
+                profileImageUrl = it.imageUrl ?: "__NULL__"
+            )
+        }
     }
 
     suspend fun getMealContents(): List<FoodShareContent> {
@@ -62,7 +82,7 @@ class FirebaseService {
 
     suspend fun uploadMealkitContent(mealkit: MealkitsContent) {
         val key = database.child("mealkits").push().key ?: return
-        val newMealkit = mealkit.copy(itemId = key, author = nickname)
+        val newMealkit = mealkit.copy(itemId = key, authorId = currentUser.uid)
         database.child("mealkits").child(key).setValue(newMealkit).await()
 
     }

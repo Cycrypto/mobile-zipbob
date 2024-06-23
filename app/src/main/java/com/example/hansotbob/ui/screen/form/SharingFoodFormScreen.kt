@@ -57,7 +57,7 @@ fun SharingFoodFormScreen(navController: NavController, viewModel: SharingFoodFo
     Scaffold(
         topBar = {
             AppBar(
-                title = "밀키트 등록 화면",
+                title = "음식공유 등록 화면",
                 navController = navController,
                 modifier = Modifier
                     .background(Color.White)
@@ -149,8 +149,8 @@ fun SharingFoodFormScreen(navController: NavController, viewModel: SharingFoodFo
                 FormOutlinedTextField(
                     label = "가격",
                     hint = "가격 입력",
-                    value = price,
-                    onValueChange = { viewModel.setPrice(it) },
+                    value = price.toString(),
+                    onValueChange = { viewModel.setPrice(it.toInt()) },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     modifier = Modifier.fillMaxWidth()
                 )

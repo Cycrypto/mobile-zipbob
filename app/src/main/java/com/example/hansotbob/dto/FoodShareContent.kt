@@ -9,7 +9,7 @@ data class FoodShareContent (
     val itemId: String = "",
     val method: String = "",
     val place: String = "",
-    val price: String = "",
+    val price: Int = 0,
     val productionDate: String = "",
     val quantity: String = "",
     val state: Int = 0,

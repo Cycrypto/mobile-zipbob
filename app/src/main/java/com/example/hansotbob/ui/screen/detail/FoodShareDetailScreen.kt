@@ -65,12 +65,8 @@ fun FoodShareDetailScreen(
     )
     val pagerState = rememberPagerState(pageCount = { images.size })
     val foodShare by viewModel.item.collectAsState()
-    val dummyauthor = AuthorData(authorId = "123", name = "John Doe", profileImageId = R.drawable.food_image) // 임시 리소스
     viewModel.loadItem(itemId)
 
-    // TODO: review db 연결 후 viewmodel에서 List<Review> 가져오기
-    val reviewList : List<Review> = ReviewDummyList()
-    val averageRating = calculateAverageRating(reviewList)
 
     Scaffold(
         topBar = {
@@ -103,9 +99,9 @@ fun FoodShareDetailScreen(
                         contentScale = ContentScale.Crop
                     )
                 }
-                FoodShareContentDetail(item = item, averageRating = averageRating)
+                FoodShareContentDetail(item = item)
                 Spacer(modifier = Modifier.height(16.dp))
-                PostAuthordata(authorData = dummyauthor)
+                PostAuthordata(foodShare!!.authorId)
                 ButtonBar(onContactSellerClick = {/* contact seller */}, onBuyClick = {/* buy click */})
                 Spacer(modifier = Modifier.height(16.dp))
             }
@@ -128,7 +124,6 @@ fun FoodShareDetailScreen(
 @Composable
 fun FoodShareContentDetail(
     item: FoodShareContent,
-    averageRating: Float
 ) {
     Column(
         modifier = Modifier
