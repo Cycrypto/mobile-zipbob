@@ -6,7 +6,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.example.hansotbob.auth.AuthManager
+import com.example.hansotbob.data.User
 import com.example.hansotbob.exception.AuthException
+import com.example.hansotbob.service.FirebaseService
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 
 class LoginViewModel(private val authManager: AuthManager) : ViewModel() {
     var email by mutableStateOf("")
@@ -22,13 +26,19 @@ class LoginViewModel(private val authManager: AuthManager) : ViewModel() {
         isLoading = true
         authManager.signInWithEmail(email, password,
             onSuccess = {
-                isLoading = false
-                onSuccess()
+                val firebaseService = FirebaseService()
+                firebaseService.initializeUserData(onSuccess = {
+                    isLoading = false
+                    onSuccess()
+                }, onFailure = {error ->
+                    isLoading = false
+                    errorMessage = error
+                    Log.d("errormsg", "exception : $errorMessage")
+                })
             },
             onFailure = { exception ->
                 isLoading = false
-                errorMessage = exception.message.toString()
-                Log.d("errormsg", "exception : $errorMessage")
+                errorMessage = exception.message ?: "Login failed"
             }
         )
     }

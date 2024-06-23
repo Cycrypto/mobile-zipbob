@@ -1,8 +1,10 @@
 package com.example.hansotbob.component.CardView
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -18,20 +20,37 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.outlined.MoreHoriz
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.DpOffset
+import coil.compose.rememberAsyncImagePainter
+import coil.compose.rememberImagePainter
+import com.example.hansotbob.R
+import com.gowtham.ratingbar.RatingBar
+import com.gowtham.ratingbar.RatingBarStyle
 
 @Composable
 fun ReviewCard(
     nickname: String,
     reviewContent: String,
-    profileImage: Painter,
+    rating: Float,
+    profileImageUrl: String,
     onEditClicked: () -> Unit,
     onDeleteClicked: () -> Unit
 ) {
     var expanded by remember { mutableStateOf(false) }
     val density = LocalDensity.current
+
+    val imagePainter = if (profileImageUrl == "__NULL__") {
+        painterResource(id = R.drawable.person_icon)
+    } else {
+        rememberAsyncImagePainter(
+            model = profileImageUrl,
+            error = painterResource(id = R.drawable.person_icon)
+        )
+    }
 
     Card(
         modifier = Modifier
@@ -57,10 +76,11 @@ fun ReviewCard(
                     modifier = Modifier.weight(1f)
                 ) {
                     Image(
-                        painter = profileImage,
+                        painter = imagePainter,
                         contentDescription = "Profile Image",
                         modifier = Modifier
                             .size(40.dp)
+                            .clip(CircleShape)
                             .background(Color.Transparent),
                         contentScale = ContentScale.Crop
                     )
@@ -68,6 +88,18 @@ fun ReviewCard(
                     Text(
                         text = nickname,
                         style = MaterialTheme.typography.bodyMedium.copy(fontSize = 16.sp, fontWeight = FontWeight.Bold)
+                    )
+                    RatingBar(
+                        value = rating,
+                        style = RatingBarStyle.Stroke(),
+                        size = 20.dp,
+                        spaceBetween = 2.dp,
+                        modifier = Modifier.padding(start = 10.dp),
+                        onValueChange = {
+                        },
+                        onRatingChanged = {
+                            Log.d("TAG", "onRatingChanged: $it")
+                        }
                     )
                 }
                 Box {
@@ -115,7 +147,8 @@ fun ReviewCardPreview() {
     ReviewCard(
         nickname = "닉네임",
         reviewContent = "최고의 레시피 추천합니다 ^^,,",
-        profileImage = rememberVectorPainter(image = Icons.Filled.AccountCircle),
+        rating = 4.0f,
+        profileImageUrl = "https://images.pexels.com/photos/1458914/pexels-photo-1458914.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
         onEditClicked = { /* Handle edit click */ },
         onDeleteClicked = { /* Handle delete click */ }
     )

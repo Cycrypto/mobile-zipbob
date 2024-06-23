@@ -4,8 +4,10 @@ import android.util.Log
 import com.example.hansotbob.dto.MealContent
 import com.example.hansotbob.R
 import com.example.hansotbob.data.User
+import com.example.hansotbob.dto.FirebaseReview
 import com.example.hansotbob.dto.FoodShareContent
 import com.example.hansotbob.dto.MealkitsContent
+import com.example.hansotbob.dto.Review
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -18,14 +20,30 @@ class FirebaseService {
     private val currentUser = auth.currentUser!!
     private val nickname = currentUser.displayName ?: "배고픈 무지"
 
-    suspend fun uploadUser(user: User){
-        val key = user.userName
-        database.child("users").child(key).setValue(user).await()
-    }
-
     suspend fun getUser(userName: String): User?{
         val snapshot = database.child("users").child(userName).get().await()
         return snapshot.getValue(User::class.java)
+    }
+
+    suspend fun updateUser(uid: String, user: User) {
+        database.child("users").child(uid).setValue(user).await()
+    }
+
+    fun initializeUserData(defaultName: String = "익명의 사용자", defaultNickname: String = "배고픈 솥밥이", userPoint: Int = 0, imagePainterId: Int = 0, imageUrl: String? = null, onSuccess: () -> Unit, onFailure: (String) -> Unit) {
+        val uid = auth.currentUser?.uid
+        if (uid == null) {
+            onFailure("No logged in user")
+            return
+        }
+
+        val newUser = User(defaultName, defaultNickname, userPoint, imagePainterId, imageUrl)
+        database.child("users").child(uid).setValue(newUser)
+            .addOnSuccessListener {
+                onSuccess()
+            }
+            .addOnFailureListener { exception ->
+                onFailure(exception.message ?: "Failed to initialize user data")
+            }
     }
 
     suspend fun uploadMealContent(item: FoodShareContent) {
@@ -93,4 +111,54 @@ class FirebaseService {
         }
         return items
     }
+
+    suspend fun uploadReview(itemId: String, reviewContent: String, rating: Float) {
+        val review = FirebaseReview(
+            reviewAuthorId = currentUser.uid,
+            reviewContent = reviewContent,
+            rating = rating,
+            timestamp = System.currentTimeMillis()
+        )
+        val key = database.child("reviews").child(itemId).push().key ?: return
+        database.child("reviews").child(itemId).child(key).setValue(review).await()
+    }
+
+    suspend fun getReviewsForItem(itemId: String): List<Review> {
+        Log.d("FirebaseService", "Fetching reviews for item $itemId")
+        val snapshot = database.child("reviews").child(itemId).orderByChild("timestamp").get().await()
+        val reviews = mutableListOf<Review>()
+        for (child in snapshot.children) {
+            val firebaseReview = child.getValue(FirebaseReview::class.java)
+            if (firebaseReview != null) {
+                val user = getUser(firebaseReview.reviewAuthorId)
+                if (user != null) {
+                    reviews.add(
+                        Review(
+                            nickname = user.nickname,
+                            reviewContent = firebaseReview.reviewContent,
+                            profileImage = user.imageUrl ?: "",
+                            rating = firebaseReview.rating
+                        )
+                    )
+                } else {
+                    Log.w("FirebaseService", "User not found for userId: ${firebaseReview.reviewAuthorId}")
+                }
+            } else {
+                Log.w("FirebaseService", "firebaseReview is null for child: ${child.key}")
+            }
+        }
+        Log.d("FirebaseService", "Returning reviews: $reviews")
+        return reviews
+    }
+
+    suspend fun updateReview(itemId: String, reviewId: String, updatedReview: FirebaseReview) {
+        database.child("reviews").child(itemId).child(reviewId).setValue(updatedReview).await()
+    }
+
+    suspend fun deleteReview(itemId: String, reviewId: String) {
+        database.child("reviews").child(itemId).child(reviewId).removeValue().await()
+    }
+
+
+
 }

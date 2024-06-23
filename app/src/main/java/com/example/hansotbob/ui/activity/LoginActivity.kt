@@ -19,6 +19,7 @@ import com.example.hansotbob.auth.AuthManager
 import com.example.hansotbob.auth.GoogleSignInInterface
 import com.example.hansotbob.exception.AuthException
 import com.example.hansotbob.navigation.AppNavHost
+import com.example.hansotbob.service.FirebaseService
 import com.example.hansotbob.ui.screen.MainScreen
 import com.example.hansotbob.ui.screen.form.LoginScreen
 import com.example.hansotbob.ui.screen.form.RegisterScreen
