@@ -163,7 +163,7 @@ fun MealCategoryCardWithBadge(
     date: String,
     category: String,
     place: String,
-    points: String,
+    points: Int,
     state: Int,
     imagePainter: Painter,
     isNew: Boolean = false,
@@ -261,7 +261,7 @@ fun MealCategoryCardWithBadge(
                             .background(MaterialTheme.colorScheme.primary)
                     ) {
                         Text(
-                            text = points,
+                            text = points.toString(),
                             fontSize = 20.sp,
                             fontWeight = FontWeight.Bold,
                             color = Color.White
@@ -306,7 +306,7 @@ fun PreviewMealCategoryCard3() {
             date = "2023.12.21",
             category = "양식",
             place = "거래장소",
-            points = "1000",
+            points = 1000,
             state = 1,
             imagePainter = painterResource(id = R.drawable.food_image),
             isNew = true

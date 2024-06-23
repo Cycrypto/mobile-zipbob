@@ -43,7 +43,7 @@ class MealkitScreenViewModel : ViewModel() {
                 productionDate = "2024-06-20",
                 place = "산기대",
                 method = "직거래",
-                price = "10000",
+                price = 10000,
                 description = "맛있는 한식 밀키트",
             ),
             MealkitsContent(
@@ -54,7 +54,7 @@ class MealkitScreenViewModel : ViewModel() {
                 productionDate = "2024-06-21",
                 place = "서울",
                 method = "택배",
-                price = "15000",
+                price = 15000,
                 description = "맛있는 분식 밀키트",
             ),
             MealkitsContent(
@@ -65,7 +65,7 @@ class MealkitScreenViewModel : ViewModel() {
                 productionDate = "2024-06-22",
                 place = "부산",
                 method = "직거래",
-                price = "20000",
+                price = 20000,
                 description = "맛있는 중식 밀키트",
             ),
             MealkitsContent(
@@ -76,7 +76,7 @@ class MealkitScreenViewModel : ViewModel() {
                 productionDate = "2024-06-23",
                 place = "대전",
                 method = "문고리",
-                price = "25000",
+                price = 2500,
                 description = "맛있는 일식 밀키트",
             ),
             MealkitsContent(
@@ -87,7 +87,7 @@ class MealkitScreenViewModel : ViewModel() {
                 productionDate = "2024-06-24",
                 place = "광주",
                 method = "택배",
-                price = "30000",
+                price = 30000,
                 description = "맛있는 양식 밀키트"
             )
         )
