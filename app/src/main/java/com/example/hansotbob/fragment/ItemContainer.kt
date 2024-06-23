@@ -95,8 +95,9 @@ fun CategoryFragmentContainer(navController: NavController, items: List<Any>) {
                     Log.d("Ingredient", "start badge : $item")
                     CommunityCardWithBadge(
                         title = item.title,
+                        itemId = item.itemId,
                         imagePainter = painterResource(id = R.drawable.community_image),
-                        totalPeople = item.participant,
+                        totalPeople = item.totalPeople,
                         points = item.totalCost,
                         location = item.location
                     )

@@ -13,6 +13,8 @@ import com.example.hansotbob.dto.Review
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.getValue
+import com.google.firebase.database.snapshots
 import kotlinx.coroutines.tasks.await
 import java.lang.IllegalStateException
 
@@ -189,6 +191,54 @@ class FirebaseService {
         database.child("reviews").child(itemId).child(reviewId).removeValue().await()
     }
 
+    suspend fun getIngredientItemById(itemId: String): IngredientShareContent? {
+        return try{
+            val snapshot = database
+                .child("ingredient")
+                .child(itemId)
+                .get()
+                .await()
+            snapshot.getValue(IngredientShareContent::class.java)
+        }catch(e:Exception){
+            null
+        }
+    }
 
+    suspend fun hasUserJoined(itemId: String, userId: String): Boolean{
+        return try{
+            val snapshot = database
+                .child("ingredient")
+                .child(itemId)
+                .child("participants")
+                .child(userId)
+                .get()
+                .await()
+            snapshot.exists()
+        }catch (e: Exception){
+            e.printStackTrace()
+            false
+        }
+    }
 
+    suspend fun incrementPeopleCount(itemId: String){
+        try{
+            val itemRef = database
+                .child("ingredient")
+                .child(itemId)
+            val itemSnapshot = itemRef.get().await()
+            val currentPeople = itemSnapshot.child("currentPeople").getValue(String::class.java)?.toInt() ?: 0
+            itemRef.child("currentPeople").setValue((currentPeople + 1).toString()).await()
+        }catch(e: Exception){
+            e.printStackTrace()
+        }
+    }
+
+    suspend fun hideItem(itemId: String) {
+        try {
+            val itemRef = database.child("ingredientItems").child(itemId)
+            itemRef.child("visible").setValue(false).await()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
 }

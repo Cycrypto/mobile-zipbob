@@ -25,14 +25,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.hansotbob.CommunityFormData
-import com.example.hansotbob.R
-import com.example.hansotbob.ui.theme.HansotbobTheme
+
 
 @Composable
 fun CommunityDetailCardWithBadge(
@@ -141,27 +137,5 @@ fun BadgeBox5(
     Box(modifier = modifier) {
         content()
         badge()
-    }
-}
-
-@Preview(showBackground = false)
-@Composable
-fun PreviewCommunityDetailCard3() {
-    HansotbobTheme {
-        val formData = CommunityFormData(
-            title = "Hello",
-            totalCost = "1000",
-            participants = "4",
-            location = "서울"
-        )
-        CommunityDetailCardWithBadge(
-            title = formData.title,
-            imagePainter = painterResource(id = R.drawable.food_image),
-            currentPeople = 2,
-            totalPeople = formData.participants.toIntOrNull() ?: 0,
-            points = formData.totalCost.toIntOrNull() ?: 0,
-            location = formData.location,
-            isNew = true
-        )
     }
 }

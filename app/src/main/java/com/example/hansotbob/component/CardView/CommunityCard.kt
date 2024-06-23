@@ -1,5 +1,6 @@
 package com.example.hansotbob
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -22,6 +23,12 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -35,19 +42,27 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.hansotbob.R
 import com.example.hansotbob.ui.theme.HansotbobTheme
+import com.example.hansotbob.viewmodel.form.IngredientFormViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.hansotbob.viewmodel.screen.IngredientShreViewModel
 
 @Composable
 fun CommunityCardWithBadge(
+    viewModel: IngredientShreViewModel = viewModel(),
+    itemId: String,
     title: String,
     imagePainter: Painter,
-    currentPeople: String = "0",
+    initialCurrentPeople:String = "0",
     totalPeople: String,
     points: String,
     location: String,
     isNew: Boolean = false,
     modifier: Modifier = Modifier
 ) {
-    val currentPeopleInt = currentPeople.toInt()
+    var currentPeople by remember {mutableStateOf(initialCurrentPeople.toInt())}
+    LaunchedEffect(itemId){
+        viewModel.updateCurrentPeople(itemId)
+    }
     val totalPeopleInt = totalPeople.toIntOrNull() ?: 1 // Default to 1 to avoid division by zero
     val pointsInt = points.toInt()
     val perPersonCost = if (totalPeopleInt != 0) pointsInt / totalPeopleInt else 0
@@ -126,21 +141,23 @@ fun CommunityCardWithBadge(
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         Text(
-                            text = "$currentPeopleInt / $totalPeopleInt",
+                            text = "$currentPeople / $totalPeopleInt",
                             fontSize = 16.sp,
                             fontWeight = FontWeight.Bold,
                             color = MaterialTheme.colorScheme.onBackground
                         )
                         Spacer(modifier = Modifier.height(8.dp))
                         Button(
-                            onClick = { /* TODO: 참가하기 버튼 클릭 처리 */ },
+                            onClick = {
+                                currentPeople += 1
+                                viewModel.joinItem(itemId) },
                             colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary),
                             modifier = Modifier
                                 .clip(RoundedCornerShape(12.dp))
                                 .size(width = 80.dp, height = 40.dp)
                         ) {
                             Text(
-                                text = "참가하기",
+                                text = "참가",
                                 color = Color.White
                             )
                         }
@@ -150,6 +167,7 @@ fun CommunityCardWithBadge(
         }
     }
 }
+
 
 @Composable
 fun BadgeBox2(
@@ -169,8 +187,8 @@ fun PreviewCommunityCard3() {
     HansotbobTheme {
         CommunityCardWithBadge(
             title = "Hello",
+            itemId="1",
             imagePainter = painterResource(id = R.drawable.food_image),
-            currentPeople = "2",
             totalPeople = "4",
             points = "1000",
             location = "서울",

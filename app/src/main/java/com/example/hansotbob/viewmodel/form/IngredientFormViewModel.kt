@@ -59,7 +59,8 @@ class IngredientFormViewModel(
                     category = _category.value,
                     description = _description.value,
                     totalCost = _price.value,
-                    participant = _participant.value,
+                    totalPeople = _participant.value,
+                    currentPeople = "0",
                     location = _place.value
                 )
                 firebaseService.uploadIngredientContent(ingredient)
