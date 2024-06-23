@@ -25,6 +25,10 @@ class FirebaseService {
         return snapshot.getValue(User::class.java)
     }
 
+    suspend fun updateUser(uid: String, user: User) {
+        database.child("users").child(uid).setValue(user).await()
+    }
+
     fun initializeUserData(defaultName: String = "익명의 사용자", defaultNickname: String = "배고픈 솥밥이", userPoint: Int = 0, imagePainterId: Int = 0, imageUrl: String? = null, onSuccess: () -> Unit, onFailure: (String) -> Unit) {
         val uid = auth.currentUser?.uid
         if (uid == null) {
