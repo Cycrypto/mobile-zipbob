@@ -32,7 +32,7 @@ class UserProfileViewModel(private val firebaseService: FirebaseService): ViewMo
         currentUser?.let{
             val nickname = it.displayName ?: "홍길동"
             _user.value = User(
-                userName = it.email ?: "",
+                userName = it.email ?: "example@example.com",
                 nickname = nickname,
                 userPoint = 0,
                 imagePainterId = it.photoUrl.hashCode() ?: 0,
