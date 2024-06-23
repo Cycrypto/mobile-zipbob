@@ -167,7 +167,8 @@ fun MealCategoryCardWithBadge(
     state: Int,
     imagePainter: Painter,
     isNew: Boolean = false,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    rating: Int
 ) {
     val stateText = when (state) {
         1 -> "[거래중] "
@@ -309,7 +310,8 @@ fun PreviewMealCategoryCard3() {
             points = "1000",
             state = 1,
             imagePainter = painterResource(id = R.drawable.food_image),
-            isNew = true
+            isNew = true,
+            rating = 4
         )
     }
 }

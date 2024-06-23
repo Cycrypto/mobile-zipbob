@@ -65,7 +65,7 @@ fun HansotThemeNavigationBar(navController: NavHostController) {
                     }
                 }
             }
-            IconButton(onClick = { navController.navigate("food_share") }) {
+            IconButton(onClick = { navController.navigate("food_share_pager") }) {
                 Icon(
                     imageVector = Icons.Outlined.Restaurant,
                     contentDescription = "Sharing Food",
@@ -121,7 +121,10 @@ fun HansotThemeNavigationBar(navController: NavHostController) {
                     )
                     DropdownMenuItem(
                         text = { Text("재료 나눔글 쓰기") },
-                        onClick = { expanded = false /* TODO: Action C */ }
+                        onClick = {
+                            expanded = false
+                            navController.navigate("ingredient_form")
+                        }
                     )
                 }
             }

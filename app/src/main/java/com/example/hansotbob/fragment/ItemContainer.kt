@@ -14,12 +14,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-
-
+import com.example.hansotbob.CommunityCardWithBadge
+import com.example.hansotbob.R
 import com.example.hansotbob.component.CardView.MealCategoryCardWithBadge
 import com.example.hansotbob.component.CardView.OverviewCard
 import com.example.hansotbob.dto.FoodShareContent
-import com.example.hansotbob.dto.MealContent
+import com.example.hansotbob.dto.IngredientShareContent
 import com.example.hansotbob.dto.Overview
 import com.example.hansotbob.dto.MealkitsContent
 
@@ -51,7 +51,8 @@ fun CategoryFragmentContainer(navController: NavController, items: List<Any>) {
                                 navController.navigate(
                                     "foodshare/detail/${item.itemId}"
                                 )
-                            }
+                            },
+                        rating = 4
                     )
                 }
                 is Overview -> {
@@ -86,52 +87,20 @@ fun CategoryFragmentContainer(navController: NavController, items: List<Any>) {
                                 navController.navigate(
                                     "mealkit/detail/${item.itemId}"
                                 )
-                            }
+                            },
+                        rating = 4
                     )
                 }
-
-                /*is ItemDetail -> {
-                    ItemDetail(
-                        itemDetail = item,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(8.dp)
-                            .clickable {
-                                // 클릭 시 이동할 경로를 설정
-                                navController.navigate(
-                                    "item/detail/${item.imagePainterId}/${item.productName}/${item.itemPrice}/${item.detail}"
-                                )
-                            }
+                is IngredientShareContent -> {
+                    Log.d("Ingredient", "start badge : $item")
+                    CommunityCardWithBadge(
+                        title = item.title,
+                        imagePainter = painterResource(id = R.drawable.community_image),
+                        totalPeople = item.participant,
+                        points = item.totalCost,
+                        location = item.location
                     )
                 }
-                is ReviewDetail -> {
-                    ReviewDetail(
-                        reviewDetail = item,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(8.dp)
-                            .clickable {
-                                // 클릭 시 이동할 경로를 설정
-                                navController.navigate(
-                                    "review/detail/${item.userName}/${item.reviewRating}/${item.detail}"
-                                )
-                            }
-                    )
-                }
-                is ListItem.PaymentDetail -> {
-                    PaymentDetail(
-                        paymentDetail = item,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(8.dp)
-                            .clickable {
-                                // 클릭 시 이동할 경로를 설정
-                                navController.navigate(
-                                    "review/detail/${item.productName}/${item.itemCounts}/${item.itemPrice}"
-                                )
-                            }
-                    )
-                }*/
             }
         }
     }
