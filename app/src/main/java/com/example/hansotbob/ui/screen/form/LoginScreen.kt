@@ -20,11 +20,16 @@ import com.example.hansotbob.MainActivity
 import com.example.hansotbob.R
 import com.example.hansotbob.auth.GoogleSignInInterface
 import com.example.hansotbob.auth.AuthManager
+import com.example.hansotbob.service.FirebaseService
 import com.example.hansotbob.ui.activity.LoginActivity
 import com.example.hansotbob.viewmodel.form.LoginViewModel
 
 @Composable
-fun LoginScreen(navController: NavController, authManager: AuthManager, googleSignInManager: GoogleSignInInterface) {
+fun LoginScreen(
+    navController: NavController,
+    authManager: AuthManager,
+    googleSignInManager: GoogleSignInInterface
+) {
     val viewModel = remember { LoginViewModel(authManager) }
     var errorMessage by remember { mutableStateOf("") }
     var isLoading by remember { mutableStateOf(false) }

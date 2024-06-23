@@ -20,20 +20,27 @@ class FirebaseService {
     private val currentUser = auth.currentUser!!
     private val nickname = currentUser.displayName ?: "배고픈 무지"
 
-    fun getCurrentUserId(): String {
-        return currentUser.uid
-    }
-
-    suspend fun uploadUser(user: User){
-        val key = user.userName
-        database.child("users").child(key).setValue(user).await()
-    }
-
     suspend fun getUser(userName: String): User?{
         val snapshot = database.child("users").child(userName).get().await()
         return snapshot.getValue(User::class.java)
     }
 
+    fun initializeUserData(defaultName: String = "익명의 사용자", defaultNickname: String = "배고픈 솥밥이", userPoint: Int = 0, imagePainterId: Int = 0, imageUrl: String? = null, onSuccess: () -> Unit, onFailure: (String) -> Unit) {
+        val uid = auth.currentUser?.uid
+        if (uid == null) {
+            onFailure("No logged in user")
+            return
+        }
+
+        val newUser = User(defaultName, defaultNickname, userPoint, imagePainterId, imageUrl)
+        database.child("users").child(uid).setValue(newUser)
+            .addOnSuccessListener {
+                onSuccess()
+            }
+            .addOnFailureListener { exception ->
+                onFailure(exception.message ?: "Failed to initialize user data")
+            }
+    }
 
     suspend fun uploadMealContent(item: FoodShareContent) {
         val key = database.child("homefood").push().key ?: return
