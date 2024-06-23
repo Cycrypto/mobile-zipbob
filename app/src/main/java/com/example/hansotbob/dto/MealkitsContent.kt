@@ -14,7 +14,6 @@ data class MealkitsContent(
     val quantity: String = "",
     val state: Int = 0,
     val title: String = "",
-    val author: String = "",
+    val authorId: String = "",
     val reviews: List<Review> = emptyList()
-    // TODO: 글쓴이 view 위해서 authorId 또는 email로 변경 필요
 )

@@ -57,7 +57,7 @@ fun SharingFoodFormScreen(navController: NavController, viewModel: SharingFoodFo
     Scaffold(
         topBar = {
             AppBar(
-                title = "밀키트 등록 화면",
+                title = "음식공유 등록 화면",
                 navController = navController,
                 modifier = Modifier
                     .background(Color.White)

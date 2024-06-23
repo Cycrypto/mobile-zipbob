@@ -4,6 +4,7 @@ import android.util.Log
 import com.example.hansotbob.dto.MealContent
 import com.example.hansotbob.R
 import com.example.hansotbob.data.User
+import com.example.hansotbob.dto.AuthorData
 import com.example.hansotbob.dto.FirebaseReview
 import com.example.hansotbob.dto.FoodShareContent
 import com.example.hansotbob.dto.MealkitsContent
@@ -44,8 +45,20 @@ class FirebaseService {
 
     suspend fun uploadMealContent(item: FoodShareContent) {
         val key = database.child("homefood").push().key ?: return
-        val newItem = item.copy(itemId = key, authorId = nickname)
+        val newItem = item.copy(itemId = key, authorId = currentUser.uid)
         database.child("homefood").child(key).setValue(newItem).await()
+    }
+
+    suspend fun getAuthor(authorId: String): AuthorData? {
+        val snapshot = database.child("users").child(authorId).get().await()
+        val user = snapshot.getValue(User::class.java)
+        return user?.let {
+            AuthorData(
+                authorId = authorId,
+                nickname = it.nickname,
+                profileImageUrl = it.imageUrl ?: "__NULL__"
+            )
+        }
     }
 
     suspend fun getMealContents(): List<FoodShareContent> {
@@ -68,7 +81,7 @@ class FirebaseService {
 
     suspend fun uploadMealkitContent(mealkit: MealkitsContent) {
         val key = database.child("mealkits").push().key ?: return
-        val newMealkit = mealkit.copy(itemId = key, author = nickname)
+        val newMealkit = mealkit.copy(itemId = key, authorId = currentUser.uid)
         database.child("mealkits").child(key).setValue(newMealkit).await()
 
     }

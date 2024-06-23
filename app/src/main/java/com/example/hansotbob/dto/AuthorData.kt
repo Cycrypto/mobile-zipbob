@@ -4,6 +4,6 @@ import com.example.hansotbob.R
 
 class AuthorData (
     val authorId: String = "",
-    val name: String = "",
-    val profileImageId: Int = R.drawable.logo
+    val nickname: String = "",
+    val profileImageUrl: String = "__NULL__"
 )
