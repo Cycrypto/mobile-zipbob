@@ -22,8 +22,8 @@ import com.example.hansotbob.ui.screen.detail.MealkitsDetailScreen
 import com.example.hansotbob.ui.screen.detail.OverviewDetailScreen
 import com.example.hansotbob.ui.screen.form.MealkitFormScreen
 import com.example.hansotbob.ui.screen.form.SharingFoodFormScreen
-import com.example.hansotbob.viewmodel.ListViewModel
 import com.example.hansotbob.viewmodel.ViewModelFactory
+import com.example.hansotbob.viewmodel.screen.OverviewViewModel
 import com.example.hansotbob.viewmodel.screen.detail.FoodShareDetailViewModel
 import com.example.hansotbob.viewmodel.screen.detail.MealkitDetailViewModel
 import com.example.hansotbob.viewmodel.screen.detail.ReviewViewModel
@@ -32,9 +32,9 @@ import com.example.hansotbob.viewmodel.screen.detail.ReviewViewModel
 fun MainNavGraph(navController: NavHostController, modifier: Modifier = Modifier) {
     NavHost(navController = navController, startDestination = "overview") {
         composable("overview"){
-            val viewModel: ListViewModel = viewModel()
+            val viewModel: OverviewViewModel = viewModel()
             Column(modifier = modifier.fillMaxSize()) {
-                OverviewScreen(navController = navController, viewModel)
+                OverviewScreen(navController = navController, viewModel = viewModel)
             }
         }
         composable("mypage"){

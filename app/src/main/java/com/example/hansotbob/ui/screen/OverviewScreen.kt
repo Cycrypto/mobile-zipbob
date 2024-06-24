@@ -2,64 +2,90 @@ package com.example.hansotbob.ui.screen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Notifications
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material3.Icon
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
-import com.example.hansotbob.R
-import com.example.hansotbob.component.CardView.OverviewCard
-import com.example.hansotbob.component.Slider.CardSliderHorizontal
+import coil.compose.rememberImagePainter
+import com.example.hansotbob.component.common.ItemBar
 import com.example.hansotbob.component.common.TopProfileSection
-import com.example.hansotbob.dto.Overview
-import com.example.hansotbob.ui.theme.HansotbobTheme
-import com.example.hansotbob.viewmodel.ListViewModel
+import com.example.hansotbob.dto.CardItem
+import com.example.hansotbob.dto.Profile
+import com.example.hansotbob.viewmodel.screen.OverviewViewModel
+import com.example.hansotbob.viewmodel.user.UserProfileViewModel
 
 @Composable
-fun OverviewScreen(navController: NavHostController, viewModel: ListViewModel = viewModel()) {
-    val items by viewModel.overviews.collectAsState()
+fun OverviewScreen(viewModel: OverviewViewModel = viewModel(), navController: NavHostController) {
+    val profile by viewModel.profile.collectAsState()
+    val cards by viewModel.cards.collectAsState()
 
-    Column {
-        TopProfileSection(navController)
-        CardSliderHorizontal(
-            title = "인기 게시물",
-            item = items.filterIsInstance<Overview>()
-        ) { overviewItem ->
-            OverviewCard(
-                imageRes = overviewItem.imageRes,
-                name = overviewItem.name,
-                category = overviewItem.category,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(8.dp)
-            )
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+            .background(MaterialTheme.colorScheme.background)
+            .padding(16.dp)
+    ) {
+        TopProfileSection(navController = navController)
+        Spacer(modifier = Modifier.height(16.dp))
+        cards.forEach { card ->
+            CardItemView(card)
+            Spacer(modifier = Modifier.height(16.dp))
         }
     }
 }
-
-@Preview
 @Composable
-fun PreviewOverviewScreen() {
-    val navController = rememberNavController()
-    HansotbobTheme {
-        OverviewScreen(navController)
+fun CardItemView(card: CardItem) {
+    Card(
+        shape = RoundedCornerShape(16.dp),
+        elevation = CardDefaults.cardElevation(8.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp)
+    ) {
+        Column(
+            modifier = Modifier
+                .background(MaterialTheme.colorScheme.surface)
+                .padding(16.dp)
+        ) {
+            Image(
+                painter = rememberImagePainter(data = card.imageUrl),
+                contentDescription = card.title,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(200.dp)
+                    .clip(RoundedCornerShape(16.dp)),
+                contentScale = ContentScale.Crop
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = card.title,
+                style = MaterialTheme.typography.headlineSmall,
+                color = MaterialTheme.colorScheme.onBackground
+            )
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(
+                text = card.timeAgo,
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onBackground
+            )
+        }
     }
 }

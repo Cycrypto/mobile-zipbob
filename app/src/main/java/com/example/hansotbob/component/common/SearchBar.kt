@@ -31,7 +31,7 @@ fun BasicSearchBar() {
         TextField(
             value = "",
             onValueChange = {},
-            placeholder = { Text("Search for plants...") },
+            placeholder = { Text("검색어를 입력하세요") },
             leadingIcon = {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_search),
