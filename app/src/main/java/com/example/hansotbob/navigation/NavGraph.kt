@@ -16,6 +16,7 @@ import com.example.hansotbob.ui.screen.form.CommunityFormScreen
 import com.example.hansotbob.service.FirebaseService
 import com.example.hansotbob.ui.activity.MyPageActivity
 import com.example.hansotbob.ui.screen.OverviewScreen
+import com.example.hansotbob.ui.screen.RecipeAppScreen
 import com.example.hansotbob.ui.screen.ShareScreen
 import com.example.hansotbob.ui.screen.detail.FoodShareDetailScreen
 import com.example.hansotbob.ui.screen.detail.MealkitsDetailScreen
@@ -50,6 +51,12 @@ fun MainNavGraph(navController: NavHostController, modifier: Modifier = Modifier
                 ShareScreen(navController = navController)
             }
         }
+        composable("recipe_share"){
+            Column(modifier = modifier.fillMaxSize()) {
+                RecipeAppScreen(navController = navController)
+            }
+        }
+
 
         composable("foodshare_form"){
             SharingFoodFormScreen(navController)
