@@ -33,7 +33,7 @@ fun ReviewSection(
     onReviewSubmit: (String, Float) -> Unit
 ) {
     var reviewText by remember { mutableStateOf("") }
-    var rating: Float by remember { mutableStateOf(3.0f) }
+    var rating: Float by remember { mutableStateOf(5.0f) }
 
     Column(
         modifier = Modifier
@@ -70,8 +70,6 @@ fun ReviewSection(
             Button(
                 onClick = {
                     onReviewSubmit(reviewText, rating)
-                    reviewText = ""
-                    rating = 3.0f
                 },
                 shape = RoundedCornerShape(50),
                 colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)

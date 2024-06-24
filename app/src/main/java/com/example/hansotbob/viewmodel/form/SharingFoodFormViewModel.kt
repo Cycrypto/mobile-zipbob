@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.hansotbob.dto.FoodShareContent
 import com.example.hansotbob.service.FirebaseService
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -18,7 +19,7 @@ class SharingFoodFormViewModel(
     private val _productionDate = MutableStateFlow("")
     private val _place = MutableStateFlow("")
     private val _method = MutableStateFlow("")
-    private val _price = MutableStateFlow("")
+    private val _price = MutableStateFlow(0)
     private val _description = MutableStateFlow("")
     private val _uploadStatus = MutableStateFlow("")
 
@@ -28,7 +29,7 @@ class SharingFoodFormViewModel(
     val productionDate: StateFlow<String> = _productionDate
     val place: StateFlow<String> = _place
     val method: StateFlow<String> = _method
-    val price: StateFlow<String> = _price
+    val price: StateFlow<Int> = _price
     val description: StateFlow<String> = _description
     val uploadStatus: StateFlow<String> = _uploadStatus
 
@@ -56,7 +57,7 @@ class SharingFoodFormViewModel(
         _method.value = method
     }
 
-    fun setPrice(price: String) {
+    fun setPrice(price: Int) {
         _price.value = price
     }
 

@@ -4,14 +4,21 @@ import android.util.Log
 import com.example.hansotbob.dto.MealContent
 import com.example.hansotbob.R
 import com.example.hansotbob.data.User
+import com.example.hansotbob.dto.AuthorData
 import com.example.hansotbob.dto.FirebaseReview
 import com.example.hansotbob.dto.FoodShareContent
 import com.example.hansotbob.dto.IngredientShareContent
 import com.example.hansotbob.dto.MealkitsContent
 import com.example.hansotbob.dto.Review
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.MutableData
+import com.google.firebase.database.Transaction
+import com.google.firebase.database.getValue
+import com.google.firebase.database.snapshots
 import kotlinx.coroutines.tasks.await
 import java.lang.IllegalStateException
 
@@ -49,8 +56,20 @@ class FirebaseService {
 
     suspend fun uploadMealContent(item: FoodShareContent) {
         val key = database.child("homefood").push().key ?: return
-        val newItem = item.copy(itemId = key, authorId = nickname)
+        val newItem = item.copy(itemId = key, authorId = currentUser.uid)
         database.child("homefood").child(key).setValue(newItem).await()
+    }
+
+    suspend fun getAuthor(authorId: String): AuthorData? {
+        val snapshot = database.child("users").child(authorId).get().await()
+        val user = snapshot.getValue(User::class.java)
+        return user?.let {
+            AuthorData(
+                authorId = authorId,
+                nickname = it.nickname,
+                profileImageUrl = it.imageUrl ?: "__NULL__"
+            )
+        }
     }
 
     suspend fun getMealContents(): List<FoodShareContent> {
@@ -73,7 +92,7 @@ class FirebaseService {
 
     suspend fun uploadMealkitContent(mealkit: MealkitsContent) {
         val key = database.child("mealkits").push().key ?: return
-        val newMealkit = mealkit.copy(itemId = key, author = nickname)
+        val newMealkit = mealkit.copy(itemId = key, authorId = currentUser.uid)
         database.child("mealkits").child(key).setValue(newMealkit).await()
 
     }
@@ -127,7 +146,7 @@ class FirebaseService {
 
     suspend fun uploadIngredientContent(ingredient: IngredientShareContent) {
         val key = database.child("ingredient").push().key ?: return
-        val newIngredient = ingredient.copy(itemId = key, author = nickname)
+        val newIngredient = ingredient.copy(itemId = key)
         Log.d("Ingredient", "newig : $newIngredient")
         database.child("ingredient").child(key).setValue(newIngredient).await()
 
@@ -178,6 +197,100 @@ class FirebaseService {
 
     suspend fun deleteReview(itemId: String, reviewId: String) {
         database.child("reviews").child(itemId).child(reviewId).removeValue().await()
+    }
+
+    suspend fun getIngredientItemById(itemId: String): IngredientShareContent? {
+        return try{
+            val snapshot = database
+                .child("ingredient")
+                .child(itemId)
+                .get()
+                .await()
+            snapshot.getValue(IngredientShareContent::class.java)
+        }catch(e:Exception){
+            null
+        }
+    }
+
+    suspend fun hasUserJoined(itemId: String, userId: String): Boolean{
+        return try{
+            val snapshot = database
+                .child("ingredient")
+                .child(itemId)
+                .child("participants")
+                .child(userId)
+                .get()
+                .await()
+            snapshot.exists()
+        }catch (e: Exception){
+            e.printStackTrace()
+            false
+        }
+    }
+
+    fun incrementPeopleCount(itemId: String, retryCount: Int = 3) {
+        val itemRef = database.child("ingredient").child(itemId)
+        itemRef.runTransaction(object : Transaction.Handler {
+            override fun doTransaction(mutableData: MutableData): Transaction.Result {
+                val item = mutableData.getValue(IngredientShareContent::class.java)
+                if (item == null) {
+                    Log.d("transaction", "Item not found")
+                    return Transaction.success(mutableData)
+                }
+                Log.d("transaction", "Current people before: ${item.currentPeople}")
+                val updatedPeopleCount = item.currentPeople.toInt() + 1
+                item.currentPeople = updatedPeopleCount.toString()
+                mutableData.value = item
+                Log.d("transaction", "Current people after: ${item.currentPeople}")
+                return Transaction.success(mutableData)
+            }
+
+            override fun onComplete(
+                databaseError: com.google.firebase.database.DatabaseError?,
+                committed: Boolean,
+                currentData: com.google.firebase.database.DataSnapshot?
+            ) {
+                if (databaseError != null) {
+                    Log.d("transaction", "Transaction failed: ${databaseError.message}")
+                    if (retryCount > 0) {
+                        Log.d("transaction", "Retrying transaction")
+                        incrementPeopleCount(itemId, retryCount - 1)
+                    }
+                } else if (committed) {
+                    Log.d("transaction", "Transaction succeeded")
+                }
+            }
+        })
+    }
+
+    suspend fun addParticipant(itemId: String, userId: String){
+        val participantRef = database
+            .child("ingredient")
+            .child(itemId)
+            .child("participants")
+            .child(userId)
+        val userRef = database
+            .child("users")
+            .child(userId)
+            .child("joinedParties")
+            .child(itemId)
+
+        participantRef.setValue(true).await()
+        userRef.setValue(true).await()
+    }
+
+    suspend fun hideItem(itemId: String) {
+        try {
+            val itemRef = database.child("ingredient").child(itemId)
+            itemRef.child("hidden").setValue(true).await()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    suspend fun getUserJoinedParties(userId: String): List<String> {
+        val snapshot = database.child("users").child(userId).child("joinedParties").get().await()
+        return snapshot.children.mapNotNull { it.key }
     }
 
 

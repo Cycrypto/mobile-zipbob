@@ -22,6 +22,7 @@ import com.example.hansotbob.dto.FoodShareContent
 import com.example.hansotbob.dto.IngredientShareContent
 import com.example.hansotbob.dto.Overview
 import com.example.hansotbob.dto.MealkitsContent
+import com.example.hansotbob.viewmodel.screen.IngredientShreViewModel
 
 @Composable
 fun CategoryFragmentContainer(navController: NavController, items: List<Any>) {
@@ -77,8 +78,8 @@ fun CategoryFragmentContainer(navController: NavController, items: List<Any>) {
                         category = item.category,
                         points = item.price,
                         place = item.place,
-                        state = item.state, // Assuming `state` is a field in `MealkitsContent`
-                        imagePainter = painterResource(id = item.imagePainterId), // Assuming `imagePainterId` is a field in `MealkitsContent`
+                        state = item.state,
+                        imagePainter = painterResource(id = item.imagePainterId),
                         isNew = true,
                         modifier = Modifier
                             .fillMaxWidth()
@@ -95,8 +96,10 @@ fun CategoryFragmentContainer(navController: NavController, items: List<Any>) {
                     Log.d("Ingredient", "start badge : $item")
                     CommunityCardWithBadge(
                         title = item.title,
+                        author = item.author,
+                        itemId = item.itemId,
                         imagePainter = painterResource(id = R.drawable.community_image),
-                        totalPeople = item.participant,
+                        totalPeople = item.totalPeople,
                         points = item.totalCost,
                         location = item.location
                     )

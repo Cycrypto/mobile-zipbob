@@ -73,7 +73,7 @@ fun HansotThemeNavigationBar(navController: NavHostController) {
                     tint = Color(0xFFFFA500)
                 )
             }
-            IconButton(onClick = { navController.navigate("mealkit_share") }) {
+            IconButton(onClick = { navController.navigate("recipe_share") }) {
                 Icon(
                     imageVector = Icons.Outlined.FoodBank,
                     contentDescription = "Sharing Mealkits",

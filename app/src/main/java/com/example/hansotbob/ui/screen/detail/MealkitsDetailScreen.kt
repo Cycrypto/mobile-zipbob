@@ -87,7 +87,6 @@ fun MealkitsDetailScreen(
     )
     val pagerState = rememberPagerState(pageCount = { images.size })
     val mealkit by viewModel.mealkit.collectAsState()
-    val dummyauthor = AuthorData(authorId = "123", name = "John Doe", profileImageId = R.drawable.food_image) // 임시 리소스
 
     LaunchedEffect(itemId) {
         Log.d("MealkitsDetailScreen", "Calling loadMealkit for itemId: $itemId")
@@ -138,7 +137,7 @@ fun MealkitsDetailScreen(
                 }
                 MealkitContent(item = item, averageRating = averageRating)
                 Spacer(modifier = Modifier.height(16.dp))
-                PostAuthordata(authorData = dummyauthor)
+                PostAuthordata(mealkit!!.authorId)
                 ButtonBar(onContactSellerClick = {/* contact seller */}, onBuyClick = {/* buy click */})
                 Spacer(modifier = Modifier.height(16.dp))
                 ReviewSection(
@@ -236,7 +235,6 @@ fun MealkitContent(
             Spacer(modifier = Modifier.height(8.dp))
             DetailRow(label = "거래 방법", value = item.method)
             Spacer(modifier = Modifier.height(8.dp))
-            DetailRow(label = "작성자", value = item.author)
         }
         Text(
             text = item.description,

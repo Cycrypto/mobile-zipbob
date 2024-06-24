@@ -1,5 +1,6 @@
 package com.example.hansotbob.navigation
 
+import JoinedPartiesScreen
 import android.content.Intent
 import android.util.Log
 import androidx.compose.foundation.layout.Column
@@ -11,25 +12,19 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.hansotbob.CommunityFormScreen
-import com.example.hansotbob.component.common.ItemBar
+import com.example.hansotbob.ui.screen.form.CommunityFormScreen
 import com.example.hansotbob.service.FirebaseService
 import com.example.hansotbob.ui.activity.MyPageActivity
-import com.example.hansotbob.ui.screen.HomeFoodScreen
-import com.example.hansotbob.ui.screen.MealkitScreen
 import com.example.hansotbob.ui.screen.OverviewScreen
+import com.example.hansotbob.ui.screen.RecipeAppScreen
 import com.example.hansotbob.ui.screen.ShareScreen
 import com.example.hansotbob.ui.screen.detail.FoodShareDetailScreen
 import com.example.hansotbob.ui.screen.detail.MealkitsDetailScreen
 import com.example.hansotbob.ui.screen.detail.OverviewDetailScreen
 import com.example.hansotbob.ui.screen.form.MealkitFormScreen
 import com.example.hansotbob.ui.screen.form.SharingFoodFormScreen
-import com.example.hansotbob.ui.screen.mypage.MyPageScreen
-import com.example.hansotbob.viewmodel.ListViewModel
 import com.example.hansotbob.viewmodel.ViewModelFactory
-import com.example.hansotbob.viewmodel.form.MealkitFormViewModel
-import com.example.hansotbob.viewmodel.screen.HomeFoodScreenViewModel
-import com.example.hansotbob.viewmodel.screen.OverviewScreenViewModel
+import com.example.hansotbob.viewmodel.screen.OverviewViewModel
 import com.example.hansotbob.viewmodel.screen.detail.FoodShareDetailViewModel
 import com.example.hansotbob.viewmodel.screen.detail.MealkitDetailViewModel
 import com.example.hansotbob.viewmodel.screen.detail.ReviewViewModel
@@ -38,9 +33,9 @@ import com.example.hansotbob.viewmodel.screen.detail.ReviewViewModel
 fun MainNavGraph(navController: NavHostController, modifier: Modifier = Modifier) {
     NavHost(navController = navController, startDestination = "overview") {
         composable("overview"){
-            val viewModel: ListViewModel = viewModel()
+            val viewModel: OverviewViewModel = viewModel()
             Column(modifier = modifier.fillMaxSize()) {
-                OverviewScreen(navController = navController, viewModel)
+                OverviewScreen(navController = navController, viewModel = viewModel)
             }
         }
         composable("mypage"){
@@ -56,6 +51,12 @@ fun MainNavGraph(navController: NavHostController, modifier: Modifier = Modifier
                 ShareScreen(navController = navController)
             }
         }
+        composable("recipe_share"){
+            Column(modifier = modifier.fillMaxSize()) {
+                RecipeAppScreen(navController = navController)
+            }
+        }
+
 
         composable("foodshare_form"){
             SharingFoodFormScreen(navController)
@@ -65,6 +66,9 @@ fun MainNavGraph(navController: NavHostController, modifier: Modifier = Modifier
         }
         composable("ingredient_form"){
             CommunityFormScreen(navController)
+        }
+        composable("joined_parties"){
+            JoinedPartiesScreen(navController)
         }
 
         composable("foodshare/detail/{itemId}") { backStackEntry ->
@@ -89,9 +93,9 @@ fun MainNavGraph(navController: NavHostController, modifier: Modifier = Modifier
             val name = backStackEntry.arguments?.getString("name") ?: ""
             val category = backStackEntry.arguments?.getString("category") ?: ""
             val imageRes = backStackEntry.arguments?.getString("imageRes") ?: ""
-            // Placeholder for the detailed screen based on name, category, and image resource
             OverviewDetailScreen(name, category, imageRes)
         }
+        
     }
 }
 
