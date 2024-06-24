@@ -265,7 +265,14 @@ class FirebaseService {
             .child(itemId)
             .child("participants")
             .child(userId)
+        val userRef = database
+            .child("users")
+            .child(userId)
+            .child("joinedParties")
+            .child(itemId)
+
         participantRef.setValue(true).await()
+        userRef.setValue(true).await()
     }
 
     suspend fun hideItem(itemId: String) {
@@ -276,6 +283,12 @@ class FirebaseService {
             e.printStackTrace()
         }
     }
+
+    suspend fun getUserJoinedParties(userId: String): List<String> {
+        val snapshot = database.child("users").child(userId).child("joinedParties").get().await()
+        return snapshot.children.mapNotNull { it.key }
+    }
+
 
 
 }

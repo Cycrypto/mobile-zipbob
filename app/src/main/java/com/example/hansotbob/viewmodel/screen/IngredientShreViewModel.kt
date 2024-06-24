@@ -28,8 +28,8 @@ class IngredientShreViewModel: ViewModel() {
     private val _hasJoined = MutableStateFlow(false)
     val hasJoined: StateFlow<Boolean> = _hasJoined
 
-    private val _joinedParties = MutableStateFlow<List<String>>(emptyList())
-    val joinedParties:StateFlow<List<String>> = _joinedParties
+    private val _joinedParties = MutableStateFlow<List<IngredientShareContent>>(emptyList())
+    val joinedParties: StateFlow<List<IngredientShareContent>> = _joinedParties
 
     private val _partyState = MutableStateFlow<Map<String, PartyState>>(emptyMap())
     val partyState: StateFlow<Map<String, PartyState>> = _partyState
@@ -104,6 +104,16 @@ class IngredientShreViewModel: ViewModel() {
                 _hasJoined.emit(firebaseService.hasUserJoined(itemId, currentUser))
                 Log.d("ingredient", "isAuthor: ${item.author}, ${currentUser}, hasJoined: ${firebaseService.hasUserJoined(itemId, currentUser)}")
             }
+        }
+    }
+
+    fun loadJoinedParties(){
+        viewModelScope.launch {
+            val currentUser = FirebaseAuth.getInstance().currentUser?.uid ?: return@launch
+            val partyIds = firebaseService.getUserJoinedParties(currentUser)
+            val parties = partyIds.mapNotNull { firebaseService.getIngredientItemById(it) }
+            Log.d("joined", "$parties")
+            _joinedParties.value = parties
         }
     }
 }

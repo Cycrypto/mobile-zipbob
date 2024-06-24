@@ -1,5 +1,6 @@
 package com.example.hansotbob.navigation
 
+import JoinedPartiesScreen
 import android.content.Intent
 import android.util.Log
 import androidx.compose.foundation.layout.Column
@@ -59,6 +60,9 @@ fun MainNavGraph(navController: NavHostController, modifier: Modifier = Modifier
         composable("ingredient_form"){
             CommunityFormScreen(navController)
         }
+        composable("joined_parties"){
+            JoinedPartiesScreen(navController)
+        }
 
         composable("foodshare/detail/{itemId}") { backStackEntry ->
             val itemId = backStackEntry.arguments?.getString("itemId") ?: return@composable
@@ -82,9 +86,9 @@ fun MainNavGraph(navController: NavHostController, modifier: Modifier = Modifier
             val name = backStackEntry.arguments?.getString("name") ?: ""
             val category = backStackEntry.arguments?.getString("category") ?: ""
             val imageRes = backStackEntry.arguments?.getString("imageRes") ?: ""
-            // Placeholder for the detailed screen based on name, category, and image resource
             OverviewDetailScreen(name, category, imageRes)
         }
+        
     }
 }
 

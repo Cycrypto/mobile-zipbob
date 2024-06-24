@@ -65,8 +65,9 @@ class IngredientFormViewModel(
                     description = _description.value,
                     totalCost = _price.value,
                     totalPeople = _participant.value,
-                    currentPeople = "0",
-                    location = _place.value
+                    currentPeople = "1",
+                    location = _place.value,
+                    participants = mapOf(currentUser to true)
                 )
                 firebaseService.uploadIngredientContent(ingredient)
             } catch (e: Exception) {
