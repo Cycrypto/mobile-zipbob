@@ -2,16 +2,6 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-<<<<<<< HEAD
-      <entry key="CommunityFormScreenPreview">
-        <State />
-      </entry>
-      <entry key="PreviewCommunityListDetail">
-=======
-      <entry key="PaymentDetailScreenPreview">
->>>>>>> origin/feat/review
-        <State />
-      </entry>
       <entry key="app">
         <State />
       </entry>

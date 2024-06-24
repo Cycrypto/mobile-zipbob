@@ -17,6 +17,7 @@ import androidx.compose.material.icons.outlined.FoodBank
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.MoreHoriz
 import androidx.compose.material.icons.outlined.NoteAdd
+import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.Restaurant
 import androidx.compose.material.icons.outlined.SetMeal
 import androidx.compose.ui.Alignment
@@ -81,9 +82,9 @@ fun HansotThemeNavigationBar(navController: NavHostController) {
                     tint = Color(0xFFFFA500)
                 )
             }
-            IconButton(onClick = { /*TODO: Settings navigation action*/ }) {
+            IconButton(onClick = { navController.navigate("mypage") }) {
                 Icon(
-                    imageVector = Icons.Outlined.MoreHoriz,
+                    imageVector = Icons.Outlined.Person,
                     contentDescription = "Settings",
                     modifier = Modifier.size(30.dp),
                     tint = Color(0xFFFFA500)
