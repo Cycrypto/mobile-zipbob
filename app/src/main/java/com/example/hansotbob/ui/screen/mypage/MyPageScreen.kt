@@ -100,8 +100,8 @@ fun MyPageScreen(navController: NavHostController) {
             items(items = listOf(
                 "내가 구매한 목록" to "buy",
                 "내가 판매한 목록" to "sales",
-                "내가 받은 리뷰" to "myReviews",
-                "내가 쓴 리뷰" to "receivedReviews",
+                "내가 받은 리뷰" to "receivedReviews",
+                "내가 쓴 리뷰" to "myReviews",
             )) { (label, route) ->
                 Row(
                     verticalAlignment = Alignment.CenterVertically,

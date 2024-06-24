@@ -3,11 +3,20 @@ package com.example.hansotbob.ui.screen.mypage
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -17,90 +26,77 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.hansotbob.R
+import com.example.hansotbob.component.common.AppBar
+import com.example.hansotbob.component.common.detail.ReviewList
+import com.example.hansotbob.service.FirebaseService
 import com.example.hansotbob.ui.theme.PrimaryColor
-import com.example.hansotbob.data.ReviewDetail
-import com.example.hansotbob.ui.screen.detail.ReviewDetail
+import com.example.hansotbob.viewmodel.ViewModelFactory
+import com.example.hansotbob.viewmodel.screen.detail.ReviewViewModel
+
 
 @Composable
-fun MyPageReviewScreen(navController: NavController) {
-    //리뷰내역 데이터 리스트
-    val reviewItems = listOf(
-        ReviewDetail(
-            imagePainterId = R.drawable.ic_mypage,
-            userName = "내 닉네임",
-            reviewRating = "평점: 4.0/5.0점 ",
-            detail = "리뷰 상세 내역 예시입니다."
-        ),
-        ReviewDetail(
-            imagePainterId = R.drawable.ic_mypage,
-            userName = "내 닉네임",
-            reviewRating = "평점: 4.0/5.0점 ",
-            detail = "리뷰 상세 내역 예시입니다."
-        ),
-        ReviewDetail(
-            imagePainterId = R.drawable.ic_mypage,
-            userName = "내 닉네임",
-            reviewRating = "평점: 4.0/5.0점 ",
-            detail = "리뷰 상세 내역 예시입니다."
-        )
+fun MyPageReviewScreen(
+    navController: NavController,
+    reviewModel: ReviewViewModel = viewModel(
+        factory = ViewModelFactory(FirebaseService())
     )
-    ConstraintLayout(
+) {
+    val reviews by reviewModel.reviews.collectAsState()
+
+    LaunchedEffect(key1 = Unit) {
+        reviewModel.loadReviewsForCurrentUser()
+    }
+
+    Column(
         modifier = Modifier
+            .padding(16.dp) // Add padding here
             .fillMaxSize()
-            .background(Color.White)
-            .padding(16.dp)
     ) {
-        val (topBar, recyclerView) = createRefs()
+        Scaffold(
+            topBar = {
+                // Customized Top Bar similar to the first image
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .background(Color(0xFFFFA000))
+                        .fillMaxWidth()
+                        .padding(vertical = 8.dp)
+                ) {
+                    // Back Button
+                    Image(
+                        painter = painterResource(id = R.drawable.back_button),
+                        contentDescription = "Back Button",
+                        modifier = Modifier
+                            .size(24.dp)
+                            .padding(start = 8.dp)
+                            .clickable { navController.popBackStack() }
+                    )
 
-        // Top Bar
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier
-                .background(PrimaryColor)
-                .fillMaxWidth()
-                .padding(vertical = 8.dp)
-                .constrainAs(topBar) {
-                    top.linkTo(parent.top)
+                    // Title
+                    Text(
+                        text = "내가 쓴 리뷰",
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.Black,
+                        modifier = Modifier
+                            .weight(1f)
+                            .padding(end = 40.dp), // Adjust end padding to align center
+                        textAlign = TextAlign.Center
+                    )
                 }
-        ) {
-            // Back Button
-            Image(
-                painter = painterResource(id = R.drawable.back_button),
-                contentDescription = "Back Button",
+            }
+        ) { innerPadding ->
+            Column(
                 modifier = Modifier
-                    .size(24.dp)
-                    .padding(end = 8.dp)
-                    .clickable{ navController.popBackStack() }
-            )
-
-            // Title
-            Text(
-                text = "내가 쓴 리뷰",
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Bold,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.weight(1f)
-            )
-        }
-
-        // RecyclerView (or LazyColumn in Compose)
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .constrainAs(recyclerView) {
-                    top.linkTo(topBar.bottom)
-                    start.linkTo(parent.start)
-                    end.linkTo(parent.end)
-                    bottom.linkTo(parent.bottom)
-                }
-                .padding(top = 32.dp)
-        ) {
-            items(reviewItems) { reviewDetail ->
-                ReviewDetail(reviewDetail = reviewDetail)
+                    .padding(innerPadding)
+                    .verticalScroll(rememberScrollState())
+            ) {
+                // Review List
+                ReviewList(reviews = reviews)
             }
         }
     }

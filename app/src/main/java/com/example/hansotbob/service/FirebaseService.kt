@@ -191,6 +191,43 @@ class FirebaseService {
         return reviews
     }
 
+    suspend fun getReviewsForAuthor(authorId: String): List<Review> {
+        Log.d("FirebaseService", "Fetching reviews for author $authorId")
+
+        // 모든 itemId 아래의 리뷰를 가져오기 위해 reviews 노드에서 데이터를 조회합니다.
+        val reviewsSnapshot = database.child("reviews").get().await()
+
+        val reviews = mutableListOf<Review>()
+
+        // 각 itemId에 대해서 반복적으로 자식 노드를 검사합니다.
+        reviewsSnapshot.children.forEach { itemSnapshot ->
+            // 각 itemId 아래의 자식 노드들에 대해 반복적으로 검사합니다.
+            itemSnapshot.children.forEach { reviewSnapshot ->
+                val firebaseReview = reviewSnapshot.getValue(FirebaseReview::class.java)
+                if (firebaseReview != null && firebaseReview.reviewAuthorId == authorId) {
+                    val user = getUser(firebaseReview.reviewAuthorId)
+                    if (user != null) {
+                        reviews.add(
+                            Review(
+                                nickname = user.nickname,
+                                reviewContent = firebaseReview.reviewContent,
+                                profileImage = user.imageUrl ?: "__NULL__",
+                                rating = firebaseReview.rating
+                            )
+                        )
+                    } else {
+                        Log.w("FirebaseService", "User not found for userId: ${firebaseReview.reviewAuthorId}")
+                    }
+                }
+            }
+        }
+
+        Log.d("FirebaseService", "Returning reviews: $reviews")
+        return reviews
+    }
+
+
+
     suspend fun updateReview(itemId: String, reviewId: String, updatedReview: FirebaseReview) {
         database.child("reviews").child(itemId).child(reviewId).setValue(updatedReview).await()
     }
