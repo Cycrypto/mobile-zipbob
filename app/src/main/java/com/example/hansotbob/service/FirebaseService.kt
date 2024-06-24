@@ -11,8 +11,12 @@ import com.example.hansotbob.dto.IngredientShareContent
 import com.example.hansotbob.dto.MealkitsContent
 import com.example.hansotbob.dto.Review
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.MutableData
+import com.google.firebase.database.Transaction
 import com.google.firebase.database.getValue
 import com.google.firebase.database.snapshots
 import kotlinx.coroutines.tasks.await
@@ -220,25 +224,58 @@ class FirebaseService {
         }
     }
 
-    suspend fun incrementPeopleCount(itemId: String){
-        try{
-            val itemRef = database
-                .child("ingredient")
-                .child(itemId)
-            val itemSnapshot = itemRef.get().await()
-            val currentPeople = itemSnapshot.child("currentPeople").getValue(String::class.java)?.toInt() ?: 0
-            itemRef.child("currentPeople").setValue((currentPeople + 1).toString()).await()
-        }catch(e: Exception){
-            e.printStackTrace()
-        }
+    fun incrementPeopleCount(itemId: String, retryCount: Int = 3) {
+        val itemRef = database.child("ingredient").child(itemId)
+        itemRef.runTransaction(object : Transaction.Handler {
+            override fun doTransaction(mutableData: MutableData): Transaction.Result {
+                val item = mutableData.getValue(IngredientShareContent::class.java)
+                if (item == null) {
+                    Log.d("transaction", "Item not found")
+                    return Transaction.success(mutableData)
+                }
+                Log.d("transaction", "Current people before: ${item.currentPeople}")
+                val updatedPeopleCount = item.currentPeople.toInt() + 1
+                item.currentPeople = updatedPeopleCount.toString()
+                mutableData.value = item
+                Log.d("transaction", "Current people after: ${item.currentPeople}")
+                return Transaction.success(mutableData)
+            }
+
+            override fun onComplete(
+                databaseError: com.google.firebase.database.DatabaseError?,
+                committed: Boolean,
+                currentData: com.google.firebase.database.DataSnapshot?
+            ) {
+                if (databaseError != null) {
+                    Log.d("transaction", "Transaction failed: ${databaseError.message}")
+                    if (retryCount > 0) {
+                        Log.d("transaction", "Retrying transaction")
+                        incrementPeopleCount(itemId, retryCount - 1)
+                    }
+                } else if (committed) {
+                    Log.d("transaction", "Transaction succeeded")
+                }
+            }
+        })
+    }
+
+    suspend fun addParticipant(itemId: String, userId: String){
+        val participantRef = database
+            .child("ingredient")
+            .child(itemId)
+            .child("participants")
+            .child(userId)
+        participantRef.setValue(true).await()
     }
 
     suspend fun hideItem(itemId: String) {
         try {
-            val itemRef = database.child("ingredientItems").child(itemId)
-            itemRef.child("visible").setValue(false).await()
+            val itemRef = database.child("ingredient").child(itemId)
+            itemRef.child("hidden").setValue(true).await()
         } catch (e: Exception) {
             e.printStackTrace()
         }
     }
+
+
 }

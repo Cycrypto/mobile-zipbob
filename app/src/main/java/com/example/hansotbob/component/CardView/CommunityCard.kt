@@ -26,6 +26,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -51,19 +52,33 @@ fun CommunityCardWithBadge(
     viewModel: IngredientShreViewModel = viewModel(),
     itemId: String,
     title: String,
+    author: String,
     imagePainter: Painter,
-    initialCurrentPeople:String = "0",
+    initialCurrentPeople: String = "0",
     totalPeople: String,
     points: String,
     location: String,
     isNew: Boolean = false,
     modifier: Modifier = Modifier
 ) {
-    var currentPeople by remember {mutableStateOf(initialCurrentPeople.toInt())}
-    LaunchedEffect(itemId){
-        viewModel.updateCurrentPeople(itemId)
+    var currentPeople by remember { mutableIntStateOf(initialCurrentPeople.toInt()) }
+    val partyState by viewModel.partyState.collectAsState()
+    val state = partyState[itemId]
+
+    // 상태가 없으면 업데이트를 시도하고 로딩 상태를 표시
+    if (state == null) {
+        LaunchedEffect(itemId) {
+            viewModel.updatePartyState(itemId)
+        }
+        Text("Loading...")
+        return
     }
-    val totalPeopleInt = totalPeople.toIntOrNull() ?: 1 // Default to 1 to avoid division by zero
+
+    LaunchedEffect(state.currentPeople) {
+        currentPeople = state.currentPeople
+    }
+
+    val totalPeopleInt = totalPeople.toIntOrNull() ?: 1
     val pointsInt = points.toInt()
     val perPersonCost = if (totalPeopleInt != 0) pointsInt / totalPeopleInt else 0
 
@@ -148,9 +163,8 @@ fun CommunityCardWithBadge(
                         )
                         Spacer(modifier = Modifier.height(8.dp))
                         Button(
-                            onClick = {
-                                currentPeople += 1
-                                viewModel.joinItem(itemId) },
+                            onClick = { viewModel.joinItem(itemId) },
+                            enabled = !state.isAuthor && !state.hasJoined && state.currentPeople < state.totalPeople,
                             colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary),
                             modifier = Modifier
                                 .clip(RoundedCornerShape(12.dp))
@@ -167,6 +181,7 @@ fun CommunityCardWithBadge(
         }
     }
 }
+
 
 
 @Composable
@@ -188,6 +203,7 @@ fun PreviewCommunityCard3() {
         CommunityCardWithBadge(
             title = "Hello",
             itemId="1",
+            author = "a",
             imagePainter = painterResource(id = R.drawable.food_image),
             totalPeople = "4",
             points = "1000",

@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.hansotbob.dto.IngredientShareContent
 import com.example.hansotbob.dto.MealkitsContent
 import com.example.hansotbob.service.FirebaseService
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -53,8 +54,10 @@ class IngredientFormViewModel(
 
     fun uploadIngredient() {
         viewModelScope.launch {
+            val currentUser = FirebaseAuth.getInstance().currentUser?.uid ?: return@launch
             try {
                 val ingredient = IngredientShareContent(
+                    author = currentUser,
                     title = _title.value,
                     category = _category.value,
                     description = _description.value,

@@ -198,9 +198,6 @@ fun CommunityFormScreen(navController: NavController, viewModel: IngredientFormV
                 )
             }
             item { Spacer(modifier = Modifier.height(16.dp)) }
-            item {
-                // Add image display and picker logic here if needed
-            }
             item { Spacer(modifier = Modifier.height(16.dp)) }
             item {
                 Button(
