@@ -12,16 +12,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 
 @Composable
-fun ButtonBar(onContactSellerClick: () -> Unit, onBuyClick: () -> Unit) {
+fun ButtonBar(navController: NavController, authorId: String, buyerId: String, itemId: String) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(16.dp)
     ) {
         Button(
-            onClick = onContactSellerClick,
+            onClick = {
+                navController.navigate("chatview/$authorId/$buyerId/$itemId")
+            },
             modifier = Modifier
                 .weight(1f)
                 .padding(end = 8.dp),
@@ -30,7 +33,7 @@ fun ButtonBar(onContactSellerClick: () -> Unit, onBuyClick: () -> Unit) {
             Text("판매자에게 연락", color = Color.White, fontSize = 12.sp)
         }
         Button(
-            onClick = onBuyClick,
+            onClick = {/* onBuyClick */},
             modifier = Modifier
                 .weight(1f)
                 .padding(start = 8.dp),
