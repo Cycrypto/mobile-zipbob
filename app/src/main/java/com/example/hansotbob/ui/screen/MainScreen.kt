@@ -3,6 +3,7 @@ package com.example.hansotbob.ui.screen
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -33,8 +34,10 @@ fun MainScreen(viewModel: MainScreenViewModel = viewModel()) {
         }
     )
 
-    navController.addOnDestinationChangedListener { _, destination, _ ->
-        viewModel.updateCurrentRoute(destination.route ?: "")
+    LaunchedEffect(navController) {
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            viewModel.updateCurrentRoute(destination.route ?: "")
+        }
     }
 }
 

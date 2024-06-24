@@ -1,5 +1,6 @@
 package com.example.hansotbob.ui.screen.mypage
 
+import android.app.Activity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -19,6 +20,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -35,6 +37,8 @@ import com.example.hansotbob.ui.theme.PrimaryColor
 
 @Composable
 fun MyPageScreen(navController: NavHostController) {
+    val activity = (LocalContext.current as? Activity)
+
     ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
@@ -61,7 +65,7 @@ fun MyPageScreen(navController: NavHostController) {
                 modifier = Modifier
                     .size(24.dp)
                     .padding(end = 8.dp)
-                    .clickable { navController.popBackStack() }
+                    .clickable { activity?.onBackPressed() }
             )
 
             // Title
