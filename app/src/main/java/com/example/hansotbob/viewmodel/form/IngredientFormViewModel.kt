@@ -1,5 +1,6 @@
 package com.example.hansotbob.viewmodel.form
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.hansotbob.dto.IngredientShareContent
@@ -55,6 +56,7 @@ class IngredientFormViewModel(
     fun uploadIngredient() {
         viewModelScope.launch {
             val currentUser = FirebaseAuth.getInstance().currentUser?.uid ?: return@launch
+            Log.d("uploadIngredientForm", currentUser)
             try {
                 val ingredient = IngredientShareContent(
                     author = currentUser,

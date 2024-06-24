@@ -142,7 +142,7 @@ class FirebaseService {
 
     suspend fun uploadIngredientContent(ingredient: IngredientShareContent) {
         val key = database.child("ingredient").push().key ?: return
-        val newIngredient = ingredient.copy(itemId = key, author = nickname)
+        val newIngredient = ingredient.copy(itemId = key)
         Log.d("Ingredient", "newig : $newIngredient")
         database.child("ingredient").child(key).setValue(newIngredient).await()
 
