@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="text_margin">16dp</dimen>
+    <dimen name="update_image_margin">10dp</dimen>
+    <dimen name="food_text_margin">8dp</dimen>
+
+    <dimen name="toolbar_size">40dp</dimen>
+</resources>

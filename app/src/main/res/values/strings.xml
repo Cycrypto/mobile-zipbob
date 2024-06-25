@@ -1,3 +1,24 @@
 <resources>
     <string name="app_name">Hansotbob</string>
+
+
+    <!--집밥공유 -->
+    <string name="title_label">제목</string>
+    <string name="title_hint">제목을 입력하세요</string>
+    <string name="food_type_label">음식 타입</string>
+    <string name="food_type_hint">음식 타입을 입력하세요</string>
+    <string name="category_label">카테고리</string>
+    <string name="quentity_label">양</string>
+    <string name="date_label">제작 일자</string>
+    <string name="date_hint">날짜 선택</string>
+    <string name="transaction_place_label">교환 장소</string>
+    <string name="transaction_method_label">교환 방법</string>
+    <string name="place_hint">장소를 입력하세요</string>
+    <string name="price_label">가격</string>
+    <string name="price_hint">가격을 입력하세요</string>
+    <string name="description_label">설명</string>
+    <string name="description_hint">설명을 입력하세요</string>
+    <string name="upload_photo">사진 업로드</string>
+    <string name="default_web_client_id">767284703963-6s1qboma1qofvtinm4c0dh8al7klqocg.apps.googleusercontent.com</string>
+    <string name="article_post_min_read">sample</string>
 </resources>
