@@ -1,6 +1,10 @@
 ## 모바일 프로그래밍 프로젝트 README
 
 # 한솥밥
+<p align="center">
+  <img src="./mainscreen.png" width="400"/>
+</p>
+
 
 **프로젝트명:** 집밥 공유 플랫폼  
 **앱 이름:** 한솥밥  
