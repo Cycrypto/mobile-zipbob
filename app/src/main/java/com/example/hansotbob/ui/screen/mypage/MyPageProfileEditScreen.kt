@@ -2,6 +2,7 @@ package com.example.hansotbob.ui.screen.mypage
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -26,11 +27,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.hansotbob.R
 import com.example.hansotbob.ui.theme.PrimaryColor
 
 @Composable
-fun MyPageProfileEditScreen() {
+fun MyPageProfileEditScreen(navController: NavController) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -49,6 +51,8 @@ fun MyPageProfileEditScreen() {
                 contentDescription = "Back Button",
                 modifier = Modifier
                     .wrapContentSize()
+                    .clickable{ navController.popBackStack() }
+
             )
 
             // Title
@@ -117,8 +121,8 @@ fun MyPageProfileEditScreen() {
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun MyPageProfileEditScreenPreview() {
-    MyPageProfileEditScreen()
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun MyPageProfileEditScreenPreview() {
+//    MyPageProfileEditScreen()
+//}

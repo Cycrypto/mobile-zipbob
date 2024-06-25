@@ -15,6 +15,7 @@ import androidx.navigation.compose.composable
 import com.example.hansotbob.ui.screen.form.CommunityFormScreen
 import com.example.hansotbob.service.FirebaseService
 import com.example.hansotbob.ui.activity.MyPageActivity
+import com.example.hansotbob.ui.screen.ChatScreen
 import com.example.hansotbob.ui.screen.OverviewScreen
 import com.example.hansotbob.ui.screen.RecipeAppScreen
 import com.example.hansotbob.ui.screen.ShareScreen
@@ -95,7 +96,14 @@ fun MainNavGraph(navController: NavHostController, modifier: Modifier = Modifier
             val imageRes = backStackEntry.arguments?.getString("imageRes") ?: ""
             OverviewDetailScreen(name, category, imageRes)
         }
-        
+
+
+        composable("chatview/{authorId}/{buyerId}/{itemId}"){ backStackEntry ->
+            val authorId = backStackEntry.arguments?.getString("authorId")?: ""
+            val buyerId = backStackEntry.arguments?.getString("buyerId")?: ""
+            val itemId = backStackEntry.arguments?.getString("itemId")?: ""
+            ChatScreen(navController = navController, authorId = authorId, itemId = itemId)
+        }
     }
 }
 

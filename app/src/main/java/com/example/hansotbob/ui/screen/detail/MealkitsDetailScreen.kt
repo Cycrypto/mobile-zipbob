@@ -66,6 +66,7 @@ import com.example.hansotbob.service.FirebaseService
 import com.example.hansotbob.ui.theme.DetailLabelColor
 import com.example.hansotbob.viewmodel.ViewModelFactory
 import com.example.hansotbob.viewmodel.screen.detail.ReviewViewModel
+import com.google.firebase.auth.FirebaseAuth
 
 //import com.google.android.play.integrity.internal.i
 
@@ -85,6 +86,8 @@ fun MealkitsDetailScreen(
         R.drawable.food_image, // 실제 이미지 리소스를 추가
         R.drawable.food_image // 실제 이미지 리소스를 추가
     )
+    val currentUser = FirebaseAuth.getInstance().currentUser
+    val buyerId = currentUser?.uid ?: "anonymous"
     val pagerState = rememberPagerState(pageCount = { images.size })
     val mealkit by viewModel.mealkit.collectAsState()
 
@@ -99,9 +102,8 @@ fun MealkitsDetailScreen(
     }
 
     val reviewListState by reviewModel.reviews.collectAsState()
-    val reviewList = reviewListState // Extracting the value from State
+    val reviewList = reviewListState
 
-//    var reviewList : List<Review> = ReviewDummyList()
     val averageRating = calculateAverageRating(reviewList)
 
     Scaffold(
@@ -138,7 +140,10 @@ fun MealkitsDetailScreen(
                 MealkitContent(item = item, averageRating = averageRating)
                 Spacer(modifier = Modifier.height(16.dp))
                 PostAuthordata(mealkit!!.authorId)
-                ButtonBar(onContactSellerClick = {/* contact seller */}, onBuyClick = {/* buy click */})
+                ButtonBar(navController = navController,
+                    authorId = mealkit!!.authorId,
+                    buyerId = buyerId,
+                    itemId = itemId)
                 Spacer(modifier = Modifier.height(16.dp))
                 ReviewSection(
                     reviewList = reviewList,
@@ -253,12 +258,3 @@ fun calculateAverageRating(reviews: List<Review>): Float {
 }
 
 
-@Composable
-fun ReviewDummyList(): List<Review> {
-    return listOf(
-        Review("사용자1", "정말 맛있어요!", "", 4.0f),
-        Review("사용자2", "최고의 레시피입니다.", "", 3.0f),
-        Review("사용자3", "다시 주문하고 싶어요!", "", 1.0f)
-        // Add more dummy reviews as needed
-    )
-}

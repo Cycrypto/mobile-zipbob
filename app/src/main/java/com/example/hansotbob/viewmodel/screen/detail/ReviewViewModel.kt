@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.hansotbob.dto.FirebaseReview
 import com.example.hansotbob.dto.Review
 import com.example.hansotbob.service.FirebaseService
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.flow.StateFlow
@@ -13,6 +14,9 @@ import kotlinx.coroutines.flow.StateFlow
 class ReviewViewModel(private val firebaseService: FirebaseService) : ViewModel() {
     private val _reviews = MutableStateFlow<List<Review>>(emptyList())
     val reviews: StateFlow<List<Review>> = _reviews
+
+    val auth = FirebaseAuth.getInstance()
+    private val currentUser = auth.currentUser
 
 
     fun loadReviews(itemId: String) {
@@ -42,6 +46,18 @@ class ReviewViewModel(private val firebaseService: FirebaseService) : ViewModel(
         viewModelScope.launch {
             firebaseService.deleteReview(itemId, reviewId)
             loadReviews(itemId)
+        }
+    }
+
+    fun loadReviewsForCurrentUser() {
+        viewModelScope.launch {
+            try {
+                val reviews = firebaseService.getReviewsForAuthor(currentUser!!.uid)
+                _reviews.value = reviews
+                Log.d("ReviewViewModel", "Loaded reviews: $reviews")
+            } catch (e: Exception) {
+                Log.e("ReviewViewModel", "Error loading reviews", e)
+            }
         }
     }
 }

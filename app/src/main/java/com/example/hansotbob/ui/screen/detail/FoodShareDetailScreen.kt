@@ -46,7 +46,7 @@ import com.example.hansotbob.ui.theme.HansotbobTheme
 import com.example.hansotbob.viewmodel.ViewModelFactory
 import com.example.hansotbob.viewmodel.screen.detail.FoodShareDetailViewModel
 import com.example.hansotbob.viewmodel.screen.detail.MealkitDetailViewModel
-
+import com.google.firebase.auth.FirebaseAuth
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -63,6 +63,8 @@ fun FoodShareDetailScreen(
         R.drawable.food_image, // 실제 이미지 리소스를 추가
         R.drawable.food_image // 실제 이미지 리소스를 추가
     )
+    val currentUser = FirebaseAuth.getInstance().currentUser
+    val buyerId = currentUser?.uid ?: "anonymous"
     val pagerState = rememberPagerState(pageCount = { images.size })
     val foodShare by viewModel.item.collectAsState()
     viewModel.loadItem(itemId)
@@ -102,7 +104,10 @@ fun FoodShareDetailScreen(
                 FoodShareContentDetail(item = item)
                 Spacer(modifier = Modifier.height(16.dp))
                 PostAuthordata(foodShare!!.authorId)
-                ButtonBar(onContactSellerClick = {/* contact seller */}, onBuyClick = {/* buy click */})
+                ButtonBar(navController = navController,
+                    authorId = foodShare!!.authorId,
+                    buyerId = buyerId,
+                    itemId = itemId)
                 Spacer(modifier = Modifier.height(16.dp))
             }
         } ?: run {
