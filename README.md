@@ -4,7 +4,8 @@
 
 **프로젝트명:** 집밥 공유 플랫폼  
 **앱 이름:** 한솥밥  
-**수행기간:** 2024-05-01 ~ 2024-06-25
+**수행기간:** 2024-05-01 ~ 2024-06-25 <br/>
+**[프로젝트 노션 페이지](https://dandelion-savory-5fa.notion.site/6482d519f98c46bdb0591e13acb98ec4?pvs=4)** 
 
 ### 프로젝트 개요
 
@@ -92,9 +93,3 @@
 | 진소희  | 밀키트 판매, 마이페이지            | 63wlsthgml@gmail.com  | ![진소희](link_to_image) |
 
 ---
-
-
----
-
-**a.** Add unit tests for each major functionality in the app.  
-**b.** Implement CI/CD using GitHub Actions to automate testing and deployment.
