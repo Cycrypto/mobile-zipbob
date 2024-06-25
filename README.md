@@ -40,7 +40,7 @@
 | 기술 스택         | 뱃지                                                                                     |
 |------------------|------------------------------------------------------------------------------------------|
 | **빌드 도구**      | ![Jitpack](https://img.shields.io/badge/Jitpack-1E8CBE.svg?style=for-the-badge&logo=jitpack) ![Gradle](https://img.shields.io/badge/Gradle-02303A.svg?style=for-the-badge&logo=gradle) |
-| **프로그래밍 언어** | ![Kotlin](https://img.shields.io/badge/Kotlin-0095D5.svg?style=for-the-badge&logo=kotlin) ![Kotlin](https://img.shields.io/badge/Java-FC4C02.svg?style=for-the-badge&logo=java)|
+| **프로그래밍 언어** | ![Kotlin](https://img.shields.io/badge/Kotlin-0095D5.svg?style=for-the-badge&logo=kotlin) ![Java](https://img.shields.io/badge/Java-FC4C02.svg?style=for-the-badge&logo=java)|
 | **UI 프레임워크**  | ![Compose](https://img.shields.io/badge/Compose-0288D1.svg?style=for-the-badge&logo=jetpack-compose) |
 | **문서화 도구**    | ![Notion](https://img.shields.io/badge/Notion-000000.svg?style=for-the-badge&logo=notion) |
 | **커뮤니케이션**   | ![Discord](https://img.shields.io/badge/Discord-5865F2.svg?style=for-the-badge&logo=discord) |
@@ -83,6 +83,22 @@
     `-- xml
 ```
 
+### 패키지별 설명
+
+| 패키지                 | 설명                                    | 파일                  |
+|----------------------|---------------------------------------|---------------------|
+| `com.example.hansotbob` | 애플리케이션의 메인 패키지                     | `MainActivity.kt`     |
+| `auth`               | 인증 및 로그인 기능을 담당하는 패키지              | `AuthManager.kt`, `FirebaseAuthManager.kt` |
+| `component`          | UI 컴포넌트 관련 코드가 포함된 패키지               | `CommunityCard.kt`, `MealCategoryCard.kt` |
+| `dto`                | 데이터 전송 객체 관련 코드가 포함된 패키지           | `AuthorData.kt`, `CardItem.kt`             |
+| `exception`          | 예외 처리를 담당하는 코드가 포함된 패키지            | `AuthException.kt`                         |
+| `fragment`           | 앱의 다양한 화면을 담당하는 프래그먼트 관련 패키지   | `ItemContainer.kt`, `OnBoardingFragment.kt` |
+| `navigation`         | 앱 내 네비게이션을 담당하는 코드가 포함된 패키지      | `AuthNavGraph.kt`, `NavGraph.kt`            |
+| `service`            | 백엔드와의 통신을 담당하는 서비스 관련 코드 패키지    | `FirebaseService.kt`                       |
+| `ui`                 | 앱의 UI를 담당하는 패키지                        | `LoginActivity.kt`, `MainScreen.kt`         |
+| `viewmodel`          | MVVM 패턴의 뷰모델을 담당하는 코드가 포함된 패키지   | `ProfileViewModel.kt`, `MainScreenViewModel.kt` |
+
+
 ### 팀원 소개
 
 | 이름     | 역할                            | 이메일               | 사진             |
@@ -91,5 +107,6 @@
 | 이가원  | 집밥 공유                       | gawonlee0712@gmail.com  | ![이가원](link_to_image) |
 | 이건준  | 식료품 커뮤니티, 레시피 제작       | dlrjswns151@gmail.com | ![이건준](link_to_image) |
 | 진소희  | 밀키트 판매, 마이페이지            | 63wlsthgml@gmail.com  | ![진소희](link_to_image) |
+물론 가능합니다. 패키지별 설명 표에서 글씨 없이 코틀린 로고만 사용하는 버전을 아래에 작성했습니다.
 
----
+
