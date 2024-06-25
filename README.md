@@ -108,6 +108,3 @@
 | 이가원  | 집밥 공유                       | gawonlee0712@gmail.com  | ![이가원](link_to_image) |
 | 이건준  | 식료품 커뮤니티, 레시피 제작       | dlrjswns151@gmail.com | ![이건준](link_to_image) |
 | 진소희  | 밀키트 판매, 마이페이지            | 63wlsthgml@gmail.com  | ![진소희](link_to_image) |
-물론 가능합니다. 패키지별 설명 표에서 글씨 없이 코틀린 로고만 사용하는 버전을 아래에 작성했습니다.
-
-
