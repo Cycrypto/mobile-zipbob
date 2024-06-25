@@ -48,6 +48,7 @@
 | **버전 관리**      | ![Github](https://img.shields.io/badge/Github-181717.svg?style=for-the-badge&logo=github) |
 
 ### 프로젝트 구조
+ - 26개의 디렉터리와 107개의 소스코드 파일
 
 ```
 |-- AndroidManifest.xml
