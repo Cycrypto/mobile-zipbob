@@ -7,6 +7,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Payment
 import androidx.compose.material.icons.filled.Place
@@ -39,102 +41,87 @@ import com.example.hansotbob.ui.theme.PrimaryColor
 fun MyPageScreen(navController: NavHostController) {
     val activity = (LocalContext.current as? Activity)
 
-    ConstraintLayout(
+    LazyColumn(
         modifier = Modifier
             .fillMaxSize()
             .background(Color.White)
             .padding(16.dp)
     ) {
-        val (topBar, profileContainer, transactionList, editProfileButton) = createRefs()
-
         // Top Bar
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier
-                .background(PrimaryColor)
-                .fillMaxWidth()
-                .constrainAs(topBar) {
-                    top.linkTo(parent.top)
-                }
-                .padding(horizontal = 16.dp, vertical = 8.dp)
-        ) {
-            // Back Button
-            Image(
-                painter = painterResource(id = R.drawable.back_button),
-                contentDescription = "Back Button",
+        item {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
-                    .size(24.dp)
-                    .padding(end = 8.dp)
-                    .clickable { activity?.onBackPressed() }
-            )
-
-            // Title
-            Text(
-                text = "마이 페이지",
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Bold,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.weight(1f)
-            )
-        }
-
-        // Profile Container
-        ProfileOnMyPage(
-            navController,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp)
-                .constrainAs(profileContainer) { top.linkTo(topBar.bottom) }
-        )
-
-        // Transaction List
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp)
-                .constrainAs(transactionList) {
-                    top.linkTo(profileContainer.bottom)
-                    bottom.linkTo(editProfileButton.top, margin = 16.dp)
-                }
-        ) {
-            items(items = listOf(
-                "내가 구매한 목록" to "buy",
-                "내가 판매한 목록" to "sales",
-                "내가 받은 리뷰" to "receivedReviews",
-                "내가 쓴 리뷰" to "myReviews",
-            )) { (label, route) ->
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
+                    .background(PrimaryColor)
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 8.dp)
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.back_button),
+                    contentDescription = "Back Button",
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 16.dp) // Increased padding for larger size
-                        .clickable { navController.navigate(route) }
-                ) {
-                    val icon = when (route) {
-                        "buy" -> Icons.Default.Payment
-                        "sales" -> Icons.Default.Sell
-                        "myReviews" -> Icons.Default.Reviews
-                        "receivedReviews" -> Icons.Default.RateReview
-                        else -> Icons.Default.Place
-                    }
-                    Icon(
-                        imageVector = icon,
-                        contentDescription = "Icon for $label",
-                        modifier = Modifier.size(32.dp), // Increased icon size
-                        tint = MaterialTheme.colorScheme.primary
-                    )
-                    Text(
-                        text = label,
-                        fontSize = 18.sp, // Increased text size
-                        modifier = Modifier.padding(start = 24.dp) // Increased padding between icon and text
-                    )
-                }
+                        .size(24.dp)
+                        .padding(end = 8.dp)
+                        .clickable { activity?.onBackPressed() }
+                )
+
+                Text(
+                    text = "마이 페이지",
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.weight(1f)
+                )
             }
         }
 
+        // Profile Container
+        item {
+            ProfileOnMyPage(
+                navController,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            )
+        }
 
+        // Transaction List
+        items(items = listOf(
+            "내가 구매한 목록" to "buy",
+            "내가 판매한 목록" to "sales",
+            "내가 받은 리뷰" to "receivedReviews",
+            "내가 쓴 리뷰" to "myReviews",
+        )) { (label, route) ->
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 16.dp)
+                    .clickable { navController.navigate(route) }
+            ) {
+                val icon = when (route) {
+                    "buy" -> Icons.Default.Payment
+                    "sales" -> Icons.Default.Sell
+                    "myReviews" -> Icons.Default.Reviews
+                    "receivedReviews" -> Icons.Default.RateReview
+                    else -> Icons.Default.Place
+                }
+                Icon(
+                    imageVector = icon,
+                    contentDescription = "Icon for $label",
+                    modifier = Modifier.size(32.dp),
+                    tint = MaterialTheme.colorScheme.primary
+                )
+                Text(
+                    text = label,
+                    fontSize = 18.sp,
+                    modifier = Modifier.padding(start = 24.dp)
+                )
+            }
+        }
     }
 }
+
 
 @Preview(showBackground = true)
 @Composable

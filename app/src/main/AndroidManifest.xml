@@ -10,9 +10,9 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/hansotbobicon"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/hansotbobicon"
         android:supportsRtl="true"
         android:theme="@style/Theme.Hansotbob"
         tools:targetApi="31">
@@ -23,35 +23,12 @@
             android:name=".ui.activity.OnboardingActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.MealkitDetailActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.activity.MealkitRegisterActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.activity.ShareDetailActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.activity.ShareRegisterActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.activity.CommunityDetailActivity"
-            android:exported="false" />
-        <activity
             android:name=".MainActivity"
             android:exported="false" />
         <activity
             android:name=".ui.activity.MyPageActivity"
             android:exported="false" />
-        <activity
-            android:name=".ui.activity.RecipeRegisterActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.activity.RecipeDetailActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.activity.CommunityRegisterActivity"
-            android:exported="true" />
+
         <activity
             android:name=".ui.activity.SplashView"
             android:exported="true">
